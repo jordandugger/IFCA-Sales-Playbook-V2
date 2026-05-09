@@ -1,1 +1,782 @@
-<!-- IFCA Calculator -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IFCA — Calculator v4</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<style>
+:root{
+  --navy:#0f172a;--bg:#f1f5f9;--white:#fff;
+  --text:#1e293b;--muted:#64748b;--border:#e2e8f0;
+  --blue:#2563eb;--blue-l:#eff6ff;--blue-b:#bfdbfe;
+  --green:#16a34a;--green-l:#f0fdf4;--green-b:#bbf7d0;
+  --red:#dc2626;--red-l:#fef2f2;--red-b:#fecaca;
+  --amber:#d97706;--amber-l:#fffbeb;--amber-b:#fde68a;
+  --purple:#7c3aed;--purple-l:#f5f3ff;--purple-b:#ddd6fe;
+  --teal:#0d9488;--teal-l:#f0fdfa;--teal-b:#99f6e4;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:13px;}
+input[type=number]{-moz-appearance:textfield;}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;}
+
+/* HEADER */
+.header{height:54px;background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.06);}
+.brand{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#f8fafc;letter-spacing:-.3px;margin-right:24px;}
+.brand .v{font-size:10px;font-weight:600;color:#64748b;margin-left:6px;letter-spacing:.05em;}
+.tab-nav{display:flex;gap:2px;}
+.tab-nav button{padding:7px 14px;border:none;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;background:transparent;color:#94a3b8;transition:all .15s;}
+.tab-nav button.active{background:rgba(255,255,255,.12);color:#f1f5f9;}
+.tab-nav button:hover:not(.active){background:rgba(255,255,255,.06);color:#cbd5e1;}
+.header-right{display:flex;align-items:center;gap:8px;}
+.hdr-btn{padding:6px 12px;border:1px solid rgba(255,255,255,.1);background:transparent;border-radius:6px;font-size:11px;color:#94a3b8;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;}
+.hdr-btn:hover{color:#cbd5e1;border-color:rgba(255,255,255,.18);}
+.hdr-btn.on{background:rgba(99,102,241,.25);border-color:rgba(99,102,241,.5);color:#c7d2fe;}
+
+/* APP */
+#app{display:flex;flex-direction:column;height:100vh;}
+.panels{flex:1;overflow:hidden;display:flex;}
+.panel{display:none;flex:1;overflow:hidden;}
+.panel.active{display:flex;}
+
+/* TWO PANE */
+.inputs-col{width:300px;min-width:300px;background:var(--white);border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0;transition:width .22s,min-width .22s,opacity .18s;}
+body.share-mode .inputs-col{width:0;min-width:0;opacity:0;overflow:hidden;pointer-events:none;}
+.results-col{flex:1;overflow:hidden;display:flex;flex-direction:column;}
+
+/* VIEW SWITCHER (per panel, top of results) */
+.view-bar{display:flex;background:var(--white);border-bottom:1px solid var(--border);padding:0 20px;flex-shrink:0;gap:0;overflow-x:auto;}
+.view-btn{padding:13px 16px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;transition:all .15s;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+.view-btn:hover{color:var(--text);}
+.view-btn.active{color:var(--text);border-bottom-color:var(--blue);}
+.view-btn .vnum{width:18px;height:18px;border-radius:50%;background:#e2e8f0;color:var(--muted);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.view-btn.active .vnum{background:var(--blue);color:#fff;}
+body.share-mode .view-content{flex:1;overflow-y:auto;padding:24px 28px 32px;}
+.view{display:none;}
+.view.active{display:block;}
+
+/* BIG HERO MOMENT (single belief-view headline) */
+.belief-hero{margin-bottom:18px;text-align:center;}
+.belief-hero .ctx{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--bg);padding:5px 11px;border-radius:5px;margin-bottom:14px;}
+.belief-hero h2{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--text);letter-spacing:-.01em;margin-bottom:6px;}
+.belief-hero .sub{font-size:13.5px;color:var(--muted);max-width:560px;margin:0 auto;line-height:1.55;}
+
+/* INPUT SECTIONS */
+.input-section{padding:14px 16px;border-bottom:1px solid var(--border);}
+.input-section:last-child{border-bottom:none;}
+.section-title{font-family:'Syne',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:11px;display:flex;align-items:center;gap:7px;}
+.step-badge{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;flex-shrink:0;}
+.field{margin-bottom:9px;}
+.field:last-child{margin-bottom:0;}
+.field label{display:block;font-size:11px;font-weight:500;color:var(--text);margin-bottom:3px;}
+.field label .hint{font-weight:400;color:var(--muted);font-size:10px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.field input,.field select{width:100%;height:32px;padding:0 9px;border:1px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:#fafafa;outline:none;transition:border .15s;}
+.field input:focus,.field select:focus{border-color:#3b82f6;background:#fff;}
+.field .prefix{position:relative;}
+.field .prefix input{padding-left:20px;}
+.field .prefix::before{content:attr(data-pre);position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--muted);pointer-events:none;z-index:1;}
+.field .suffix{position:relative;}
+.field .suffix input{padding-right:22px;}
+.field .suffix::after{content:attr(data-suf);position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted);pointer-events:none;}
+.input-readout{font-size:11px;color:var(--muted);background:var(--bg);border-radius:5px;padding:6px 9px;margin-top:8px;line-height:1.45;}
+.input-readout strong{color:var(--text);}
+
+/* METRIC CARDS */
+.mcard{background:var(--white);border:1px solid var(--border);border-radius:11px;padding:18px 20px;}
+.mcard.red{background:var(--red-l);border-color:var(--red-b);}
+.mcard.green{background:var(--green-l);border-color:var(--green-b);}
+.mcard.blue{background:var(--blue-l);border-color:var(--blue-b);}
+.mcard.amber{background:var(--amber-l);border-color:var(--amber-b);}
+.mcard.teal{background:var(--teal-l);border-color:var(--teal-b);}
+.mcard.purple{background:var(--purple-l);border-color:var(--purple-b);}
+.mcard.dark{background:var(--navy);border-color:#1e3a5f;color:#fff;}
+.mlabel{font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.mcard.dark .mlabel{color:#5eead4;}
+.mval{font-family:'Syne',sans-serif;font-weight:800;line-height:1;}
+.mval.huge{font-size:48px;}
+.mval.xl{font-size:32px;}
+.mval.lg{font-size:22px;}
+.mval.md{font-size:17px;}
+.mval.red{color:var(--red);}
+.mval.green{color:var(--green);}
+.mval.blue{color:var(--blue);}
+.mval.amber{color:var(--amber);}
+.mval.teal{color:var(--teal);}
+.mval.purple{color:var(--purple);}
+.mval.white{color:#f8fafc;}
+.msub{font-size:11.5px;color:var(--muted);margin-top:7px;line-height:1.5;}
+.mcard.dark .msub{color:#94a3b8;}
+.mcard.hero{padding:28px 32px;text-align:center;}
+.mcard.hero .mlabel{font-size:11.5px;margin-bottom:10px;}
+.mcard.hero .msub{margin-top:11px;font-size:13px;}
+
+/* GRIDS */
+.grid-1{display:grid;grid-template-columns:1fr;gap:14px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+
+/* CHART CARD */
+.chart-card{background:var(--white);border:1px solid var(--border);border-radius:11px;padding:20px 22px;}
+.chart-card-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;}
+.chart-card-sub{font-size:11.5px;color:var(--muted);margin-bottom:14px;line-height:1.5;}
+.chart-wrap{position:relative;height:280px;}
+
+/* COMBINED REVEAL */
+.split-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch;}
+.split-2 .mcard{display:flex;flex-direction:column;justify-content:center;}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.kpi-item{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:11px 13px;display:flex;align-items:center;gap:10px;}
+.kpi-item.pass{background:var(--green-l);border-color:var(--green-b);}
+.kpi-item.fail{background:var(--red-l);border-color:var(--red-b);}
+.kpi-item.empty{background:#fafafa;}
+.kpi-status{font-size:16px;flex-shrink:0;width:20px;text-align:center;}
+.kpi-info{flex:1;min-width:0;}
+.kpi-name{font-size:12px;font-weight:600;color:var(--text);}
+.kpi-vals{font-size:11px;color:var(--muted);margin-top:2px;}
+.kpi-val-main{font-weight:700;}
+.kpi-val-main.pass{color:var(--green);}
+.kpi-val-main.fail{color:var(--red);}
+
+/* CONSTRAINT CALLOUT */
+.constraint-card{background:linear-gradient(135deg,#fef2f2 0%,#fff7ed 100%);border:1.5px solid var(--red-b);border-radius:14px;padding:32px 36px;text-align:center;margin-bottom:18px;}
+.constraint-tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);background:#fff;padding:4px 11px;border-radius:5px;margin-bottom:14px;border:1px solid var(--red-b);}
+.constraint-name{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--red);margin-bottom:14px;}
+.constraint-comparison{display:flex;justify-content:center;gap:32px;margin-top:20px;flex-wrap:wrap;}
+.constraint-stat{text-align:center;}
+.constraint-stat .lbl{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.constraint-stat .val{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;}
+.constraint-stat .val.theirs{color:var(--red);}
+.constraint-stat .val.bench{color:var(--green);}
+.constraint-arrow{display:flex;align-items:center;color:var(--muted);font-size:20px;}
+
+/* AFFINITY MATH (PT View 3) */
+.affinity-flow{display:flex;flex-direction:column;gap:0;align-items:center;}
+.affinity-step{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px 20px;width:100%;max-width:520px;text-align:center;}
+.affinity-step.start{background:var(--teal-l);border-color:var(--teal-b);}
+.affinity-step.middle{background:var(--blue-l);border-color:var(--blue-b);}
+.affinity-step.end{background:var(--green-l);border-color:var(--green-b);}
+.affinity-step .lbl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.affinity-step .val{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--text);}
+.affinity-step.start .val{color:var(--teal);}
+.affinity-step.middle .val{color:var(--blue);}
+.affinity-step.end .val{color:var(--green);font-size:28px;}
+.affinity-step .sub{font-size:11.5px;color:var(--muted);margin-top:4px;}
+.affinity-arrow{height:18px;width:2px;background:#cbd5e1;margin:6px 0;}
+
+
+/* FOOTER */
+.calc-footer{font-size:10px;color:#94a3b8;text-align:center;padding:16px 0 4px;}
+body.share-mode .calc-footer{display:none;}
+
+@media(max-width:760px){.split-2,.grid-2,.grid-3{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div class="header">
+    <div style="display:flex;align-items:center;">
+      <span class="brand">IFCA<span class="v">v4</span></span>
+      <nav class="tab-nav">
+        <button class="active" onclick="switchTab('goal',this)">Goal Calculator</button>
+        <button onclick="switchTab('pt',this)">PT Pivot</button>
+        <button onclick="switchTab('biz',this)">Business Diagnostic</button>
+      </nav>
+    </div>
+    <div class="header-right">
+      <button class="hdr-btn" onclick="resetCurrent()">↺ Reset</button>
+      <button class="hdr-btn" id="share-btn" onclick="toggleShare()">⊳ Share View</button>
+    </div>
+  </div>
+
+  <div class="panels">
+
+  <!-- ═══════════════ GOAL CALCULATOR ═══════════════ -->
+  <div class="panel active" id="panel-goal">
+
+    <div class="inputs-col">
+      <div class="input-section">
+        <div class="section-title"><span class="step-badge" style="background:#1d4ed8">1</span>Their Situation</div>
+        <div class="field-row">
+          <div class="field"><label>Current Income / Mo</label><div class="prefix" data-pre="$"><input type="number" id="g-cur" value="2000" oninput="calcGoal()"></div></div>
+          <div class="field"><label>Monthly Goal</label><div class="prefix" data-pre="$"><input type="number" id="g-goal" value="10000" oninput="calcGoal()"></div></div>
+        </div>
+        <div class="field"><label>Months Stuck <span class="hint">/ trying to start</span></label><input type="number" id="g-stuck" value="6" oninput="calcGoal()"></div>
+      </div>
+
+      <div class="input-section">
+        <div class="section-title"><span class="step-badge" style="background:#1d4ed8">2</span>Their Offer</div>
+        <div class="field-row">
+          <div class="field"><label>Package Price</label><div class="prefix" data-pre="$"><input type="number" id="g-pkg" value="3000" oninput="calcGoal()"></div></div>
+          <div class="field"><label>Length</label><div class="suffix" data-suf="mo"><input type="number" id="g-len" value="6" oninput="calcGoal()"></div></div>
+        </div>
+        <div class="input-readout">MRR per client: <strong id="g-mrr-readout">$500</strong></div>
+      </div>
+    </div>
+
+    <div class="results-col">
+      <div class="view-bar">
+        <button class="view-btn active" onclick="setGoalView('coi',this)"><span class="vnum">1</span>Cost of Inaction</button>
+        <button class="view-btn" onclick="setGoalView('clients',this)"><span class="vnum">2</span>Clients Needed</button>
+        <button class="view-btn" onclick="setGoalView('path',this)"><span class="vnum">3</span>6-Month Path</button>
+        <button class="view-btn" onclick="setGoalView('reveal',this)"><span class="vnum">4</span>Combined Reveal</button>
+      </div>
+
+      <div class="view-content">
+
+        <!-- VIEW 1: COI -->
+        <div class="view active" id="g-view-coi">
+          <div class="belief-hero">
+            <div class="ctx">Belief #3 · Cost of Inaction</div>
+            <h2>Here's what staying put has actually cost.</h2>
+            <div class="sub">Show this right after the Knife Turn. Stay silent while they read.</div>
+          </div>
+          <div class="grid-3">
+            <div class="mcard red hero">
+              <div class="mlabel">Already Lost</div>
+              <div class="mval huge red" id="g-coi-already">—</div>
+              <div class="msub" id="g-coi-already-sub">at this gap, over the months you've been stuck</div>
+            </div>
+            <div class="mcard red hero">
+              <div class="mlabel">Lost Every Month</div>
+              <div class="mval huge red" id="g-coi-mo">—</div>
+              <div class="msub">while nothing changes</div>
+            </div>
+            <div class="mcard red hero">
+              <div class="mlabel">Lost in the Next 12 Months</div>
+              <div class="mval huge red" id="g-coi-yr">—</div>
+              <div class="msub">if the next year looks like the last one</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW 2: Clients Needed -->
+        <div class="view" id="g-view-clients">
+          <div class="belief-hero">
+            <div class="ctx">Belief #4 · Achievability</div>
+            <h2>Here's literally how many clients to hit your goal.</h2>
+            <div class="sub">Show this during the pre-pitch math moment. Use it to make the goal feel doable.</div>
+          </div>
+          <div class="mcard blue hero" style="margin-bottom:14px;">
+            <div class="mlabel">Active Clients to Hit <span id="g-cl-goal-readout">$10,000</span>/mo</div>
+            <div class="mval huge blue" id="g-cl-active">—</div>
+            <div class="msub" id="g-cl-active-sub">at <span id="g-cl-mrr-readout">$500</span>/mo per client</div>
+          </div>
+          <div class="grid-2">
+            <div class="mcard">
+              <div class="mlabel">New Clients Needed / Mo</div>
+              <div class="mval xl blue" id="g-cl-new">—</div>
+              <div class="msub">to maintain pace once at goal</div>
+            </div>
+            <div class="mcard">
+              <div class="mlabel">Per Week</div>
+              <div class="mval xl blue" id="g-cl-week">—</div>
+              <div class="msub">that's the actual weekly number</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW 3: 6-Month Path -->
+        <div class="view" id="g-view-path">
+          <div class="belief-hero">
+            <div class="ctx">Belief #4 + #7 · The Path</div>
+            <h2>Here's the curve we'd put you on.</h2>
+            <div class="sub">Show this during Pillar 2. The horizontal line is their stated goal. The curve shows where execution puts them.</div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-card-title">6-Month Revenue Path</div>
+            <div class="chart-card-sub">Conservative, contingent on execution. The blue line is your projected MRR. The dashed line is your goal of <span id="g-path-goal-readout">$10,000</span>/mo.</div>
+            <div class="chart-wrap"><canvas id="g-path-chart"></canvas></div>
+          </div>
+        </div>
+
+        <!-- VIEW 4: Combined Reveal -->
+        <div class="view" id="g-view-reveal">
+          <div class="belief-hero">
+            <div class="ctx">Pre-Price Drop · All Beliefs</div>
+            <h2>Here's the cost of staying — and the cost of moving.</h2>
+            <div class="sub">Show this last. Both numbers on screen at once. Stay silent. Then drop price.</div>
+          </div>
+          <div class="split-2">
+            <div class="mcard red hero">
+              <div class="mlabel">Cost of Another 12 Months Like the Last</div>
+              <div class="mval huge red" id="g-rv-coi">—</div>
+              <div class="msub">if nothing changes, this is what's lost</div>
+            </div>
+            <div class="mcard green hero">
+              <div class="mlabel">Where Execution Puts You by Month 6</div>
+              <div class="mval huge green" id="g-rv-month6">—</div>
+              <div class="msub" id="g-rv-month6-sub">/mo MRR — based on the path you just saw</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="calc-footer">IFCA · Impact Fitness Coaching Academy · v4</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ PT PIVOT ═══════════════ -->
+  <div class="panel" id="panel-pt">
+
+    <div class="inputs-col">
+      <div class="input-section">
+        <div class="section-title"><span class="step-badge" style="background:#0d9488">1</span>In-Person Now</div>
+        <div class="field-row">
+          <div class="field"><label>Sessions / Week</label><input type="number" id="p-sess" value="20" oninput="calcPT()"></div>
+          <div class="field"><label>Rate / Session</label><div class="prefix" data-pre="$"><input type="number" id="p-rate" value="75" oninput="calcPT()"></div></div>
+        </div>
+        <div class="input-readout">In-person income: <strong id="p-cur-readout">$6,000/mo</strong></div>
+      </div>
+      <div class="input-section">
+        <div class="section-title"><span class="step-badge" style="background:#0d9488">2</span>Online Goal</div>
+        <div class="field"><label>Replace Income Goal</label><div class="prefix" data-pre="$"><input type="number" id="p-goal" value="6000" oninput="calcPT()"></div></div>
+        <div class="field-row">
+          <div class="field"><label>Package Price</label><div class="prefix" data-pre="$"><input type="number" id="p-pkg" value="3000" oninput="calcPT()"></div></div>
+          <div class="field"><label>Length</label><div class="suffix" data-suf="mo"><input type="number" id="p-len" value="6" oninput="calcPT()"></div></div>
+        </div>
+        <div class="input-readout">MRR per client: <strong id="p-mrr-readout">$500</strong></div>
+      </div>
+      <div class="input-section">
+        <div class="section-title"><span class="step-badge" style="background:#0d9488">3</span>Network Size</div>
+        <div class="field"><label>Total Reachable Contacts <span class="hint">phone + IG + past clients</span></label><input type="number" id="p-net" value="200" oninput="calcPT()"></div>
+      </div>
+    </div>
+
+    <div class="results-col">
+      <div class="view-bar">
+        <button class="view-btn active" onclick="setPTView('ceiling',this)"><span class="vnum">1</span>Ceiling vs Goal</button>
+        <button class="view-btn" onclick="setPTView('replace',this)"><span class="vnum">2</span>Clients to Replace Income</button>
+        <button class="view-btn" onclick="setPTView('affinity',this)"><span class="vnum">3</span>Affinity Launch Math</button>
+      </div>
+
+      <div class="view-content">
+
+        <!-- VIEW 1: Ceiling vs Goal -->
+        <div class="view active" id="p-view-ceiling">
+          <div class="belief-hero">
+            <div class="ctx">Belief #1 · The In-Person Ceiling</div>
+            <h2>Here's the wall the in-person model puts you against.</h2>
+            <div class="sub">Show this after the in-person reality discovery block. Anchors the cost of staying trapped.</div>
+          </div>
+          <div class="grid-2" style="margin-bottom:14px;">
+            <div class="mcard red hero">
+              <div class="mlabel">Where In-Person Caps You</div>
+              <div class="mval huge red" id="p-ceiling">—</div>
+              <div class="msub" id="p-ceiling-sub">/mo at full schedule — body-limited</div>
+            </div>
+            <div class="mcard green hero">
+              <div class="mlabel">Where You Want to Be</div>
+              <div class="mval huge green" id="p-goal-show">—</div>
+              <div class="msub">/mo — without the time and body cost</div>
+            </div>
+          </div>
+          <div class="mcard amber hero">
+            <div class="mlabel">Hours / Month at Full In-Person Schedule</div>
+            <div class="mval xl amber" id="p-hours">—</div>
+            <div class="msub">that's the ceiling on your time, not just your income</div>
+          </div>
+        </div>
+
+        <!-- VIEW 2: Clients to Replace Income -->
+        <div class="view" id="p-view-replace">
+          <div class="belief-hero">
+            <div class="ctx">Belief #4 · Achievability</div>
+            <h2>Here's how few clients it takes.</h2>
+            <div class="sub">Show this during the pre-pitch math moment. Make the math feel small.</div>
+          </div>
+          <div class="mcard blue hero" style="margin-bottom:14px;">
+            <div class="mlabel">Active Online Clients to Replace <span id="p-rep-goal-readout">$6,000</span>/mo</div>
+            <div class="mval huge blue" id="p-rep-active">—</div>
+            <div class="msub">at <span id="p-rep-mrr-readout">$500</span>/mo per client, on a <span id="p-rep-len-readout">6</span>-month package</div>
+          </div>
+          <div class="grid-2">
+            <div class="mcard">
+              <div class="mlabel">New Clients Needed / Mo</div>
+              <div class="mval xl blue" id="p-rep-new">—</div>
+              <div class="msub">to stay at goal once you reach it</div>
+            </div>
+            <div class="mcard">
+              <div class="mlabel">In-Person Sessions Replaced</div>
+              <div class="mval xl green" id="p-rep-sess">—</div>
+              <div class="msub" id="p-rep-sess-sub">/week of gym-floor time freed up</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW 3: Affinity Launch Math -->
+        <div class="view" id="p-view-affinity">
+          <div class="belief-hero">
+            <div class="ctx">Belief #2 + #7 · The First Clients</div>
+            <h2>Here's the math on your existing network.</h2>
+            <div class="sub">Show this during Pillar 2 — when delivering the Stage 1 Affinity Launch line. Reinforces the words with numbers.</div>
+          </div>
+          <div class="affinity-flow">
+            <div class="affinity-step start">
+              <div class="lbl">Reachable Contacts</div>
+              <div class="val" id="p-aff-contacts">—</div>
+              <div class="sub">people already in your phone, IG, or past client list</div>
+            </div>
+            <div class="affinity-arrow"></div>
+            <div class="affinity-step middle">
+              <div class="lbl">Direct + Referral Clients</div>
+              <div class="val" id="p-aff-clients">—</div>
+              <div class="sub">at the IFCA student average of 4–10% combined conversion</div>
+            </div>
+            <div class="affinity-arrow"></div>
+            <div class="affinity-step end">
+              <div class="lbl">Contracted Revenue</div>
+              <div class="val" id="p-aff-rev">—</div>
+              <div class="sub">before a single dollar of ad spend</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="calc-footer">IFCA · Impact Fitness Coaching Academy · v4</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ BUSINESS DIAGNOSTIC ═══════════════ -->
+  <div class="panel" id="panel-biz">
+
+    <div class="inputs-col">
+      <div class="input-section">
+        <div class="section-title"><span class="step-badge" style="background:#4338ca">1</span>Traffic & Pipeline</div>
+        <div class="field-row">
+          <div class="field"><label>Ad Spend / Mo</label><div class="prefix" data-pre="$"><input type="number" id="b-spend" value="3000" oninput="calcBiz()"></div></div>
+          <div class="field"><label>Leads / Mo</label><input type="number" id="b-leads" value="120" oninput="calcBiz()"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Calls Booked</label><input type="number" id="b-booked" value="30" oninput="calcBiz()"></div>
+          <div class="field"><label>Calls Showed</label><input type="number" id="b-show" value="20" oninput="calcBiz()"></div>
+        </div>
+      </div>
+      <div class="input-section">
+        <div class="section-title"><span class="step-badge" style="background:#4338ca">2</span>Conversion</div>
+        <div class="field"><label>Closes / Mo</label><input type="number" id="b-close" value="3" oninput="calcBiz()"></div>
+        <div class="field-row">
+          <div class="field"><label>Package Price</label><div class="prefix" data-pre="$"><input type="number" id="b-pkg" value="5000" oninput="calcBiz()"></div></div>
+          <div class="field"><label>Avg Retention <span class="hint">(mo)</span></label><div class="suffix" data-suf="mo"><input type="number" id="b-ret" value="9" oninput="calcBiz()"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="results-col">
+      <div class="view-bar">
+        <button class="view-btn active" onclick="setBizView('kpi',this)"><span class="vnum">1</span>KPI Health</button>
+        <button class="view-btn" onclick="setBizView('constraint',this)"><span class="vnum">2</span>The Constraint</button>
+        <button class="view-btn" onclick="setBizView('fix',this)"><span class="vnum">3</span>If We Fix This</button>
+      </div>
+
+      <div class="view-content">
+
+        <!-- VIEW 1: KPI Health -->
+        <div class="view active" id="b-view-kpi">
+          <div class="belief-hero">
+            <div class="ctx">Discovery · Diagnostic</div>
+            <h2>Here's where the leak is.</h2>
+            <div class="sub">Closer-side during discovery. Identifies the ❌ that becomes the priority pillar in the pitch.</div>
+          </div>
+          <div class="kpi-grid" id="b-kpi-list"></div>
+        </div>
+
+        <!-- VIEW 2: The Constraint -->
+        <div class="view" id="b-view-constraint">
+          <div class="belief-hero">
+            <div class="ctx">Belief #3 · Cost of the Constraint</div>
+            <h2>Here's the one thing breaking the business.</h2>
+            <div class="sub">Show this after the Knife Turn. Zooms in on just the broken metric. Stay silent.</div>
+          </div>
+          <div class="constraint-card">
+            <div class="constraint-tag">The Constraint</div>
+            <div class="constraint-name" id="b-con-name">—</div>
+            <div class="constraint-comparison">
+              <div class="constraint-stat">
+                <div class="lbl">Where You Are</div>
+                <div class="val theirs" id="b-con-theirs">—</div>
+              </div>
+              <div class="constraint-arrow">→</div>
+              <div class="constraint-stat">
+                <div class="lbl">Industry Benchmark</div>
+                <div class="val bench" id="b-con-bench">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW 3: If We Fix This -->
+        <div class="view" id="b-view-fix">
+          <div class="belief-hero">
+            <div class="ctx">Belief #7 · Trust the Methodology</div>
+            <h2>Here's what fixing just that one thing does.</h2>
+            <div class="sub">Show this when delivering the pillar that maps to their ❌. Numbers do the persuasion.</div>
+          </div>
+          <div class="split-2">
+            <div class="mcard red hero">
+              <div class="mlabel">Current Contracted MRR</div>
+              <div class="mval huge red" id="b-fix-now">—</div>
+              <div class="msub">at your current <span id="b-fix-now-metric">—</span></div>
+            </div>
+            <div class="mcard green hero">
+              <div class="mlabel">If <span id="b-fix-name">—</span> Hits Benchmark</div>
+              <div class="mval huge green" id="b-fix-future">—</div>
+              <div class="msub" id="b-fix-future-sub">just by fixing this one constraint</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="calc-footer">IFCA · Impact Fitness Coaching Academy · v4</div>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+<script>
+// ═══════════ HELPERS ═══════════
+const $=id=>document.getElementById(id);
+const num=id=>{const v=parseFloat($(id).value);return isNaN(v)?0:v;};
+const fmt=v=>{if(!isFinite(v)||isNaN(v))return '$0';if(Math.abs(v)>=1000)return '$'+Math.round(v/1000)+(v%1000?'.'+Math.round((v%1000)/100):'')+'K';return '$'+Math.round(v).toLocaleString();};
+const fmtFull=v=>{if(!isFinite(v)||isNaN(v))return '$0';return '$'+Math.round(v).toLocaleString();};
+
+// ═══════════ GOAL CALCULATOR ═══════════
+let goalChart=null;
+function calcGoal(){
+  const cur=num('g-cur'),goal=num('g-goal'),stuck=num('g-stuck');
+  const pkg=num('g-pkg'),len=Math.max(num('g-len'),1);
+  const mrr=pkg/len;
+  const gap=Math.max(goal-cur,0);
+  const mrrPerClient=mrr;
+  const activeClients=mrrPerClient>0?Math.ceil(goal/mrrPerClient):0;
+  const newPerMo=len>0?Math.ceil(activeClients/len):0;
+  const perWeek=(newPerMo/4.33).toFixed(1);
+
+  $('g-mrr-readout').textContent=fmtFull(mrr);
+
+  // VIEW 1: COI
+  $('g-coi-mo').textContent=fmt(gap);
+  $('g-coi-yr').textContent=fmt(gap*12);
+  $('g-coi-already').textContent=fmt(gap*stuck);
+  $('g-coi-already-sub').textContent=`${stuck} ${stuck===1?'month':'months'} × ${fmt(gap)} gap`;
+
+  // VIEW 2: Clients
+  $('g-cl-active').textContent=activeClients;
+  $('g-cl-active-sub').innerHTML=`at <span id="g-cl-mrr-readout">${fmtFull(mrr)}</span>/mo per client`;
+  $('g-cl-new').textContent=newPerMo;
+  $('g-cl-week').textContent=perWeek;
+  $('g-cl-goal-readout').textContent=fmtFull(goal);
+  $('g-cl-mrr-readout').textContent=fmtFull(mrr);
+
+  // VIEW 3: 6-Month Path
+  // Conservative ramp: 1 client month 1, 2 month 2, then +newPerMo each month, capped at activeClients
+  const months=[];const projData=[];
+  let active=0;
+  const rampPerMo=Math.max(Math.ceil(activeClients/6),1);
+  let goalMonth=null;
+  for(let m=1;m<=6;m++){
+    active=Math.min(active+rampPerMo,activeClients);
+    const monthMRR=active*mrr;
+    months.push('Mo '+m);projData.push(monthMRR);
+    if(goalMonth===null&&monthMRR>=goal)goalMonth=m;
+  }
+  $('g-path-month-cue').textContent=goalMonth||'6+';
+  $('g-path-goal-readout').textContent=fmtFull(goal);
+  drawGoalChart(months,projData,goal);
+
+  // VIEW 4: Combined Reveal
+  $('g-rv-coi').textContent=fmt(gap*12);
+  $('g-rv-month6').textContent=fmt(projData[5]);
+  $('g-rv-month6-sub').textContent=`/mo MRR by month 6 · execution-dependent`;
+}
+function drawGoalChart(labels,data,goal){
+  if(goalChart)goalChart.destroy();
+  const ctx=$('g-path-chart').getContext('2d');
+  const goalLine=labels.map(()=>goal);
+  goalChart=new Chart(ctx,{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'Goal',data:goalLine,borderColor:'#94a3b8',borderDash:[6,5],borderWidth:2,pointRadius:0,fill:false,tension:0},
+      {label:'Projected MRR',data,borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,.12)',borderWidth:3,fill:true,tension:.35,pointRadius:5,pointBackgroundColor:'#2563eb',pointBorderColor:'#fff',pointBorderWidth:2}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},color:'#64748b',boxWidth:14,padding:14}}},
+      scales:{
+        y:{beginAtZero:true,ticks:{font:{size:11},color:'#64748b',callback:v=>fmt(v)},grid:{color:'#f1f5f9'}},
+        x:{ticks:{font:{size:11},color:'#64748b'},grid:{display:false}}
+      }
+    }
+  });
+}
+function setGoalView(v,btn){
+  document.querySelectorAll('#panel-goal .view').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('#panel-goal .view-btn').forEach(el=>el.classList.remove('active'));
+  $('g-view-'+v).classList.add('active');
+  btn.classList.add('active');
+  if(v==='path'&&goalChart){setTimeout(()=>goalChart.resize(),50);}
+}
+
+// ═══════════ PT PIVOT ═══════════
+function calcPT(){
+  const sess=num('p-sess'),rate=num('p-rate');
+  const goal=num('p-goal');
+  const pkg=num('p-pkg'),len=Math.max(num('p-len'),1);
+  const net=num('p-net');
+  const cur=sess*rate*4.33;
+  const mrr=pkg/len;
+  const activeClients=mrr>0?Math.ceil(goal/mrr):0;
+  const newPerMo=len>0?Math.ceil(activeClients/len):0;
+  const sessReplaced=Math.min(activeClients*1,sess); // 1 in-person session-equivalent freed per online client (rough)
+
+  $('p-cur-readout').textContent=fmtFull(cur)+'/mo';
+  $('p-mrr-readout').textContent=fmtFull(mrr);
+
+  // VIEW 1: Ceiling vs Goal
+  const maxSess=40; // conservative practical max sessions/wk
+  const ceiling=maxSess*rate*4.33;
+  const hours=sess*4.33; // approx 1hr/session
+  $('p-ceiling').textContent=fmt(ceiling);
+  $('p-ceiling-sub').textContent=`/mo at ${maxSess} sessions/wk · ${rate}/session`;
+  $('p-goal-show').textContent=fmt(goal);
+  $('p-hours').textContent=Math.round(hours)+' hrs';
+
+  // VIEW 2: Replace
+  $('p-rep-active').textContent=activeClients;
+  $('p-rep-new').textContent=newPerMo;
+  $('p-rep-sess').textContent=Math.round(sessReplaced);
+  $('p-rep-sess-sub').textContent=`/wk of gym-floor time freed (1 online client ≈ 1 in-person session)`;
+  $('p-rep-goal-readout').textContent=fmtFull(goal);
+  $('p-rep-mrr-readout').textContent=fmtFull(mrr);
+  $('p-rep-len-readout').textContent=Math.round(len);
+
+  // VIEW 3: Affinity
+  const affLow=Math.round(net*0.04),affHigh=Math.round(net*0.10);
+  const revLow=affLow*pkg,revHigh=affHigh*pkg;
+  $('p-aff-contacts').textContent=net;
+  $('p-aff-clients').textContent=affLow+'–'+affHigh+' clients';
+  $('p-aff-rev').textContent=fmt(revLow)+' – '+fmt(revHigh);
+}
+function setPTView(v,btn){
+  document.querySelectorAll('#panel-pt .view').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('#panel-pt .view-btn').forEach(el=>el.classList.remove('active'));
+  $('p-view-'+v).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ═══════════ BUSINESS DIAGNOSTIC ═══════════
+const BENCH={leadToBook:25,bookToShow:75,closeOnShow:35,cpl:50,cpa:1500};
+function calcBiz(){
+  const spend=num('b-spend'),leads=num('b-leads'),booked=num('b-booked'),show=num('b-show'),close=num('b-close');
+  const pkg=num('b-pkg'),ret=num('b-ret');
+
+  const leadToBook=leads>0?(booked/leads*100):0;
+  const bookToShow=booked>0?(show/booked*100):0;
+  const closeOnShow=show>0?(close/show*100):0;
+  const cpl=leads>0?spend/leads:0;
+  const cpa=close>0?spend/close:0;
+
+  // Build KPI items
+  const kpis=[
+    {n:'Lead → Book',mine:leadToBook,bench:BENCH.leadToBook,fmt:'%',higher:true,name:'leadToBook'},
+    {n:'Book → Show',mine:bookToShow,bench:BENCH.bookToShow,fmt:'%',higher:true,name:'bookToShow'},
+    {n:'Close on Show',mine:closeOnShow,bench:BENCH.closeOnShow,fmt:'%',higher:true,name:'closeOnShow'},
+    {n:'CPL',mine:cpl,bench:BENCH.cpl,fmt:'$',higher:false,name:'cpl'},
+    {n:'CPA',mine:cpa,bench:BENCH.cpa,fmt:'$',higher:false,name:'cpa'}
+  ];
+
+  const kpiHtml=kpis.map(k=>{
+    const passes=k.higher?k.mine>=k.bench:k.mine<=k.bench&&k.mine>0;
+    const empty=!isFinite(k.mine)||k.mine===0;
+    const cls=empty?'empty':(passes?'pass':'fail');
+    const icon=empty?'·':(passes?'✓':'✗');
+    const v=k.fmt==='%'?Math.round(k.mine)+'%':fmtFull(k.mine);
+    const bv=k.fmt==='%'?k.bench+'%':fmtFull(k.bench);
+    return `<div class="kpi-item ${cls}"><div class="kpi-status">${icon}</div><div class="kpi-info"><div class="kpi-name">${k.n}</div><div class="kpi-vals"><span class="kpi-val-main ${cls}">${v}</span> · benchmark ${bv}</div></div></div>`;
+  }).join('');
+  $('b-kpi-list').innerHTML=kpiHtml;
+
+  // Find primary constraint (first failing KPI in priority order)
+  const failing=kpis.filter(k=>{
+    const empty=!isFinite(k.mine)||k.mine===0;
+    if(empty)return false;
+    return k.higher?k.mine<k.bench:k.mine>k.bench;
+  });
+  const primary=failing[0]||{n:'—',mine:0,bench:0,fmt:'%',higher:true,name:'none'};
+
+  // VIEW 2: Constraint
+  $('b-con-name').textContent=primary.n!=='—'?primary.n+' is the leak':'No clear constraint detected';
+  $('b-con-theirs').textContent=primary.fmt==='%'?Math.round(primary.mine)+'%':fmtFull(primary.mine);
+  $('b-con-bench').textContent=primary.fmt==='%'?primary.bench+'%':fmtFull(primary.bench);
+
+  // VIEW 3: If We Fix This
+  // Current contracted: close per month × pkg
+  const currentContractedMRR=(close*pkg)/Math.max(ret,1)*ret; // contracted = close*pkg
+  const currentMRR=close*pkg/Math.max(ret,1)*ret/12; // simplified — monthly recurring contracted
+  const currentMonthlyRevenue=close*pkg; // monthly contracted intake
+  // Project what monthly intake looks like if the failing KPI hits benchmark
+  let projectedClose=close;
+  if(primary.name==='leadToBook'){
+    const newBooked=leads*BENCH.leadToBook/100;
+    const newShow=newBooked*(bookToShow/100||BENCH.bookToShow/100);
+    projectedClose=newShow*(closeOnShow/100||BENCH.closeOnShow/100);
+  } else if(primary.name==='bookToShow'){
+    const newShow=booked*BENCH.bookToShow/100;
+    projectedClose=newShow*(closeOnShow/100||BENCH.closeOnShow/100);
+  } else if(primary.name==='closeOnShow'){
+    projectedClose=show*BENCH.closeOnShow/100;
+  } else if(primary.name==='cpl'){
+    const newLeads=spend/BENCH.cpl;
+    const newBooked=newLeads*(leadToBook/100||BENCH.leadToBook/100);
+    const newShow=newBooked*(bookToShow/100||BENCH.bookToShow/100);
+    projectedClose=newShow*(closeOnShow/100||BENCH.closeOnShow/100);
+  } else if(primary.name==='cpa'){
+    projectedClose=spend/BENCH.cpa;
+  }
+  const projectedMonthlyRevenue=projectedClose*pkg;
+  $('b-fix-now').textContent=fmt(currentMonthlyRevenue);
+  $('b-fix-now-metric').textContent=primary.fmt==='%'?Math.round(primary.mine)+'%':fmtFull(primary.mine);
+  $('b-fix-future').textContent=fmt(projectedMonthlyRevenue);
+  $('b-fix-future-sub').textContent=`projected monthly contracted — at benchmark ${primary.fmt==='%'?primary.bench+'%':fmtFull(primary.bench)}`;
+  $('b-fix-name').textContent=primary.n;
+}
+function setBizView(v,btn){
+  document.querySelectorAll('#panel-biz .view').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('#panel-biz .view-btn').forEach(el=>el.classList.remove('active'));
+  $('b-view-'+v).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ═══════════ TAB SWITCHING + GLOBAL ═══════════
+function switchTab(tab,btn){
+  document.querySelectorAll('.tab-nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  $('panel-'+tab).classList.add('active');
+  if(tab==='goal'&&goalChart){setTimeout(()=>goalChart.resize(),50);}
+}
+function toggleShare(){
+  document.body.classList.toggle('share-mode');
+  $('share-btn').classList.toggle('on');
+  $('share-btn').textContent=document.body.classList.contains('share-mode')?'⊳ Sharing — Click to Exit':'⊳ Share View';
+  if(goalChart)setTimeout(()=>goalChart.resize(),250);
+}
+function resetCurrent(){
+  const active=document.querySelector('.panel.active').id;
+  if(active==='panel-goal'){$('g-cur').value=2000;$('g-goal').value=10000;$('g-stuck').value=6;$('g-pkg').value=3000;$('g-len').value=6;calcGoal();}
+  else if(active==='panel-pt'){$('p-sess').value=20;$('p-rate').value=75;$('p-goal').value=6000;$('p-pkg').value=3000;$('p-len').value=6;$('p-net').value=200;calcPT();}
+  else if(active==='panel-biz'){$('b-spend').value=3000;$('b-leads').value=120;$('b-booked').value=30;$('b-show').value=20;$('b-close').value=3;$('b-pkg').value=5000;$('b-ret').value=9;calcBiz();}
+}
+
+// INIT
+calcGoal();calcPT();calcBiz();
+</script>
+</body>
+</html>
