@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IFCA — Calculator v4</title>
+<title>IFCA — Calculator v7</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 <style>
 :root{
   --navy:#0f172a;--bg:#f1f5f9;--white:#fff;
@@ -43,22 +42,22 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
 .panel.active{display:flex;}
 
 /* TWO PANE */
-.inputs-col{width:300px;min-width:300px;background:var(--white);border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0;transition:width .22s,min-width .22s,opacity .18s;}
+.inputs-col{width:310px;min-width:310px;background:var(--white);border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0;transition:width .22s,min-width .22s,opacity .18s;}
 body.share-mode .inputs-col{width:0;min-width:0;opacity:0;overflow:hidden;pointer-events:none;}
 .results-col{flex:1;overflow:hidden;display:flex;flex-direction:column;}
 
-/* VIEW SWITCHER (per panel, top of results) */
+/* VIEW SWITCHER */
 .view-bar{display:flex;background:var(--white);border-bottom:1px solid var(--border);padding:0 20px;flex-shrink:0;gap:0;overflow-x:auto;}
-.view-btn{padding:13px 16px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;transition:all .15s;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+.view-btn{padding:13px 14px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;transition:all .15s;display:flex;align-items:center;gap:8px;white-space:nowrap;}
 .view-btn:hover{color:var(--text);}
 .view-btn.active{color:var(--text);border-bottom-color:var(--blue);}
 .view-btn .vnum{width:18px;height:18px;border-radius:50%;background:#e2e8f0;color:var(--muted);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .view-btn.active .vnum{background:var(--blue);color:#fff;}
-body.share-mode .view-content{flex:1;overflow-y:auto;padding:24px 28px 32px;}
+.view-content{flex:1;overflow-y:auto;padding:24px 28px 32px;}
 .view{display:none;}
 .view.active{display:block;}
 
-/* BIG HERO MOMENT (single belief-view headline) */
+/* BIG HERO MOMENT */
 .belief-hero{margin-bottom:18px;text-align:center;}
 .belief-hero .ctx{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--bg);padding:5px 11px;border-radius:5px;margin-bottom:14px;}
 .belief-hero h2{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--text);letter-spacing:-.01em;margin-bottom:6px;}
@@ -84,6 +83,8 @@ body.share-mode .view-content{flex:1;overflow-y:auto;padding:24px 28px 32px;}
 .field .suffix::after{content:attr(data-suf);position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted);pointer-events:none;}
 .input-readout{font-size:11px;color:var(--muted);background:var(--bg);border-radius:5px;padding:6px 9px;margin-top:8px;line-height:1.45;}
 .input-readout strong{color:var(--text);}
+.defaults-note{background:#f5f3ff;border:1px solid #ddd6fe;border-radius:6px;padding:8px 11px;margin:0 16px 12px;font-size:10.5px;color:#5b21b6;line-height:1.45;}
+.defaults-note strong{color:#4c1d95;font-weight:700;}
 
 /* METRIC CARDS */
 .mcard{background:var(--white);border:1px solid var(--border);border-radius:11px;padding:18px 20px;}
@@ -114,6 +115,42 @@ body.share-mode .view-content{flex:1;overflow-y:auto;padding:24px 28px 32px;}
 .mcard.hero .mlabel{font-size:11.5px;margin-bottom:10px;}
 .mcard.hero .msub{margin-top:11px;font-size:13px;}
 
+/* LTV CAPTION (under Clients Needed hero) */
+.ltv-caption{margin-top:10px;padding:10px 14px;background:#fafafa;border:1px dashed var(--border);border-radius:7px;font-size:11.5px;color:var(--muted);text-align:center;line-height:1.5;}
+.ltv-caption strong{color:var(--text);font-weight:700;}
+.ltv-caption .formula{font-family:'DM Sans',sans-serif;font-size:10.5px;color:#94a3b8;margin-top:3px;display:block;font-style:italic;}
+.rev-caption{margin-top:10px;padding:11px 14px;background:#f0fdf4;border:1px solid #86efac;border-radius:7px;font-size:12.5px;color:#14532d;text-align:center;line-height:1.5;}
+.rev-caption strong{color:#15803d;font-weight:800;font-size:14px;}
+.rev-caption .small{font-size:11px;color:#166534;display:block;margin-top:3px;}
+.cash-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}
+.cash-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px 18px;text-align:center;}
+.cash-card .lbl{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.cash-card .val{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--text);}
+.cash-card.cash .val{color:var(--green);}
+.cash-card.pipe .val{color:var(--amber);}
+.cash-card .sub{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4;}
+.reveal-sub-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid #bbf7d0;}
+.reveal-sub-cards .rsc-item{text-align:center;}
+.reveal-sub-cards .rsc-lbl{font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#166534;margin-bottom:3px;}
+.reveal-sub-cards .rsc-val{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#14532d;}
+.reveal-sub-cards .rsc-val.pipe{color:#92400e;}
+
+/* REVERSE-FUNNEL STRIP (collapsible, View 3) */
+.rfunnel{margin-top:14px;}
+.rfunnel-toggle{display:inline-flex;align-items:center;gap:7px;background:transparent;border:1px dashed #94a3b8;color:var(--muted);font-size:11px;font-weight:600;padding:6px 11px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;}
+.rfunnel-toggle:hover{background:#fafafa;color:var(--text);border-color:var(--text);}
+.rfunnel-toggle .chev{transition:transform .2s;font-size:9px;}
+.rfunnel.open .rfunnel-toggle .chev{transform:rotate(90deg);}
+.rfunnel-body{display:none;margin-top:10px;background:var(--navy);border-radius:9px;padding:13px 18px;}
+.rfunnel.open .rfunnel-body{display:block;}
+.rfunnel-head{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5eead4;margin-bottom:9px;}
+.rfunnel-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;}
+.rfunnel-cell{text-align:center;padding:0;}
+.rfunnel-cell .v{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#f8fafc;display:block;}
+.rfunnel-cell .l{font-size:10px;font-weight:600;color:#5eead4;text-transform:uppercase;letter-spacing:.05em;margin-top:3px;display:block;}
+.rfunnel-cell .b{font-size:9.5px;color:#94a3b8;margin-top:2px;display:block;}
+@media(max-width:760px){.rfunnel-strip{grid-template-columns:repeat(2,1fr);}}
+
 /* GRIDS */
 .grid-1{display:grid;grid-template-columns:1fr;gap:14px;}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
@@ -129,7 +166,7 @@ body.share-mode .view-content{flex:1;overflow-y:auto;padding:24px 28px 32px;}
 .split-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch;}
 .split-2 .mcard{display:flex;flex-direction:column;justify-content:center;}
 
-/* KPI GRID */
+/* KPI GRID (Problem Syntax) */
 .kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
 .kpi-item{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:11px 13px;display:flex;align-items:center;gap:10px;}
 .kpi-item.pass{background:var(--green-l);border-color:var(--green-b);}
@@ -143,7 +180,7 @@ body.share-mode .view-content{flex:1;overflow-y:auto;padding:24px 28px 32px;}
 .kpi-val-main.pass{color:var(--green);}
 .kpi-val-main.fail{color:var(--red);}
 
-/* CONSTRAINT CALLOUT */
+/* CONSTRAINT CARD (Problem Syntax) */
 .constraint-card{background:linear-gradient(135deg,#fef2f2 0%,#fff7ed 100%);border:1.5px solid var(--red-b);border-radius:14px;padding:32px 36px;text-align:center;margin-bottom:18px;}
 .constraint-tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);background:#fff;padding:4px 11px;border-radius:5px;margin-bottom:14px;border:1px solid var(--red-b);}
 .constraint-name{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--red);margin-bottom:14px;}
@@ -154,21 +191,6 @@ body.share-mode .view-content{flex:1;overflow-y:auto;padding:24px 28px 32px;}
 .constraint-stat .val.theirs{color:var(--red);}
 .constraint-stat .val.bench{color:var(--green);}
 .constraint-arrow{display:flex;align-items:center;color:var(--muted);font-size:20px;}
-
-/* AFFINITY MATH (PT View 3) */
-.affinity-flow{display:flex;flex-direction:column;gap:0;align-items:center;}
-.affinity-step{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px 20px;width:100%;max-width:520px;text-align:center;}
-.affinity-step.start{background:var(--teal-l);border-color:var(--teal-b);}
-.affinity-step.middle{background:var(--blue-l);border-color:var(--blue-b);}
-.affinity-step.end{background:var(--green-l);border-color:var(--green-b);}
-.affinity-step .lbl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
-.affinity-step .val{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--text);}
-.affinity-step.start .val{color:var(--teal);}
-.affinity-step.middle .val{color:var(--blue);}
-.affinity-step.end .val{color:var(--green);font-size:28px;}
-.affinity-step .sub{font-size:11.5px;color:var(--muted);margin-top:4px;}
-.affinity-arrow{height:18px;width:2px;background:#cbd5e1;margin:6px 0;}
-
 
 /* FOOTER */
 .calc-footer{font-size:10px;color:#94a3b8;text-align:center;padding:16px 0 4px;}
@@ -182,11 +204,11 @@ body.share-mode .calc-footer{display:none;}
 
   <div class="header">
     <div style="display:flex;align-items:center;">
-      <span class="brand">IFCA<span class="v">v4</span></span>
+      <span class="brand">IFCA<span class="v">v7</span></span>
       <nav class="tab-nav">
-        <button class="active" onclick="switchTab('goal',this)">Goal Calculator</button>
-        <button onclick="switchTab('pt',this)">PT Pivot</button>
-        <button onclick="switchTab('biz',this)">Business Diagnostic</button>
+        <button class="active" onclick="switchTab('goal',this)">Goal Syntax Calculator</button>
+        <button onclick="switchTab('pt',this)">PT Pivot Calculator</button>
+        <button onclick="switchTab('biz',this)">Problem Syntax Calculator</button>
       </nav>
     </div>
     <div class="header-right">
@@ -197,10 +219,12 @@ body.share-mode .calc-footer{display:none;}
 
   <div class="panels">
 
-  <!-- ═══════════════ GOAL CALCULATOR ═══════════════ -->
+  <!-- ═══════════════ GOAL SYNTAX CALCULATOR ═══════════════ -->
   <div class="panel active" id="panel-goal">
 
     <div class="inputs-col">
+      <div class="defaults-note"><strong>Defaults:</strong> beginner offer · $500/mo × 6 FE → $375/mo × 12 BE @ 50% resign · IFCA pipeline averages. Override any field per prospect.</div>
+
       <div class="input-section">
         <div class="section-title"><span class="step-badge" style="background:#1d4ed8">1</span>Their Situation</div>
         <div class="field-row">
@@ -211,12 +235,34 @@ body.share-mode .calc-footer{display:none;}
       </div>
 
       <div class="input-section">
-        <div class="section-title"><span class="step-badge" style="background:#1d4ed8">2</span>Their Offer</div>
+        <div class="section-title"><span class="step-badge" style="background:#1d4ed8">2</span>Front-End Offer</div>
         <div class="field-row">
-          <div class="field"><label>Package Price</label><div class="prefix" data-pre="$"><input type="number" id="g-pkg" value="3000" oninput="calcGoal()"></div></div>
-          <div class="field"><label>Length</label><div class="suffix" data-suf="mo"><input type="number" id="g-len" value="6" oninput="calcGoal()"></div></div>
+          <div class="field"><label>FE Rate / Mo</label><div class="prefix" data-pre="$"><input type="number" id="g-fe-rate" value="500" oninput="calcGoal()"></div></div>
+          <div class="field"><label>FE Length</label><div class="suffix" data-suf="mo"><input type="number" id="g-fe-len" value="6" oninput="calcGoal()"></div></div>
         </div>
-        <div class="input-readout">MRR per client: <strong id="g-mrr-readout">$500</strong></div>
+        <div class="input-readout">FE package: <strong id="g-fe-pkg-readout">$3,000</strong></div>
+      </div>
+
+      <div class="input-section">
+        <div class="section-title"><span class="step-badge" style="background:#1d4ed8">3</span>Back-End Offer</div>
+        <div class="field-row">
+          <div class="field"><label>BE Rate / Mo</label><div class="prefix" data-pre="$"><input type="number" id="g-be-rate" value="375" oninput="calcGoal()"></div></div>
+          <div class="field"><label>BE Length</label><div class="suffix" data-suf="mo"><input type="number" id="g-be-len" value="12" oninput="calcGoal()"></div></div>
+        </div>
+        <div class="field"><label>Resign Rate <span class="hint">(% of FE clients who renew)</span></label><div class="suffix" data-suf="%"><input type="number" id="g-resign" value="50" oninput="calcGoal()"></div></div>
+        <div class="input-readout">LTV / client: <strong id="g-ltv-readout">$5,250</strong></div>
+      </div>
+
+      <div class="input-section">
+        <div class="section-title"><span class="step-badge" style="background:#1d4ed8">4</span>Cash Collected at Signup</div>
+        <div class="field"><label>PIF Rate <span class="hint">(% of new clients who pay in full)</span></label><div class="suffix" data-suf="%"><input type="number" id="g-pif" value="40" oninput="calcGoal()"></div></div>
+        <div class="input-readout">PIF clients pay full FE upfront. The rest pay <strong id="g-pif-readout">60%</strong> on payment plans at FE rate/mo.</div>
+      </div>
+
+      <div class="input-section">
+        <div class="section-title"><span class="step-badge" style="background:#1d4ed8">5</span>Sign Rate Plan</div>
+        <div class="field"><label>Clients to Sign / Month <span class="hint">(used in 6-Month Path + Combined Reveal)</span></label><input type="number" id="g-signrate" value="4" oninput="calcGoal()"></div>
+        <div class="input-readout">Drives View 3 + View 4 totals. <strong id="g-signrate-readout">4/mo × 6 = 24 clients</strong> signed in your first 6 months.</div>
       </div>
     </div>
 
@@ -230,12 +276,11 @@ body.share-mode .calc-footer{display:none;}
 
       <div class="view-content">
 
-        <!-- VIEW 1: COI -->
         <div class="view active" id="g-view-coi">
           <div class="belief-hero">
             <div class="ctx">Belief #3 · Cost of Inaction</div>
             <h2>Here's what staying put has actually cost.</h2>
-            <div class="sub">Show this right after the Knife Turn. Stay silent while they read.</div>
+            <div class="sub">The gap × the time. What the current path is leaving on the table.</div>
           </div>
           <div class="grid-3">
             <div class="mcard red hero">
@@ -256,23 +301,30 @@ body.share-mode .calc-footer{display:none;}
           </div>
         </div>
 
-        <!-- VIEW 2: Clients Needed -->
         <div class="view" id="g-view-clients">
           <div class="belief-hero">
             <div class="ctx">Belief #4 · Achievability</div>
             <h2>Here's literally how many clients to hit your goal.</h2>
-            <div class="sub">Show this during the pre-pitch math moment. Use it to make the goal feel doable.</div>
+            <div class="sub">Front-end + back-end combined math. Most coaches think they need way more.</div>
           </div>
           <div class="mcard blue hero" style="margin-bottom:14px;">
             <div class="mlabel">Active Clients to Hit <span id="g-cl-goal-readout">$10,000</span>/mo</div>
             <div class="mval huge blue" id="g-cl-active">—</div>
-            <div class="msub" id="g-cl-active-sub">at <span id="g-cl-mrr-readout">$500</span>/mo per client</div>
+            <div class="msub" id="g-cl-active-sub">FE active + BE active combined</div>
           </div>
-          <div class="grid-2">
+          <div class="rev-caption">
+            That's <strong id="g-cl-newrev">$0</strong> in new client revenue contracted in your first 6 months
+            <span class="small" id="g-cl-newrev-sub">FE contracts + BE resigns combined</span>
+          </div>
+          <div class="ltv-caption">
+            Each client is worth <strong id="g-cl-ltv">$5,250</strong> in lifetime contracted value
+            <span class="formula" id="g-cl-ltv-formula">FE $3,000 + BE $4,500 × 50% resign = $5,250</span>
+          </div>
+          <div class="grid-2" style="margin-top:14px;">
             <div class="mcard">
-              <div class="mlabel">New Clients Needed / Mo</div>
+              <div class="mlabel">New Clients / Mo</div>
               <div class="mval xl blue" id="g-cl-new">—</div>
-              <div class="msub">to maintain pace once at goal</div>
+              <div class="msub">to hit goal in 6 months</div>
             </div>
             <div class="mcard">
               <div class="mlabel">Per Week</div>
@@ -282,26 +334,65 @@ body.share-mode .calc-footer{display:none;}
           </div>
         </div>
 
-        <!-- VIEW 3: 6-Month Path -->
         <div class="view" id="g-view-path">
           <div class="belief-hero">
-            <div class="ctx">Belief #4 + #7 · The Path</div>
-            <h2>Here's the curve we'd put you on.</h2>
-            <div class="sub">Show this during Pillar 2. The horizontal line is their stated goal. The curve shows where execution puts them.</div>
+            <div class="ctx">Belief #4 + #7 · Your Next 6 Months</div>
+            <h2>Here's what your next 6 months looks like.</h2>
+            <div class="sub">New client revenue contracted, cash collected, and what's still in the pipeline.</div>
           </div>
-          <div class="chart-card">
-            <div class="chart-card-title">6-Month Revenue Path</div>
-            <div class="chart-card-sub">Conservative, contingent on execution. The blue line is your projected MRR. The dashed line is your goal of <span id="g-path-goal-readout">$10,000</span>/mo.</div>
-            <div class="chart-wrap"><canvas id="g-path-chart"></canvas></div>
+          <div class="mcard green hero" style="margin-bottom:14px;">
+            <div class="mlabel">Total New Client Revenue · Contracted in 6 Months</div>
+            <div class="mval huge green" id="g-path-contracted">—</div>
+            <div class="msub">FE + BE contracted across all new clients signed</div>
+          </div>
+          <div class="cash-pair">
+            <div class="cash-card cash">
+              <div class="lbl">Collected as Cash by Month 6</div>
+              <div class="val" id="g-path-cash">—</div>
+              <div class="sub" id="g-path-cash-sub">PIF clients + payment-plan installments</div>
+            </div>
+            <div class="cash-card pipe">
+              <div class="lbl">Still in Pipeline</div>
+              <div class="val" id="g-path-pipe">—</div>
+              <div class="sub">paying in over the months ahead</div>
+            </div>
+          </div>
+
+          <div class="rfunnel" id="g-rfunnel">
+            <button class="rfunnel-toggle" onclick="toggleRFunnel('g-rfunnel')"><span class="chev">▶</span>Show the lead engine math</button>
+            <div class="rfunnel-body">
+              <div class="rfunnel-head">To sign <span id="g-rf-rate">4</span>/month, here's what the lead engine produces:</div>
+              <div class="rfunnel-strip">
+                <div class="rfunnel-cell">
+                  <span class="v" id="g-rf-calls">—</span>
+                  <span class="l">Live Calls / Mo</span>
+                  <span class="b">at 55% close</span>
+                </div>
+                <div class="rfunnel-cell">
+                  <span class="v" id="g-rf-booked">—</span>
+                  <span class="l">Booked Calls / Mo</span>
+                  <span class="b">at 75% show</span>
+                </div>
+                <div class="rfunnel-cell">
+                  <span class="v" id="g-rf-leads">—</span>
+                  <span class="l">Leads / Mo</span>
+                  <span class="b">at 5% L→B</span>
+                </div>
+                <div class="rfunnel-cell">
+                  <span class="v" id="g-rf-spend">—</span>
+                  <span class="l">Ad Spend / Mo</span>
+                  <span class="b">at $2/lead</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- VIEW 4: Combined Reveal -->
         <div class="view" id="g-view-reveal">
           <div class="belief-hero">
             <div class="ctx">Pre-Price Drop · All Beliefs</div>
             <h2>Here's the cost of staying — and the cost of moving.</h2>
-            <div class="sub">Show this last. Both numbers on screen at once. Stay silent. Then drop price.</div>
+            <div class="sub">Both numbers on screen. Stay silent. Drop the price.</div>
           </div>
           <div class="split-2">
             <div class="mcard red hero">
@@ -310,60 +401,95 @@ body.share-mode .calc-footer{display:none;}
               <div class="msub">if nothing changes, this is what's lost</div>
             </div>
             <div class="mcard green hero">
-              <div class="mlabel">Where Execution Puts You by Month 6</div>
-              <div class="mval huge green" id="g-rv-month6">—</div>
-              <div class="msub" id="g-rv-month6-sub">/mo MRR — based on the path you just saw</div>
+              <div class="mlabel">Total New Client Revenue · 6 Months</div>
+              <div class="mval huge green" id="g-rv-contracted">—</div>
+              <div class="msub">contracted · FE + BE combined</div>
+              <div class="reveal-sub-cards">
+                <div class="rsc-item">
+                  <div class="rsc-lbl">Cash Collected</div>
+                  <div class="rsc-val" id="g-rv-cash">—</div>
+                </div>
+                <div class="rsc-item">
+                  <div class="rsc-lbl">In Pipeline</div>
+                  <div class="rsc-val pipe" id="g-rv-pipe">—</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
       </div>
-      <div class="calc-footer">IFCA · Impact Fitness Coaching Academy · v4</div>
+      <div class="calc-footer">IFCA · Impact Fitness Coaching Academy · v7</div>
     </div>
   </div>
 
-  <!-- ═══════════════ PT PIVOT ═══════════════ -->
+  <!-- ═══════════════ PT PIVOT CALCULATOR ═══════════════ -->
   <div class="panel" id="panel-pt">
 
     <div class="inputs-col">
+      <div class="defaults-note"><strong>Defaults:</strong> beginner offer · $500/mo × 6 FE → $375/mo × 12 BE @ 50% resign. Override any field per prospect.</div>
+
       <div class="input-section">
         <div class="section-title"><span class="step-badge" style="background:#0d9488">1</span>In-Person Now</div>
         <div class="field-row">
           <div class="field"><label>Sessions / Week</label><input type="number" id="p-sess" value="20" oninput="calcPT()"></div>
           <div class="field"><label>Rate / Session</label><div class="prefix" data-pre="$"><input type="number" id="p-rate" value="75" oninput="calcPT()"></div></div>
         </div>
-        <div class="input-readout">In-person income: <strong id="p-cur-readout">$6,000/mo</strong></div>
+        <div class="input-readout">In-person income: <strong id="p-cur-readout">$6,495/mo</strong> · <strong id="p-hours-readout">86 hrs/mo</strong></div>
       </div>
+
       <div class="input-section">
         <div class="section-title"><span class="step-badge" style="background:#0d9488">2</span>Online Goal</div>
         <div class="field"><label>Replace Income Goal</label><div class="prefix" data-pre="$"><input type="number" id="p-goal" value="6000" oninput="calcPT()"></div></div>
-        <div class="field-row">
-          <div class="field"><label>Package Price</label><div class="prefix" data-pre="$"><input type="number" id="p-pkg" value="3000" oninput="calcPT()"></div></div>
-          <div class="field"><label>Length</label><div class="suffix" data-suf="mo"><input type="number" id="p-len" value="6" oninput="calcPT()"></div></div>
-        </div>
-        <div class="input-readout">MRR per client: <strong id="p-mrr-readout">$500</strong></div>
       </div>
+
       <div class="input-section">
-        <div class="section-title"><span class="step-badge" style="background:#0d9488">3</span>Network Size</div>
-        <div class="field"><label>Total Reachable Contacts <span class="hint">phone + IG + past clients</span></label><input type="number" id="p-net" value="200" oninput="calcPT()"></div>
+        <div class="section-title"><span class="step-badge" style="background:#0d9488">3</span>Front-End Offer</div>
+        <div class="field-row">
+          <div class="field"><label>FE Rate / Mo</label><div class="prefix" data-pre="$"><input type="number" id="p-fe-rate" value="500" oninput="calcPT()"></div></div>
+          <div class="field"><label>FE Length</label><div class="suffix" data-suf="mo"><input type="number" id="p-fe-len" value="6" oninput="calcPT()"></div></div>
+        </div>
+        <div class="input-readout">FE package: <strong id="p-fe-pkg-readout">$3,000</strong></div>
+      </div>
+
+      <div class="input-section">
+        <div class="section-title"><span class="step-badge" style="background:#0d9488">4</span>Back-End Offer</div>
+        <div class="field-row">
+          <div class="field"><label>BE Rate / Mo</label><div class="prefix" data-pre="$"><input type="number" id="p-be-rate" value="375" oninput="calcPT()"></div></div>
+          <div class="field"><label>BE Length</label><div class="suffix" data-suf="mo"><input type="number" id="p-be-len" value="12" oninput="calcPT()"></div></div>
+        </div>
+        <div class="field"><label>Resign Rate <span class="hint">(% who renew)</span></label><div class="suffix" data-suf="%"><input type="number" id="p-resign" value="50" oninput="calcPT()"></div></div>
+        <div class="input-readout">LTV / client: <strong id="p-ltv-readout">$5,250</strong></div>
+      </div>
+
+      <div class="input-section">
+        <div class="section-title"><span class="step-badge" style="background:#0d9488">5</span>Cash Collected at Signup</div>
+        <div class="field"><label>PIF Rate <span class="hint">(% who pay in full)</span></label><div class="suffix" data-suf="%"><input type="number" id="p-pif" value="40" oninput="calcPT()"></div></div>
+        <div class="input-readout">PIF clients pay full FE upfront. The rest pay on payment plans at FE rate/mo.</div>
+      </div>
+
+      <div class="input-section">
+        <div class="section-title"><span class="step-badge" style="background:#0d9488">6</span>Sign Rate Plan</div>
+        <div class="field"><label>Clients to Sign / Month <span class="hint">(used in 6-Month Path + Combined Reveal)</span></label><input type="number" id="p-signrate" value="2" oninput="calcPT()"></div>
+        <div class="input-readout">Drives View 3 + View 4 totals. <strong id="p-signrate-readout">2/mo × 6 = 12 clients</strong> signed in your first 6 months.</div>
       </div>
     </div>
 
     <div class="results-col">
       <div class="view-bar">
-        <button class="view-btn active" onclick="setPTView('ceiling',this)"><span class="vnum">1</span>Ceiling vs Goal</button>
-        <button class="view-btn" onclick="setPTView('replace',this)"><span class="vnum">2</span>Clients to Replace Income</button>
-        <button class="view-btn" onclick="setPTView('affinity',this)"><span class="vnum">3</span>Affinity Launch Math</button>
+        <button class="view-btn active" onclick="setPTView('ceiling',this)"><span class="vnum">1</span>In-Person Ceiling vs Goal</button>
+        <button class="view-btn" onclick="setPTView('clients',this)"><span class="vnum">2</span>Clients Needed</button>
+        <button class="view-btn" onclick="setPTView('path',this)"><span class="vnum">3</span>6-Month Path</button>
+        <button class="view-btn" onclick="setPTView('reveal',this)"><span class="vnum">4</span>Combined Reveal</button>
       </div>
 
       <div class="view-content">
 
-        <!-- VIEW 1: Ceiling vs Goal -->
         <div class="view active" id="p-view-ceiling">
           <div class="belief-hero">
-            <div class="ctx">Belief #1 · The In-Person Ceiling</div>
+            <div class="ctx">Belief #1 + #3 · The In-Person Ceiling</div>
             <h2>Here's the wall the in-person model puts you against.</h2>
-            <div class="sub">Show this after the in-person reality discovery block. Anchors the cost of staying trapped.</div>
+            <div class="sub">Time-capped, body-capped income. The cost of staying isn't just money — it's hours.</div>
           </div>
           <div class="grid-2" style="margin-bottom:14px;">
             <div class="mcard red hero">
@@ -384,69 +510,134 @@ body.share-mode .calc-footer{display:none;}
           </div>
         </div>
 
-        <!-- VIEW 2: Clients to Replace Income -->
-        <div class="view" id="p-view-replace">
+        <div class="view" id="p-view-clients">
           <div class="belief-hero">
             <div class="ctx">Belief #4 · Achievability</div>
             <h2>Here's how few clients it takes.</h2>
-            <div class="sub">Show this during the pre-pitch math moment. Make the math feel small.</div>
+            <div class="sub">Front-end + back-end combined. Most PTs think the number is way bigger than it is.</div>
           </div>
           <div class="mcard blue hero" style="margin-bottom:14px;">
-            <div class="mlabel">Active Online Clients to Replace <span id="p-rep-goal-readout">$6,000</span>/mo</div>
-            <div class="mval huge blue" id="p-rep-active">—</div>
-            <div class="msub">at <span id="p-rep-mrr-readout">$500</span>/mo per client, on a <span id="p-rep-len-readout">6</span>-month package</div>
+            <div class="mlabel">Active Online Clients to Replace <span id="p-cl-goal-readout">$6,000</span>/mo</div>
+            <div class="mval huge blue" id="p-cl-active">—</div>
+            <div class="msub">FE active + BE active combined</div>
           </div>
-          <div class="grid-2">
+          <div class="rev-caption">
+            That's <strong id="p-cl-newrev">$0</strong> in new client revenue contracted in your first 6 months
+            <span class="small">FE contracts + BE resigns combined</span>
+          </div>
+          <div class="ltv-caption">
+            Each client is worth <strong id="p-cl-ltv">$5,250</strong> in lifetime contracted value
+            <span class="formula" id="p-cl-ltv-formula">FE $3,000 + BE $4,500 × 50% resign = $5,250</span>
+          </div>
+          <div class="grid-2" style="margin-top:14px;">
             <div class="mcard">
-              <div class="mlabel">New Clients Needed / Mo</div>
-              <div class="mval xl blue" id="p-rep-new">—</div>
-              <div class="msub">to stay at goal once you reach it</div>
+              <div class="mlabel">New Clients / Mo</div>
+              <div class="mval xl blue" id="p-cl-new">—</div>
+              <div class="msub">to hit goal in 6 months</div>
             </div>
             <div class="mcard">
               <div class="mlabel">In-Person Sessions Replaced</div>
-              <div class="mval xl green" id="p-rep-sess">—</div>
-              <div class="msub" id="p-rep-sess-sub">/week of gym-floor time freed up</div>
+              <div class="mval xl green" id="p-cl-sess">—</div>
+              <div class="msub">/wk of gym-floor time freed up</div>
             </div>
           </div>
         </div>
 
-        <!-- VIEW 3: Affinity Launch Math -->
-        <div class="view" id="p-view-affinity">
+        <div class="view" id="p-view-path">
           <div class="belief-hero">
-            <div class="ctx">Belief #2 + #7 · The First Clients</div>
-            <h2>Here's the math on your existing network.</h2>
-            <div class="sub">Show this during Pillar 2 — when delivering the Stage 1 Affinity Launch line. Reinforces the words with numbers.</div>
+            <div class="ctx">Belief #4 + #7 · Your Next 6 Months</div>
+            <h2>Here's what your next 6 months looks like.</h2>
+            <div class="sub">New online client revenue contracted, cash collected, and what's still in the pipeline.</div>
           </div>
-          <div class="affinity-flow">
-            <div class="affinity-step start">
-              <div class="lbl">Reachable Contacts</div>
-              <div class="val" id="p-aff-contacts">—</div>
-              <div class="sub">people already in your phone, IG, or past client list</div>
+          <div class="mcard green hero" style="margin-bottom:14px;">
+            <div class="mlabel">Total New Client Revenue · Contracted in 6 Months</div>
+            <div class="mval huge green" id="p-path-contracted">—</div>
+            <div class="msub">FE + BE contracted across all new online clients signed</div>
+          </div>
+          <div class="cash-pair">
+            <div class="cash-card cash">
+              <div class="lbl">Collected as Cash by Month 6</div>
+              <div class="val" id="p-path-cash">—</div>
+              <div class="sub">PIF clients + payment-plan installments</div>
             </div>
-            <div class="affinity-arrow"></div>
-            <div class="affinity-step middle">
-              <div class="lbl">Direct + Referral Clients</div>
-              <div class="val" id="p-aff-clients">—</div>
-              <div class="sub">at the IFCA student average of 4–10% combined conversion</div>
+            <div class="cash-card pipe">
+              <div class="lbl">Still in Pipeline</div>
+              <div class="val" id="p-path-pipe">—</div>
+              <div class="sub">paying in over the months ahead</div>
             </div>
-            <div class="affinity-arrow"></div>
-            <div class="affinity-step end">
-              <div class="lbl">Contracted Revenue</div>
-              <div class="val" id="p-aff-rev">—</div>
-              <div class="sub">before a single dollar of ad spend</div>
+          </div>
+
+          <div class="rfunnel" id="p-rfunnel">
+            <button class="rfunnel-toggle" onclick="toggleRFunnel('p-rfunnel')"><span class="chev">▶</span>Show the lead engine math</button>
+            <div class="rfunnel-body">
+              <div class="rfunnel-head">To sign <span id="p-rf-rate">2</span>/month, here's what the lead engine produces:</div>
+              <div class="rfunnel-strip">
+                <div class="rfunnel-cell">
+                  <span class="v" id="p-rf-calls">—</span>
+                  <span class="l">Live Calls / Mo</span>
+                  <span class="b">at 55% close</span>
+                </div>
+                <div class="rfunnel-cell">
+                  <span class="v" id="p-rf-booked">—</span>
+                  <span class="l">Booked Calls / Mo</span>
+                  <span class="b">at 75% show</span>
+                </div>
+                <div class="rfunnel-cell">
+                  <span class="v" id="p-rf-leads">—</span>
+                  <span class="l">Leads / Mo</span>
+                  <span class="b">at 5% L→B</span>
+                </div>
+                <div class="rfunnel-cell">
+                  <span class="v" id="p-rf-spend">—</span>
+                  <span class="l">Ad Spend / Mo</span>
+                  <span class="b">at $2/lead</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="view" id="p-view-reveal">
+          <div class="belief-hero">
+            <div class="ctx">Pre-Price Drop · All Beliefs</div>
+            <h2>Here's the ceiling — and where execution puts you.</h2>
+            <div class="sub">In-person reality vs. what your online business contracts in 6 months. Stay silent. Drop the price.</div>
+          </div>
+          <div class="split-2">
+            <div class="mcard red hero">
+              <div class="mlabel">Online Income You Won't Capture · Next 12 Months</div>
+              <div class="mval huge red" id="p-rv-ceiling">—</div>
+              <div class="msub">if you stay capped at the in-person ceiling</div>
+            </div>
+            <div class="mcard green hero">
+              <div class="mlabel">Total New Client Revenue · 6 Months</div>
+              <div class="mval huge green" id="p-rv-contracted">—</div>
+              <div class="msub">contracted · FE + BE combined</div>
+              <div class="reveal-sub-cards">
+                <div class="rsc-item">
+                  <div class="rsc-lbl">Cash Collected</div>
+                  <div class="rsc-val" id="p-rv-cash">—</div>
+                </div>
+                <div class="rsc-item">
+                  <div class="rsc-lbl">In Pipeline</div>
+                  <div class="rsc-val pipe" id="p-rv-pipe">—</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
       </div>
-      <div class="calc-footer">IFCA · Impact Fitness Coaching Academy · v4</div>
+      <div class="calc-footer">IFCA · Impact Fitness Coaching Academy · v7</div>
     </div>
   </div>
 
-  <!-- ═══════════════ BUSINESS DIAGNOSTIC ═══════════════ -->
+  <!-- ═══════════════ PROBLEM SYNTAX CALCULATOR ═══════════════ -->
   <div class="panel" id="panel-biz">
 
     <div class="inputs-col">
+      <div class="defaults-note"><strong>Defaults:</strong> for advanced prospects with existing pipeline data. Enter their actual numbers; the ❌ identifies the constraint automatically.</div>
+
       <div class="input-section">
         <div class="section-title"><span class="step-badge" style="background:#4338ca">1</span>Traffic & Pipeline</div>
         <div class="field-row">
@@ -463,7 +654,7 @@ body.share-mode .calc-footer{display:none;}
         <div class="field"><label>Closes / Mo</label><input type="number" id="b-close" value="3" oninput="calcBiz()"></div>
         <div class="field-row">
           <div class="field"><label>Package Price</label><div class="prefix" data-pre="$"><input type="number" id="b-pkg" value="5000" oninput="calcBiz()"></div></div>
-          <div class="field"><label>Avg Retention <span class="hint">(mo)</span></label><div class="suffix" data-suf="mo"><input type="number" id="b-ret" value="9" oninput="calcBiz()"></div></div>
+          <div class="field"><label>Avg Retention</label><div class="suffix" data-suf="mo"><input type="number" id="b-ret" value="9" oninput="calcBiz()"></div></div>
         </div>
       </div>
     </div>
@@ -477,22 +668,20 @@ body.share-mode .calc-footer{display:none;}
 
       <div class="view-content">
 
-        <!-- VIEW 1: KPI Health -->
         <div class="view active" id="b-view-kpi">
           <div class="belief-hero">
             <div class="ctx">Discovery · Diagnostic</div>
             <h2>Here's where the leak is.</h2>
-            <div class="sub">Closer-side during discovery. Identifies the ❌ that becomes the priority pillar in the pitch.</div>
+            <div class="sub">Closer-side during discovery. Identifies the ❌ that becomes the priority pillar.</div>
           </div>
           <div class="kpi-grid" id="b-kpi-list"></div>
         </div>
 
-        <!-- VIEW 2: The Constraint -->
         <div class="view" id="b-view-constraint">
           <div class="belief-hero">
             <div class="ctx">Belief #3 · Cost of the Constraint</div>
             <h2>Here's the one thing breaking the business.</h2>
-            <div class="sub">Show this after the Knife Turn. Zooms in on just the broken metric. Stay silent.</div>
+            <div class="sub">Their broken metric vs. industry benchmark — side by side, gap visible.</div>
           </div>
           <div class="constraint-card">
             <div class="constraint-tag">The Constraint</div>
@@ -511,16 +700,15 @@ body.share-mode .calc-footer{display:none;}
           </div>
         </div>
 
-        <!-- VIEW 3: If We Fix This -->
         <div class="view" id="b-view-fix">
           <div class="belief-hero">
             <div class="ctx">Belief #7 · Trust the Methodology</div>
             <h2>Here's what fixing just that one thing does.</h2>
-            <div class="sub">Show this when delivering the pillar that maps to their ❌. Numbers do the persuasion.</div>
+            <div class="sub">Two numbers, side by side. Current monthly contracted vs. projected at benchmark.</div>
           </div>
           <div class="split-2">
             <div class="mcard red hero">
-              <div class="mlabel">Current Contracted MRR</div>
+              <div class="mlabel">Current Monthly Contracted</div>
               <div class="mval huge red" id="b-fix-now">—</div>
               <div class="msub">at your current <span id="b-fix-now-metric">—</span></div>
             </div>
@@ -533,7 +721,7 @@ body.share-mode .calc-footer{display:none;}
         </div>
 
       </div>
-      <div class="calc-footer">IFCA · Impact Fitness Coaching Academy · v4</div>
+      <div class="calc-footer">IFCA · Impact Fitness Coaching Academy · v7</div>
     </div>
   </div>
 
@@ -547,143 +735,306 @@ const num=id=>{const v=parseFloat($(id).value);return isNaN(v)?0:v;};
 const fmt=v=>{if(!isFinite(v)||isNaN(v))return '$0';if(Math.abs(v)>=1000)return '$'+Math.round(v/1000)+(v%1000?'.'+Math.round((v%1000)/100):'')+'K';return '$'+Math.round(v).toLocaleString();};
 const fmtFull=v=>{if(!isFinite(v)||isNaN(v))return '$0';return '$'+Math.round(v).toLocaleString();};
 
-// ═══════════ GOAL CALCULATOR ═══════════
-let goalChart=null;
-function calcGoal(){
-  const cur=num('g-cur'),goal=num('g-goal'),stuck=num('g-stuck');
-  const pkg=num('g-pkg'),len=Math.max(num('g-len'),1);
-  const mrr=pkg/len;
-  const gap=Math.max(goal-cur,0);
-  const mrrPerClient=mrr;
-  const activeClients=mrrPerClient>0?Math.ceil(goal/mrrPerClient):0;
-  const newPerMo=len>0?Math.ceil(activeClients/len):0;
-  const perWeek=(newPerMo/4.33).toFixed(1);
+/* ═════════════════════════════════════════════════════════
+   SHARED OFFER MATH
+   FE = front-end (e.g. $500/mo × 6 = $3,000 package)
+   BE = back-end resign (e.g. $375/mo × 12 = $4,500 package)
+   Resign rate = % of FE clients who renew into BE
+   Month-4 upsell mechanic: assume 30% of resigning clients
+     start BE at month 4 instead of month 7. This accelerates
+     the curve in months 4-6 of the projection.
+   LTV / client = FE_pkg + BE_pkg × resign_rate
+   ═════════════════════════════════════════════════════════ */
 
-  $('g-mrr-readout').textContent=fmtFull(mrr);
+function offerMath(feRate, feLen, beRate, beLen, resignPct){
+  const fePkg = feRate * feLen;
+  const bePkg = beRate * beLen;
+  const resign = resignPct / 100;
+  const ltv = fePkg + bePkg * resign;
+  // "Effective" MRR per active client averaged over their lifetime
+  // Total contracted revenue / total months active (FE + BE × resign)
+  const totalMonths = feLen + beLen * resign;
+  const effectiveMRR = totalMonths > 0 ? ltv / totalMonths : feRate;
+  return { fePkg, bePkg, ltv, effectiveMRR, feRate, feLen, beRate, beLen, resign };
+}
+
+// Simulate a 6-month MRR curve with FE + BE stacking
+// Assumes new clients ramp in evenly across 6 months.
+// At month 4, ~30% of resigning clients start BE early (upsell mechanic).
+// Returns array of 6 MRR numbers + month at which goal is hit (or null).
+function projectCurve(targetActiveClients, offer, goal, pifPct, fixedRamp){
+  // pifPct = % of new clients who Pay In Full at signup (default 40)
+  // fixedRamp = if provided (>0), sign exactly this many new clients per month for 6 months.
+  //   Used by Views 3 + 4 (closer's Sign Rate Plan).
+  //   If omitted, ramp evenly toward targetActiveClients (goal-anchored math, used elsewhere).
+  const pifRate = (pifPct || 40) / 100;
+  const ppRate = 1 - pifRate; // payment-plan share
+  const rampPerMo = (fixedRamp != null && fixedRamp > 0)
+    ? Math.round(fixedRamp)
+    : Math.max(Math.ceil(targetActiveClients / 6), 1);
+  // When fixedRamp is set, sign rampPerMo every month for 6 months without cap.
+  // Otherwise cap at targetActiveClients to avoid oversigning past goal.
+  const capTotal = (fixedRamp != null && fixedRamp > 0) ? Infinity : targetActiveClients;
+  const months = [];               // MRR per month (legacy, kept for compatibility)
+  const cashByMonth = [];          // cash collected per month
+  const contractedByMonth = [];    // new contracted revenue this month
+  let cumContracted = 0;
+  let cumCash = 0;
+  let goalMonth = null;
+  const clientStarts = [];
+
+  for (let m = 1; m <= 6; m++) {
+    // Add new clients this month
+    const remaining = capTotal - clientStarts.length;
+    const addNow = Math.max(0, Math.min(rampPerMo, remaining));
+    for (let i = 0; i < addNow; i++) clientStarts.push(m);
+
+    let monthMRR = 0;            // for chart compatibility (steady-state run-rate equivalent)
+    let monthCash = 0;
+    let monthContracted = 0;
+
+    // (A) New FE contracts signed this month
+    if (addNow > 0) {
+      // Each new client signs a full FE contract — adds full FE pkg to total contracted
+      monthContracted += addNow * offer.fePkg;
+      // PIF clients pay full FE pkg upfront in cash this month
+      monthCash += addNow * pifRate * offer.fePkg;
+    }
+
+    // (B) Per-client cash and MRR contributions for ALL active clients
+    clientStarts.forEach(startMo => {
+      const monthsActive = m - startMo + 1;
+      if (monthsActive <= 0) return;
+
+      if (monthsActive <= offer.feLen) {
+        // Client still inside FE window
+        // PIF clients already paid in month they signed — no further FE cash from them
+        // Payment-plan clients pay FE rate this month
+        if (monthsActive >= 2) {
+          // Month 2+ of being a client = subsequent payments for PP clients
+          monthCash += ppRate * offer.feRate;
+        }
+        // Steady-state MRR contribution (used for chart shape only)
+        // Apply early-upsell mechanic: months 4+ of FE, 30% × resign already moved to BE
+        if (monthsActive >= 4) {
+          const earlyUpsellShare = 0.3 * offer.resign;
+          monthMRR += offer.feRate * (1 - earlyUpsellShare) + offer.beRate * earlyUpsellShare;
+        } else {
+          monthMRR += offer.feRate;
+        }
+      } else {
+        // Past FE — only resigners are still paying (BE rate)
+        const beMonth = monthsActive - offer.feLen;
+        if (beMonth === 1) {
+          // BE contract signing month — adds BE pkg × resign rate to total contracted
+          // BE PIF cash collected at signup
+          monthContracted += offer.resign * offer.bePkg;
+          monthCash += offer.resign * pifRate * offer.bePkg;
+        } else if (beMonth >= 2 && beMonth <= offer.beLen) {
+          // BE payment-plan month
+          monthCash += offer.resign * ppRate * offer.beRate;
+        }
+        // Steady-state MRR contribution
+        if (beMonth <= offer.beLen) monthMRR += offer.beRate * offer.resign;
+      }
+    });
+
+    // (C) Early upsell to BE: ~30% of resigners move to BE at month 4 of their FE
+    // Their BE contract gets booked, PIF portion collected, when they hit month 4 of FE
+    clientStarts.forEach(startMo => {
+      const monthsActive = m - startMo + 1;
+      if (monthsActive === 4 && offer.feLen >= 4) {
+        const earlyShare = 0.3 * offer.resign;
+        monthContracted += earlyShare * offer.bePkg;
+        monthCash += earlyShare * pifRate * offer.bePkg;
+      }
+      // Their PP BE payments drip in months 5+ during early-upsell window
+      if (monthsActive > 4 && monthsActive <= offer.feLen) {
+        const earlyShare = 0.3 * offer.resign;
+        monthCash += earlyShare * ppRate * offer.beRate;
+      }
+    });
+
+    cumContracted += monthContracted;
+    cumCash += monthCash;
+    months.push(monthMRR);
+    cashByMonth.push(monthCash);
+    contractedByMonth.push(monthContracted);
+    if (goalMonth === null && monthMRR >= goal) goalMonth = m;
+  }
+  return {
+    months,
+    cashByMonth,
+    contractedByMonth,
+    totalContracted: cumContracted,
+    totalCash: cumCash,
+    pipelineRemaining: cumContracted - cumCash,
+    goalMonth
+  };
+}
+
+// ═══════════ GOAL SYNTAX CALCULATOR ═══════════
+function calcGoal(){
+  const cur = num('g-cur'), goal = num('g-goal'), stuck = num('g-stuck');
+  const offer = offerMath(num('g-fe-rate'), num('g-fe-len'), num('g-be-rate'), num('g-be-len'), num('g-resign'));
+  const pif = num('g-pif');
+  const signRate = Math.max(num('g-signrate'), 0);
+
+  $('g-fe-pkg-readout').textContent = fmtFull(offer.fePkg);
+  $('g-ltv-readout').textContent = fmtFull(offer.ltv);
+  $('g-pif-readout').textContent = (100 - pif) + '%';
+  $('g-signrate-readout').textContent = `${signRate}/mo \u00d7 6 = ${signRate * 6} clients`;
+
+  const gap = Math.max(goal - cur, 0);
+  const activeClients = offer.effectiveMRR > 0 ? Math.ceil(goal / offer.effectiveMRR) : 0;
+  const newPerMo = Math.max(Math.ceil(activeClients / 6), 1);
+  const perWeek = (newPerMo / 4.33).toFixed(1);
+
+  // Two projections:
+  // (a) goalAnchored — used by View 2 ("revenue if you build to goal-level active clients")
+  // (b) signRateAnchored — used by Views 3 and 4 (closer's plug-in number)
+  const projGoal = projectCurve(activeClients, offer, goal, pif);
+  const projSign = projectCurve(0, offer, goal, pif, signRate);
 
   // VIEW 1: COI
-  $('g-coi-mo').textContent=fmt(gap);
-  $('g-coi-yr').textContent=fmt(gap*12);
-  $('g-coi-already').textContent=fmt(gap*stuck);
-  $('g-coi-already-sub').textContent=`${stuck} ${stuck===1?'month':'months'} × ${fmt(gap)} gap`;
+  $('g-coi-mo').textContent = fmt(gap);
+  $('g-coi-yr').textContent = fmt(gap * 12);
+  $('g-coi-already').textContent = fmt(gap * stuck);
+  $('g-coi-already-sub').textContent = `${stuck} ${stuck===1?'month':'months'} \u00d7 ${fmt(gap)} gap`;
 
-  // VIEW 2: Clients
-  $('g-cl-active').textContent=activeClients;
-  $('g-cl-active-sub').innerHTML=`at <span id="g-cl-mrr-readout">${fmtFull(mrr)}</span>/mo per client`;
-  $('g-cl-new').textContent=newPerMo;
-  $('g-cl-week').textContent=perWeek;
-  $('g-cl-goal-readout').textContent=fmtFull(goal);
-  $('g-cl-mrr-readout').textContent=fmtFull(mrr);
+  // VIEW 2: Clients Needed — anchored to goal (independent of sign rate)
+  $('g-cl-active').textContent = activeClients;
+  $('g-cl-goal-readout').textContent = fmtFull(goal);
+  $('g-cl-newrev').textContent = fmt(projGoal.totalContracted);
+  $('g-cl-newrev-sub').textContent = `FE contracts + BE resigns combined \u00b7 over your first 6 months`;
+  $('g-cl-ltv').textContent = fmtFull(offer.ltv);
+  $('g-cl-ltv-formula').textContent = `FE ${fmtFull(offer.fePkg)} + BE ${fmtFull(offer.bePkg)} \u00d7 ${Math.round(offer.resign*100)}% resign = ${fmtFull(offer.ltv)}`;
+  $('g-cl-new').textContent = newPerMo;
+  $('g-cl-week').textContent = perWeek;
 
-  // VIEW 3: 6-Month Path
-  // Conservative ramp: 1 client month 1, 2 month 2, then +newPerMo each month, capped at activeClients
-  const months=[];const projData=[];
-  let active=0;
-  const rampPerMo=Math.max(Math.ceil(activeClients/6),1);
-  let goalMonth=null;
-  for(let m=1;m<=6;m++){
-    active=Math.min(active+rampPerMo,activeClients);
-    const monthMRR=active*mrr;
-    months.push('Mo '+m);projData.push(monthMRR);
-    if(goalMonth===null&&monthMRR>=goal)goalMonth=m;
-  }
-  $('g-path-month-cue').textContent=goalMonth||'6+';
-  $('g-path-goal-readout').textContent=fmtFull(goal);
-  drawGoalChart(months,projData,goal);
+  // VIEW 3: 6-Month Path — driven by closer's Sign Rate Plan
+  $('g-path-contracted').textContent = fmt(projSign.totalContracted);
+  $('g-path-cash').textContent = fmt(projSign.totalCash);
+  $('g-path-pipe').textContent = fmt(projSign.pipelineRemaining);
+  $('g-path-cash-sub').textContent = `${pif}% PIF + ${100-pif}% payment plans`;
 
-  // VIEW 4: Combined Reveal
-  $('g-rv-coi').textContent=fmt(gap*12);
-  $('g-rv-month6').textContent=fmt(projData[5]);
-  $('g-rv-month6-sub').textContent=`/mo MRR by month 6 · execution-dependent`;
-}
-function drawGoalChart(labels,data,goal){
-  if(goalChart)goalChart.destroy();
-  const ctx=$('g-path-chart').getContext('2d');
-  const goalLine=labels.map(()=>goal);
-  goalChart=new Chart(ctx,{
-    type:'line',
-    data:{labels,datasets:[
-      {label:'Goal',data:goalLine,borderColor:'#94a3b8',borderDash:[6,5],borderWidth:2,pointRadius:0,fill:false,tension:0},
-      {label:'Projected MRR',data,borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,.12)',borderWidth:3,fill:true,tension:.35,pointRadius:5,pointBackgroundColor:'#2563eb',pointBorderColor:'#fff',pointBorderWidth:2}
-    ]},
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{position:'bottom',labels:{font:{size:11},color:'#64748b',boxWidth:14,padding:14}}},
-      scales:{
-        y:{beginAtZero:true,ticks:{font:{size:11},color:'#64748b',callback:v=>fmt(v)},grid:{color:'#f1f5f9'}},
-        x:{ticks:{font:{size:11},color:'#64748b'},grid:{display:false}}
-      }
-    }
-  });
-}
-function setGoalView(v,btn){
-  document.querySelectorAll('#panel-goal .view').forEach(el=>el.classList.remove('active'));
-  document.querySelectorAll('#panel-goal .view-btn').forEach(el=>el.classList.remove('active'));
-  $('g-view-'+v).classList.add('active');
-  btn.classList.add('active');
-  if(v==='path'&&goalChart){setTimeout(()=>goalChart.resize(),50);}
+  // VIEW 3: reverse-funnel strip (lead-engine math at this sign rate)
+  // Constants: Close 55%, Show 75%, Lead-to-Booked 5%, $2/lead
+  const liveCalls  = signRate / 0.55;
+  const bookedCalls = liveCalls / 0.75;
+  const leads      = bookedCalls / 0.05;
+  const adSpend    = leads * 2;
+  $('g-rf-rate').textContent = signRate;
+  $('g-rf-calls').textContent = Math.ceil(liveCalls);
+  $('g-rf-booked').textContent = Math.ceil(bookedCalls);
+  $('g-rf-leads').textContent = Math.ceil(leads);
+  $('g-rf-spend').textContent = fmt(adSpend);
+
+  // VIEW 4: Combined Reveal — COI vs. Total New Client Revenue (sign-rate driven)
+  $('g-rv-coi').textContent = fmt(gap * 12);
+  $('g-rv-contracted').textContent = fmt(projSign.totalContracted);
+  $('g-rv-cash').textContent = fmt(projSign.totalCash);
+  $('g-rv-pipe').textContent = fmt(projSign.pipelineRemaining);
 }
 
-// ═══════════ PT PIVOT ═══════════
+// ═══════════ PT PIVOT CALCULATOR ═══════════
 function calcPT(){
-  const sess=num('p-sess'),rate=num('p-rate');
-  const goal=num('p-goal');
-  const pkg=num('p-pkg'),len=Math.max(num('p-len'),1);
-  const net=num('p-net');
-  const cur=sess*rate*4.33;
-  const mrr=pkg/len;
-  const activeClients=mrr>0?Math.ceil(goal/mrr):0;
-  const newPerMo=len>0?Math.ceil(activeClients/len):0;
-  const sessReplaced=Math.min(activeClients*1,sess); // 1 in-person session-equivalent freed per online client (rough)
+  const sess = num('p-sess'), rate = num('p-rate');
+  const goal = num('p-goal');
+  const offer = offerMath(num('p-fe-rate'), num('p-fe-len'), num('p-be-rate'), num('p-be-len'), num('p-resign'));
+  const pif = num('p-pif');
+  const signRate = Math.max(num('p-signrate'), 0);
 
-  $('p-cur-readout').textContent=fmtFull(cur)+'/mo';
-  $('p-mrr-readout').textContent=fmtFull(mrr);
+  const inPersonIncome = sess * rate * 4.33;
+  const inPersonHours = Math.round(sess * 4.33);
+  $('p-cur-readout').textContent = fmtFull(inPersonIncome) + '/mo';
+  $('p-hours-readout').textContent = inPersonHours + ' hrs/mo';
+  $('p-fe-pkg-readout').textContent = fmtFull(offer.fePkg);
+  $('p-ltv-readout').textContent = fmtFull(offer.ltv);
+  $('p-signrate-readout').textContent = `${signRate}/mo \u00d7 6 = ${signRate * 6} clients`;
+
+  const activeClients = offer.effectiveMRR > 0 ? Math.ceil(goal / offer.effectiveMRR) : 0;
+  const newPerMo = Math.max(Math.ceil(activeClients / 6), 1);
+  const sessReplaced = Math.min(activeClients, sess);
+
+  // Two projections:
+  // (a) goalAnchored — used by View 2 ("revenue at goal-level active clients")
+  // (b) signRateAnchored — used by Views 3 and 4 (closer's plug-in number)
+  const projGoal = projectCurve(activeClients, offer, goal, pif);
+  const projSign = projectCurve(0, offer, goal, pif, signRate);
 
   // VIEW 1: Ceiling vs Goal
-  const maxSess=40; // conservative practical max sessions/wk
-  const ceiling=maxSess*rate*4.33;
-  const hours=sess*4.33; // approx 1hr/session
-  $('p-ceiling').textContent=fmt(ceiling);
-  $('p-ceiling-sub').textContent=`/mo at ${maxSess} sessions/wk · ${rate}/session`;
-  $('p-goal-show').textContent=fmt(goal);
-  $('p-hours').textContent=Math.round(hours)+' hrs';
+  const maxSess = 40;
+  const ceiling = maxSess * rate * 4.33;
+  const ceilingHours = Math.round(maxSess * 4.33);
+  $('p-ceiling').textContent = fmt(ceiling);
+  $('p-ceiling-sub').textContent = `/mo at ${maxSess} sessions/wk \u00b7 ${fmtFull(rate)}/session`;
+  $('p-goal-show').textContent = fmt(goal);
+  $('p-hours').textContent = ceilingHours + ' hrs';
 
-  // VIEW 2: Replace
-  $('p-rep-active').textContent=activeClients;
-  $('p-rep-new').textContent=newPerMo;
-  $('p-rep-sess').textContent=Math.round(sessReplaced);
-  $('p-rep-sess-sub').textContent=`/wk of gym-floor time freed (1 online client ≈ 1 in-person session)`;
-  $('p-rep-goal-readout').textContent=fmtFull(goal);
-  $('p-rep-mrr-readout').textContent=fmtFull(mrr);
-  $('p-rep-len-readout').textContent=Math.round(len);
+  // VIEW 2: Clients Needed — anchored to goal (independent of sign rate)
+  $('p-cl-active').textContent = activeClients;
+  $('p-cl-goal-readout').textContent = fmtFull(goal);
+  $('p-cl-newrev').textContent = fmt(projGoal.totalContracted);
+  $('p-cl-ltv').textContent = fmtFull(offer.ltv);
+  $('p-cl-ltv-formula').textContent = `FE ${fmtFull(offer.fePkg)} + BE ${fmtFull(offer.bePkg)} \u00d7 ${Math.round(offer.resign*100)}% resign = ${fmtFull(offer.ltv)}`;
+  $('p-cl-new').textContent = newPerMo;
+  $('p-cl-sess').textContent = Math.round(sessReplaced);
 
-  // VIEW 3: Affinity
-  const affLow=Math.round(net*0.04),affHigh=Math.round(net*0.10);
-  const revLow=affLow*pkg,revHigh=affHigh*pkg;
-  $('p-aff-contacts').textContent=net;
-  $('p-aff-clients').textContent=affLow+'–'+affHigh+' clients';
-  $('p-aff-rev').textContent=fmt(revLow)+' – '+fmt(revHigh);
+  // VIEW 3: 6-Month Path — driven by closer's Sign Rate Plan
+  $('p-path-contracted').textContent = fmt(projSign.totalContracted);
+  $('p-path-cash').textContent = fmt(projSign.totalCash);
+  $('p-path-pipe').textContent = fmt(projSign.pipelineRemaining);
+
+  // VIEW 3: reverse-funnel strip (lead-engine math at this sign rate)
+  // Constants: Close 55%, Show 75%, Lead-to-Booked 5%, $2/lead
+  const liveCalls  = signRate / 0.55;
+  const bookedCalls = liveCalls / 0.75;
+  const leads      = bookedCalls / 0.05;
+  const adSpend    = leads * 2;
+  $('p-rf-rate').textContent = signRate;
+  $('p-rf-calls').textContent = Math.ceil(liveCalls);
+  $('p-rf-booked').textContent = Math.ceil(bookedCalls);
+  $('p-rf-leads').textContent = Math.ceil(leads);
+  $('p-rf-spend').textContent = fmt(adSpend);
+
+  // VIEW 4: Combined Reveal — Cost of Staying Capped vs. Total New Client Revenue (sign-rate driven)
+  $('p-rv-ceiling').textContent = fmt(goal * 12);
+  $('p-rv-contracted').textContent = fmt(projSign.totalContracted);
+  $('p-rv-cash').textContent = fmt(projSign.totalCash);
+  $('p-rv-pipe').textContent = fmt(projSign.pipelineRemaining);
 }
-function setPTView(v,btn){
-  document.querySelectorAll('#panel-pt .view').forEach(el=>el.classList.remove('active'));
-  document.querySelectorAll('#panel-pt .view-btn').forEach(el=>el.classList.remove('active'));
-  $('p-view-'+v).classList.add('active');
+
+// View switchers
+function setGoalView(v,btn){switchView('goal',v,btn);}
+function setPTView(v,btn){switchView('pt',v,btn);}
+function setBizView(v,btn){switchView('biz',v,btn);}
+
+// Toggle reverse-funnel collapsible (View 3 lead-engine math)
+function toggleRFunnel(id){
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+
+function switchView(panel,v,btn){
+  const sel = panel==='goal' ? 'g' : (panel==='pt' ? 'p' : 'b');
+  document.querySelectorAll(`#panel-${panel} .view`).forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll(`#panel-${panel} .view-btn`).forEach(el=>el.classList.remove('active'));
+  $(sel+'-view-'+v).classList.add('active');
   btn.classList.add('active');
 }
 
-// ═══════════ BUSINESS DIAGNOSTIC ═══════════
-const BENCH={leadToBook:25,bookToShow:75,closeOnShow:35,cpl:50,cpa:1500};
+// ═══════════ PROBLEM SYNTAX CALCULATOR ═══════════
+const BENCH = {leadToBook:25,bookToShow:75,closeOnShow:35,cpl:50,cpa:1500};
 function calcBiz(){
   const spend=num('b-spend'),leads=num('b-leads'),booked=num('b-booked'),show=num('b-show'),close=num('b-close');
   const pkg=num('b-pkg'),ret=num('b-ret');
-
   const leadToBook=leads>0?(booked/leads*100):0;
   const bookToShow=booked>0?(show/booked*100):0;
   const closeOnShow=show>0?(close/show*100):0;
   const cpl=leads>0?spend/leads:0;
   const cpa=close>0?spend/close:0;
 
-  // Build KPI items
   const kpis=[
     {n:'Lead → Book',mine:leadToBook,bench:BENCH.leadToBook,fmt:'%',higher:true,name:'leadToBook'},
     {n:'Book → Show',mine:bookToShow,bench:BENCH.bookToShow,fmt:'%',higher:true,name:'bookToShow'},
@@ -691,37 +1042,25 @@ function calcBiz(){
     {n:'CPL',mine:cpl,bench:BENCH.cpl,fmt:'$',higher:false,name:'cpl'},
     {n:'CPA',mine:cpa,bench:BENCH.cpa,fmt:'$',higher:false,name:'cpa'}
   ];
-
   const kpiHtml=kpis.map(k=>{
-    const passes=k.higher?k.mine>=k.bench:k.mine<=k.bench&&k.mine>0;
     const empty=!isFinite(k.mine)||k.mine===0;
+    const passes=empty?false:(k.higher?k.mine>=k.bench:k.mine<=k.bench);
     const cls=empty?'empty':(passes?'pass':'fail');
-    const icon=empty?'·':(passes?'✓':'✗');
+    const icon=empty?'·':(passes?'\u2713':'\u2717');
     const v=k.fmt==='%'?Math.round(k.mine)+'%':fmtFull(k.mine);
     const bv=k.fmt==='%'?k.bench+'%':fmtFull(k.bench);
     return `<div class="kpi-item ${cls}"><div class="kpi-status">${icon}</div><div class="kpi-info"><div class="kpi-name">${k.n}</div><div class="kpi-vals"><span class="kpi-val-main ${cls}">${v}</span> · benchmark ${bv}</div></div></div>`;
   }).join('');
   $('b-kpi-list').innerHTML=kpiHtml;
 
-  // Find primary constraint (first failing KPI in priority order)
-  const failing=kpis.filter(k=>{
-    const empty=!isFinite(k.mine)||k.mine===0;
-    if(empty)return false;
-    return k.higher?k.mine<k.bench:k.mine>k.bench;
-  });
+  const failing=kpis.filter(k=>{const empty=!isFinite(k.mine)||k.mine===0;if(empty)return false;return k.higher?k.mine<k.bench:k.mine>k.bench;});
   const primary=failing[0]||{n:'—',mine:0,bench:0,fmt:'%',higher:true,name:'none'};
 
-  // VIEW 2: Constraint
   $('b-con-name').textContent=primary.n!=='—'?primary.n+' is the leak':'No clear constraint detected';
   $('b-con-theirs').textContent=primary.fmt==='%'?Math.round(primary.mine)+'%':fmtFull(primary.mine);
   $('b-con-bench').textContent=primary.fmt==='%'?primary.bench+'%':fmtFull(primary.bench);
 
-  // VIEW 3: If We Fix This
-  // Current contracted: close per month × pkg
-  const currentContractedMRR=(close*pkg)/Math.max(ret,1)*ret; // contracted = close*pkg
-  const currentMRR=close*pkg/Math.max(ret,1)*ret/12; // simplified — monthly recurring contracted
-  const currentMonthlyRevenue=close*pkg; // monthly contracted intake
-  // Project what monthly intake looks like if the failing KPI hits benchmark
+  const currentMonthlyRevenue=close*pkg;
   let projectedClose=close;
   if(primary.name==='leadToBook'){
     const newBooked=leads*BENCH.leadToBook/100;
@@ -747,12 +1086,6 @@ function calcBiz(){
   $('b-fix-future-sub').textContent=`projected monthly contracted — at benchmark ${primary.fmt==='%'?primary.bench+'%':fmtFull(primary.bench)}`;
   $('b-fix-name').textContent=primary.n;
 }
-function setBizView(v,btn){
-  document.querySelectorAll('#panel-biz .view').forEach(el=>el.classList.remove('active'));
-  document.querySelectorAll('#panel-biz .view-btn').forEach(el=>el.classList.remove('active'));
-  $('b-view-'+v).classList.add('active');
-  btn.classList.add('active');
-}
 
 // ═══════════ TAB SWITCHING + GLOBAL ═══════════
 function switchTab(tab,btn){
@@ -760,19 +1093,31 @@ function switchTab(tab,btn){
   btn.classList.add('active');
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   $('panel-'+tab).classList.add('active');
-  if(tab==='goal'&&goalChart){setTimeout(()=>goalChart.resize(),50);}
 }
 function toggleShare(){
   document.body.classList.toggle('share-mode');
   $('share-btn').classList.toggle('on');
-  $('share-btn').textContent=document.body.classList.contains('share-mode')?'⊳ Sharing — Click to Exit':'⊳ Share View';
-  if(goalChart)setTimeout(()=>goalChart.resize(),250);
+  $('share-btn').textContent=document.body.classList.contains('share-mode')?'\u22b3 Sharing — Click to Exit':'\u22b3 Share View';
 }
 function resetCurrent(){
   const active=document.querySelector('.panel.active').id;
-  if(active==='panel-goal'){$('g-cur').value=2000;$('g-goal').value=10000;$('g-stuck').value=6;$('g-pkg').value=3000;$('g-len').value=6;calcGoal();}
-  else if(active==='panel-pt'){$('p-sess').value=20;$('p-rate').value=75;$('p-goal').value=6000;$('p-pkg').value=3000;$('p-len').value=6;$('p-net').value=200;calcPT();}
-  else if(active==='panel-biz'){$('b-spend').value=3000;$('b-leads').value=120;$('b-booked').value=30;$('b-show').value=20;$('b-close').value=3;$('b-pkg').value=5000;$('b-ret').value=9;calcBiz();}
+  if(active==='panel-goal'){
+    $('g-cur').value=2000;$('g-goal').value=10000;$('g-stuck').value=6;
+    $('g-fe-rate').value=500;$('g-fe-len').value=6;
+    $('g-be-rate').value=375;$('g-be-len').value=12;$('g-resign').value=50;
+    $('g-pif').value=40;$('g-signrate').value=4;
+    calcGoal();
+  } else if(active==='panel-pt'){
+    $('p-sess').value=20;$('p-rate').value=75;$('p-goal').value=6000;
+    $('p-fe-rate').value=500;$('p-fe-len').value=6;
+    $('p-be-rate').value=375;$('p-be-len').value=12;$('p-resign').value=50;
+    $('p-pif').value=40;$('p-signrate').value=2;
+    calcPT();
+  } else if(active==='panel-biz'){
+    $('b-spend').value=3000;$('b-leads').value=120;$('b-booked').value=30;$('b-show').value=20;
+    $('b-close').value=3;$('b-pkg').value=5000;$('b-ret').value=9;
+    calcBiz();
+  }
 }
 
 // INIT
