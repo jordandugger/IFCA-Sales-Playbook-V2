@@ -524,7 +524,9 @@ body.share-mode .calc-footer{display:none;}
           <div class="field"><label>Rate / Session</label><div class="prefix" data-pre="$"><input type="number" id="p-rate" value="75" oninput="calcPT()"></div></div>
         </div>
         <div class="field"><label>No-Show / Cancellation Rate <span class="hint">(industry avg 25–35%)</span></label><div class="suffix" data-suf="%"><input type="number" id="p-noshow" value="30" oninput="calcPT()"></div></div>
-        <div class="input-readout">Gross: <strong id="p-cur-readout-gross">$6,495/mo</strong> · Real (after no-shows): <strong id="p-cur-readout">$4,547/mo</strong> · <strong id="p-hours-readout">86 hrs/mo</strong></div>
+        <div class="field"><label>In-Person Take-Home <span class="hint">(blank = auto-calc from sessions × rate × no-show)</span></label><div class="prefix" data-pre="$"><input type="number" id="p-takehome" placeholder="leave blank to auto-calc" oninput="calcPT()"></div></div>
+        <div class="field"><label>Other Monthly Income <span class="hint">(W-2 job, side training, existing online — context only)</span></label><div class="prefix" data-pre="$"><input type="number" id="p-other-income" value="0" oninput="calcPT()"></div></div>
+        <div class="input-readout">In-Person: <strong id="p-cur-readout">$4,547/mo</strong> · Other: <strong id="p-other-readout">$0/mo</strong> · <strong style="color:#5eead4">Total: <span id="p-total-readout">$4,547/mo</span></strong> · <strong id="p-hours-readout">86 hrs/mo</strong></div>
       </div>
 
       <div class="input-section">
@@ -1190,15 +1192,27 @@ function calcPT(){
   const signRate = Math.max(num('p-signrate'), 0);
 
   // No-show-adjusted economics
-  const noShowFactor   = 1 - (noshow / 100);                 // % of revenue you actually keep
-  const inPersonGross  = sess * rate * 4.33;                 // gross at current sessions
-  const inPersonReal   = inPersonGross * noShowFactor;       // real take-home after no-shows
-  const noShowLossMo   = inPersonGross - inPersonReal;       // $$ eaten by no-shows each month
-  const inPersonHours  = Math.round(sess * 4.33);
+  const noShowFactor    = 1 - (noshow / 100);                 // % of revenue you actually keep
+  const inPersonGross   = sess * rate * 4.33;                 // gross at current sessions
+  const inPersonCalc    = inPersonGross * noShowFactor;       // calculated take-home after no-shows
 
-  $('p-cur-readout-gross').textContent = fmtFull(inPersonGross) + '/mo';
-  $('p-cur-readout').textContent       = fmtFull(inPersonReal) + '/mo';
-  $('p-hours-readout').textContent     = inPersonHours + ' hrs/mo';
+  // Manual override: if closer typed an in-person take-home number on the call, use that.
+  // Otherwise auto-calculate from sessions × rate × no-show. Read raw value so blank ≠ 0.
+  const takehomeRaw     = document.getElementById('p-takehome').value;
+  const hasTakehomeOverride = takehomeRaw !== '' && takehomeRaw !== null && !isNaN(parseFloat(takehomeRaw));
+  const inPersonReal    = hasTakehomeOverride ? parseFloat(takehomeRaw) : inPersonCalc;
+
+  // Other income — W-2 day job, side training, existing online (context only, NOT in COI math)
+  const otherIncome     = num('p-other-income');
+  const totalCurrent    = inPersonReal + otherIncome;
+
+  const noShowLossMo    = inPersonGross - inPersonCalc;       // $$ eaten by no-shows each month (based on calc, not override)
+  const inPersonHours   = Math.round(sess * 4.33);
+
+  $('p-cur-readout').textContent      = fmtFull(inPersonReal) + '/mo';
+  $('p-other-readout').textContent    = fmtFull(otherIncome) + '/mo';
+  $('p-total-readout').textContent    = fmtFull(totalCurrent) + '/mo';
+  $('p-hours-readout').textContent    = inPersonHours + ' hrs/mo';
   $('p-fe-pkg-readout').textContent = fmtFull(offer.fePkg);
   $('p-ltv-readout').textContent = fmtFull(offer.ltv);
   $('p-signrate-readout').textContent = `${signRate}/mo \u00d7 6 = ${signRate * 6} clients`;
@@ -1214,11 +1228,12 @@ function calcPT(){
   const projSign = projectCurve(0, offer, goal, pif, signRate);
 
   // VIEW 1: Ceiling vs Goal + Cost of Inaction
+  // COI math stays anchored to IN-PERSON ONLY (per Jordan): goal vs in-person real income.
+  // Other income is context for the closer — not part of the gap math.
   const maxSess     = 40;
   const ceilingReal = maxSess * rate * 4.33 * noShowFactor;  // realistic max in-person, no-show adjusted
   const ceilingHours = Math.round(maxSess * 4.33);
 
-  // Cost of Inaction = (goal - current real in-person) × time, clamped at 0
   const gap   = Math.max(goal - inPersonReal, 0);
   const coi6  = gap * 6;
   const coi12 = gap * 12;
@@ -1231,9 +1246,9 @@ function calcPT(){
   $('p-noshow-loss').textContent = fmt(noShowLossMo);
   $('p-noshow-loss-sub').textContent = `at ${sess} sess/wk \u00d7 ${fmtFull(rate)} \u00b7 ${noshow}% no-show rate`;
   $('p-coi-6').textContent  = fmt(coi6);
-  $('p-coi-6-sub').textContent  = `(${fmtFull(goal)} goal \u2212 ${fmtFull(inPersonReal)} real) \u00d7 6 mo`;
+  $('p-coi-6-sub').textContent  = `(${fmtFull(goal)} goal \u2212 ${fmtFull(inPersonReal)} in-person) \u00d7 6 mo`;
   $('p-coi-12').textContent = fmt(coi12);
-  $('p-coi-12-sub').textContent = `(${fmtFull(goal)} goal \u2212 ${fmtFull(inPersonReal)} real) \u00d7 12 mo`;
+  $('p-coi-12-sub').textContent = `(${fmtFull(goal)} goal \u2212 ${fmtFull(inPersonReal)} in-person) \u00d7 12 mo`;
 
   // VIEW 2: Clients Needed — anchored to goal (independent of sign rate)
   $('p-cl-active').textContent = activeClients;
@@ -1261,7 +1276,7 @@ function calcPT(){
   $('p-rf-leads').textContent = Math.ceil(leads);
   $('p-rf-spend').textContent = fmt(adSpend);
 
-  // VIEW 4: Combined Reveal — now uses 12-month COI (goal × 12) to mirror View 1 framing
+  // VIEW 4: Combined Reveal — uses 12-month COI (goal × 12) to mirror View 1 framing
   $('p-rv-ceiling').textContent = fmt(goal * 12);
   $('p-rv-contracted').textContent = fmt(projSign.totalContracted);
   $('p-rv-cash').textContent = fmt(projSign.totalCash);
@@ -1642,7 +1657,9 @@ function resetCurrent(){
     $('g-pif').value=40;$('g-signrate').value=4;
     calcGoal();
   } else if(active==='panel-pt'){
-    $('p-sess').value=20;$('p-rate').value=75;$('p-goal').value=6000;
+    $('p-sess').value=20;$('p-rate').value=75;$('p-noshow').value=30;
+    $('p-takehome').value='';$('p-other-income').value=0;
+    $('p-goal').value=6000;
     $('p-fe-rate').value=500;$('p-fe-len').value=6;
     $('p-be-rate').value=375;$('p-be-len').value=12;$('p-resign').value=50;
     $('p-pif').value=40;$('p-signrate').value=2;
