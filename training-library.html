@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IFCA Closer Training Library</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:#060d1a;color:#f1f5f9;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(56,189,248,.033) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.033) 1px,transparent 1px);background-size:52px 52px;pointer-events:none;z-index:0;}
+.hero-glow{position:fixed;top:-240px;left:50%;transform:translateX(-50%);width:1000px;height:680px;background:radial-gradient(ellipse at 50% 30%,rgba(37,99,235,.16) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.page{position:relative;z-index:1;max-width:1020px;margin:0 auto;padding:0 28px 100px;}
+
+/* HEADER */
+header{display:flex;align-items:center;justify-content:space-between;padding:30px 0 0;flex-wrap:wrap;gap:16px;}
+.logo-group{display:flex;align-items:center;gap:14px;}
+.logo-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#38bdf8;line-height:1;}
+.logo-sub{font-size:10px;color:#334155;letter-spacing:.07em;text-transform:uppercase;margin-top:3px;}
+.back-link{display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#64748b;border:1px solid #1e293b;border-radius:6px;padding:7px 14px;text-decoration:none;transition:color .2s,border-color .2s;}
+.back-link:hover{color:#38bdf8;border-color:#38bdf8;}
+.back-link svg{width:11px;height:11px;}
+
+/* HERO */
+.hero{padding:64px 0 48px;text-align:center;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#38bdf8;margin-bottom:24px;}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:32px;height:1px;background:#38bdf8;opacity:.4;}
+h1.hero-title{font-family:'Syne',sans-serif;font-size:clamp(36px,6vw,56px);font-weight:800;line-height:1.08;letter-spacing:-.04em;color:#f8fafc;margin-bottom:20px;}
+h1.hero-title .accent{background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:17px;color:#64748b;line-height:1.7;max-width:580px;margin:0 auto 32px;}
+.hero-stats{display:inline-flex;gap:32px;padding:14px 28px;background:#0c1524;border:1px solid #1e293b;border-radius:100px;}
+.hero-stat{display:flex;flex-direction:column;align-items:flex-start;}
+.hs-num{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#38bdf8;line-height:1;}
+.hs-label{font-size:9px;color:#475569;letter-spacing:.1em;text-transform:uppercase;margin-top:4px;}
+.hs-divider{width:1px;background:#1e293b;}
+
+/* RECOMMENDED ORDER */
+.order-block{background:#0c1524;border:1px solid #1e293b;border-radius:16px;padding:32px 40px;margin:0 0 56px;position:relative;overflow:hidden;}
+.order-block::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#38bdf8,#4f46e5);}
+.order-eyebrow{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#38bdf8;margin-bottom:16px;}
+.order-title{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;color:#f1f5f9;margin-bottom:18px;letter-spacing:-.02em;}
+.order-flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
+.order-step{background:#0a1929;border:1px solid #1e3a5f;border-radius:8px;padding:9px 14px;font-size:12px;color:#cbd5e1;font-weight:500;}
+.order-step strong{color:#38bdf8;font-weight:700;}
+.order-arrow{color:#334155;font-size:13px;}
+.order-note{font-size:13px;color:#64748b;line-height:1.65;font-style:italic;}
+.order-note strong{color:#cbd5e1;font-style:normal;font-weight:600;}
+
+/* SECTION DIVIDER */
+.sdiv{display:flex;align-items:center;gap:16px;margin:48px 0 28px;}
+.sdiv::before,.sdiv::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,#1e293b,transparent);}
+.sdiv-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#38bdf8;text-align:center;}
+.sdiv-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#f1f5f9;margin-top:4px;letter-spacing:-.03em;text-align:center;}
+
+/* EPISODE CARDS */
+.episodes{display:flex;flex-direction:column;gap:18px;}
+.episode-card{background:#0c1524;border:1px solid #1e293b;border-radius:16px;padding:32px 36px;position:relative;overflow:hidden;transition:border-color .2s;}
+.episode-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ec);border-radius:16px 16px 0 0;}
+.episode-card:hover{border-color:var(--ec);}
+.ep-header{display:flex;align-items:flex-start;gap:20px;margin-bottom:22px;flex-wrap:wrap;}
+.ep-num-wrap{display:flex;align-items:center;gap:12px;}
+.ep-num{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:var(--ec);background:var(--ecbg);border:1px solid var(--ecborder);border-radius:7px;padding:6px 11px;letter-spacing:.07em;}
+.ep-icon{width:44px;height:44px;border-radius:11px;background:var(--ecbg);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ep-body{flex:1;min-width:260px;}
+.ep-type{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ec);opacity:.9;margin-bottom:6px;}
+.ep-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#f1f5f9;letter-spacing:-.03em;line-height:1.2;margin-bottom:10px;}
+.ep-meta{display:inline-flex;align-items:center;gap:14px;}
+.ep-duration{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:#64748b;font-weight:500;}
+.ep-duration svg{width:12px;height:12px;}
+.ep-format{font-size:10px;color:#475569;letter-spacing:.08em;text-transform:uppercase;}
+.ep-desc{font-size:14px;color:#94a3b8;line-height:1.75;margin-bottom:22px;max-width:760px;}
+.ep-learn{background:#080f1c;border:1px solid #1e293b;border-radius:10px;padding:18px 22px;margin-bottom:24px;}
+.ep-learn-label{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ec);opacity:.85;margin-bottom:12px;}
+.ep-learn ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.ep-learn li{display:flex;gap:11px;align-items:flex-start;font-size:13px;color:#94a3b8;line-height:1.55;}
+.ep-learn li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--ec);flex-shrink:0;margin-top:8px;opacity:.7;}
+
+/* EMBED SLOT */
+.embed-slot{background:#080f1c;border:1px solid #1e293b;border-radius:12px;padding:8px;overflow:hidden;}
+.embed-slot iframe{display:block;width:100%;border:none;border-radius:8px;min-height:200px;}
+.embed-placeholder{background:repeating-linear-gradient(45deg,#0a1320,#0a1320 10px,#0c1524 10px,#0c1524 20px);border:1.5px dashed #1e3a5f;border-radius:8px;padding:42px 24px;text-align:center;}
+.embed-ph-icon{width:48px;height:48px;border-radius:12px;background:#0d1f35;display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.embed-ph-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#cbd5e1;margin-bottom:6px;}
+.embed-ph-sub{font-size:12px;color:#64748b;line-height:1.6;max-width:380px;margin:0 auto;}
+.embed-ph-sub code{background:#0a1929;border:1px solid #1e3a5f;border-radius:4px;padding:2px 7px;font-size:11px;color:#38bdf8;font-family:'Menlo','Monaco',monospace;}
+
+/* TIP CARD AT BOTTOM */
+.tip-block{background:#0a1929;border:1px solid #1e3a5f;border-radius:10px;padding:18px 22px;display:flex;gap:14px;align-items:flex-start;margin:48px 0 0;}
+.tip-icon{width:26px;height:26px;border-radius:6px;background:#0d2744;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+.tip-text{font-size:13.5px;color:#94a3b8;line-height:1.65;}
+.tip-text strong{color:#e2e8f0;font-weight:600;}
+
+/* FOOTER */
+.playbook-footer{border-top:1px solid #0f1c2e;padding-top:32px;margin-top:64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.pf-brand{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:#1e3a5f;letter-spacing:.1em;text-transform:uppercase;}
+.pf-values{display:flex;gap:18px;}
+.pf-v{font-size:10px;color:#1e3a5f;letter-spacing:.07em;text-transform:uppercase;}
+.pf-meta{font-size:10px;color:#1e293b;}
+
+@media(max-width:740px){
+  .episode-card{padding:24px 22px;}
+  .ep-header{gap:14px;}
+  .hero-stats{flex-direction:column;gap:14px;padding:18px 24px;}
+  .hs-divider{display:none;}
+  .order-block{padding:24px 22px;}
+  .order-flow{gap:6px;}
+  .order-step{padding:7px 11px;font-size:11px;}
+  header{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<div class="hero-glow"></div>
+<div class="page">
+
+  <header>
+    <div class="logo-group">
+      <div>
+        <div class="logo-name">IFCA</div>
+        <div class="logo-sub">Closer Playbook</div>
+      </div>
+    </div>
+    <a class="back-link" href="./index.html">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7H2M7 12l-5-5 5-5"/></svg>
+      Back to Playbook
+    </a>
+  </header>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Step 1 · Training Library</div>
+    <h1 class="hero-title">Listen Before <span class="accent">You Dial.</span></h1>
+    <p class="hero-sub">Five podcast episodes that walk you through the entire IFCA sales system — philosophy, three syntax drills, and objection handling. Built for podcast-style listening on the commute, between calls, or while training.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hs-num">5</div>
+        <div class="hs-label">Episodes</div>
+      </div>
+      <div class="hs-divider"></div>
+      <div class="hero-stat">
+        <div class="hs-num">~3 hrs</div>
+        <div class="hs-label">Total Runtime</div>
+      </div>
+      <div class="hs-divider"></div>
+      <div class="hero-stat">
+        <div class="hs-num">3</div>
+        <div class="hs-label">Live Drills</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="order-block">
+    <div class="order-eyebrow">Recommended Listening Order</div>
+    <div class="order-title">For new closers — listen straight through. For everyone else — start with Foundations, then re-drill weekly.</div>
+    <div class="order-flow">
+      <div class="order-step"><strong>1.</strong> Foundations</div>
+      <span class="order-arrow">→</span>
+      <div class="order-step"><strong>2.</strong> Goal Syntax (Marcus)</div>
+      <span class="order-arrow">→</span>
+      <div class="order-step"><strong>3.</strong> Objection Handling</div>
+      <span class="order-arrow">→</span>
+      <div class="order-step"><strong>4.</strong> PT Pivot (Kevin)</div>
+      <span class="order-arrow">→</span>
+      <div class="order-step"><strong>5.</strong> Problem Syntax (Danielle)</div>
+      <span class="order-arrow">→</span>
+      <div class="order-step"><strong>6.</strong> Objection Handling <em>(re-listen)</em></div>
+    </div>
+    <div class="order-note">Pro tip: <strong>The Objection Handling episode gets re-listened to between every drill</strong> — the Triple Tie-Down framework decays without repetition. New closers should run this loop twice in their first 30 days.</div>
+  </div>
+
+  <div class="sdiv">
+    <div>
+      <div class="sdiv-label">The Episodes</div>
+      <div class="sdiv-title">Five trainings · one complete system</div>
+    </div>
+  </div>
+
+  <div class="episodes">
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         EPISODE 01 — FOUNDATIONS
+         ═══════════════════════════════════════════════════════════════════ -->
+
+    <div class="episode-card" style="--ec:#38bdf8;--ecbg:rgba(56,189,248,.1);--ecborder:#1e3a5f">
+      <div class="ep-header">
+        <div class="ep-num-wrap">
+          <div class="ep-num">Episode 01</div>
+          <div class="ep-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <circle cx="11" cy="11" r="9" stroke="#38bdf8" stroke-width="1.5" fill="none"/>
+              <path d="M11 3v8l5 3" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-type">Foundations · Pre-Drill Onboarding</div>
+          <div class="ep-title">The IFCA Sales System Overview</div>
+          <div class="ep-meta">
+            <div class="ep-duration">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3l2 2"/></svg>
+              ~20 min
+            </div>
+            <div class="ep-format">Teaching Dialogue + 2 Live Demos</div>
+          </div>
+        </div>
+      </div>
+      <p class="ep-desc">Before you touch a script, you have to internalize the philosophy. This episode covers the Enrollment Advisor Creed, who IFCA is and why our system works, the three syntax types and how to pick the right one before a call, the 7 Beliefs every prospect must hold, the pre-call ritual, and why dialogue beats monologue at pitch. The new-hire's first listen.</p>
+      <div class="ep-learn">
+        <div class="ep-learn-label">What you'll learn</div>
+        <ul>
+          <li>The Enrollment Advisor Creed: <em>"Our job is not to sell — our job is to serve"</em> — and why that frame is what makes you trustworthy enough to win the deal</li>
+          <li>The three syntax types (Goal / Problem / PT Pivot) and how to pre-map the right one from the application before you dial</li>
+          <li>The 7 Beliefs framework and how every objection maps back to a belief that wasn't built in discovery</li>
+          <li>Why the pitch is a dialogue, not a monologue — and how the Hook → Contrast → Tie-Down pattern unlocks every pillar</li>
+        </ul>
+      </div>
+      <!-- ▼ PASTE DESCRIPT EMBED FOR EPISODE 01 — FOUNDATIONS ▼ -->
+      <div class="embed-slot">
+        <div class="embed-placeholder">
+          <div class="embed-ph-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <circle cx="11" cy="11" r="9" stroke="#38bdf8" stroke-width="1.5" fill="none"/>
+              <path d="M9 7.5l5 3.5-5 3.5z" fill="#38bdf8"/>
+            </svg>
+          </div>
+          <div class="embed-ph-title">Episode 01 — Coming Soon</div>
+          <div class="embed-ph-sub">Replace this placeholder with the Descript embed <code>&lt;iframe&gt;</code> for the Foundations episode.</div>
+        </div>
+      </div>
+      <!-- ▲ END DESCRIPT EMBED · EPISODE 01 ▲ -->
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         EPISODE 02 — GOAL SYNTAX DRILL (MARCUS)
+         ═══════════════════════════════════════════════════════════════════ -->
+
+    <div class="episode-card" style="--ec:#3b82f6;--ecbg:rgba(59,130,246,.1);--ecborder:#1e3a8a">
+      <div class="ep-header">
+        <div class="ep-num-wrap">
+          <div class="ep-num">Episode 02</div>
+          <div class="ep-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M11 2L13.4 7.6 19.5 8.5 15 12.7 16.2 18.7 11 15.9 5.8 18.7 7 12.7 2.5 8.5 8.6 7.6 11 2z" stroke="#3b82f6" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-type">Drill · Goal Syntax (Under $2K/mo Prospect)</div>
+          <div class="ep-title">Marcus — The Beginner's Call</div>
+          <div class="ep-meta">
+            <div class="ep-duration">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3l2 2"/></svg>
+              ~35–45 min
+            </div>
+            <div class="ep-format">Live Role-Play · 14 Beats + Debrief</div>
+          </div>
+        </div>
+      </div>
+      <p class="ep-desc">Marcus is 28, works at Equinox, makes $3,750/mo and has been "trying to go online" for 8 months with no traction. Walk through the full Goal Syntax call live — discovery built around dream and gap (not problem-solving), the Cost of Inaction reveal, the Hamburger Transition, the full pitch in dialogue mode, and the Triple Tie-Down close on his hidden-fear-wearing-money-mask objection.</p>
+      <div class="ep-learn">
+        <div class="ep-learn-label">What you'll learn</div>
+        <ul>
+          <li>How to run Goal Syntax discovery when there's no business to diagnose — desire-led, gap-exposed, fear-surfaced</li>
+          <li>The "Already Lost" Cost of Inaction reveal — uniquely powerful for Goal Syntax (the only calculator that quantifies past, not future, cost)</li>
+          <li>How to deliver Pillar 1 (Offer) in Full Mode for beginners — and why it's the primary constraint for Goal Syntax prospects</li>
+          <li>Triple Tie-Down on a fear-wearing-money objection — and why Tie Down #2 is the killshot that prevents enrolling someone who isn't 10/10 on process</li>
+        </ul>
+      </div>
+      <!-- ▼ PASTE DESCRIPT EMBED FOR EPISODE 02 — MARCUS / GOAL SYNTAX ▼ -->
+      <div class="embed-slot">
+        <div class="embed-placeholder">
+          <div class="embed-ph-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <circle cx="11" cy="11" r="9" stroke="#3b82f6" stroke-width="1.5" fill="none"/>
+              <path d="M9 7.5l5 3.5-5 3.5z" fill="#3b82f6"/>
+            </svg>
+          </div>
+          <div class="embed-ph-title">Episode 02 — Coming Soon</div>
+          <div class="embed-ph-sub">Replace this placeholder with the Descript embed <code>&lt;iframe&gt;</code> for the Marcus / Goal Syntax drill.</div>
+        </div>
+      </div>
+      <!-- ▲ END DESCRIPT EMBED · EPISODE 02 ▲ -->
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         EPISODE 03 — PT PIVOT DRILL (KEVIN)
+         ═══════════════════════════════════════════════════════════════════ -->
+
+    <div class="episode-card" style="--ec:#0d9488;--ecbg:rgba(13,148,136,.1);--ecborder:#134e4a">
+      <div class="ep-header">
+        <div class="ep-num-wrap">
+          <div class="ep-num">Episode 03</div>
+          <div class="ep-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M4 17.5L11 5l7 12.5" stroke="#0d9488" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+              <path d="M7 12.5h8" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-type">Drill · PT Pivot (In-Person Trainer → Hybrid)</div>
+          <div class="ep-title">Kevin — The In-Person Ceiling</div>
+          <div class="ep-meta">
+            <div class="ep-duration">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3l2 2"/></svg>
+              ~35–45 min
+            </div>
+            <div class="ep-format">Live Role-Play · 14 Beats + Debrief</div>
+          </div>
+        </div>
+      </div>
+      <p class="ep-desc">Kevin is 32, Phoenix, an in-person PT for 8 years doing $6,400/mo with his wife on bedrest and a kid coming in 8 weeks. Walk through the three-currency PT Pivot system live — the Block 5 Cost of Inaction seed question, the no-show capture, the Knife Turn with amplification beat, the View 1 calculator reveal with all six cards including the new COI 6mo + 12mo, the Affinity Launch math reveal, and the Triple Tie-Down on his cash-flow-during-transition objection.</p>
+      <div class="ep-learn">
+        <div class="ep-learn-label">What you'll learn</div>
+        <ul>
+          <li>How to seed the Cost of Inaction belief BEFORE the calculator drops — so View 1 becomes confirmation, not surprise</li>
+          <li>The three-dimensional Knife Turn for PTs: financial ceiling + physical toll + family cost — and the amplification beat that makes it stick</li>
+          <li>The View 1 PT Pivot reveal — six cards including no-show loss and Cost of Inaction over 6 and 12 months, sequenced for maximum impact</li>
+          <li>The Affinity Launch math beat that kills the "I have no audience" objection without ever having to handle it</li>
+          <li>Triple Tie-Down on a cash-flow-during-transition objection — the most common PT Pivot price-drop scenario</li>
+        </ul>
+      </div>
+      <!-- ▼ PASTE DESCRIPT EMBED FOR EPISODE 03 — KEVIN / PT PIVOT ▼ -->
+      <div class="embed-slot">
+        <div class="embed-placeholder">
+          <div class="embed-ph-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <circle cx="11" cy="11" r="9" stroke="#0d9488" stroke-width="1.5" fill="none"/>
+              <path d="M9 7.5l5 3.5-5 3.5z" fill="#0d9488"/>
+            </svg>
+          </div>
+          <div class="embed-ph-title">Episode 03 — Coming Soon</div>
+          <div class="embed-ph-sub">Replace this placeholder with the Descript embed <code>&lt;iframe&gt;</code> for the Kevin / PT Pivot drill.</div>
+        </div>
+      </div>
+      <!-- ▲ END DESCRIPT EMBED · EPISODE 03 ▲ -->
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         EPISODE 04 — PROBLEM SYNTAX DRILL (DANIELLE)
+         ═══════════════════════════════════════════════════════════════════ -->
+
+    <div class="episode-card" style="--ec:#7c3aed;--ecbg:rgba(124,58,237,.1);--ecborder:#4c1d95">
+      <div class="ep-header">
+        <div class="ep-num-wrap">
+          <div class="ep-num">Episode 04</div>
+          <div class="ep-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <circle cx="11" cy="11" r="9" stroke="#7c3aed" stroke-width="1.5" fill="none"/>
+              <path d="M11 7v5M11 15v.5" stroke="#7c3aed" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-type">Drill · Problem Syntax ($2K–$40K+/mo Coach)</div>
+          <div class="ep-title">Danielle — The Plateaued Coach</div>
+          <div class="ep-meta">
+            <div class="ep-duration">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3l2 2"/></svg>
+              ~40–50 min
+            </div>
+            <div class="ep-format">Live Role-Play · 17 Beats + Debrief</div>
+          </div>
+        </div>
+      </div>
+      <p class="ep-desc">Danielle is 36, Seattle, an established online coach doing $8,200/mo plateaued for 6 months. Her CPL is $35 (3.5x the benchmark), her show rate is broken at 58%, her retention is broken at 5 months — and she's been burned by two previous programs. Walk through the diagnostic Problem Syntax call live — closer-side KPI capture, Silver Bullet diagnosis, View 2/3/4 calculator shares, and how to handle a spouse-skepticism objection with specific diagnosis (not generic guarantees).</p>
+      <div class="ep-learn">
+        <div class="ep-learn-label">What you'll learn</div>
+        <ul>
+          <li>How to capture Problem Syntax KPIs conversationally — without making it feel like an audit</li>
+          <li>The closer-side View 1 diagnostic (DO NOT share) and how to read severity tiers to find the Silver Bullet</li>
+          <li>The View 2 / View 3 / View 4 share sequence — showing only the constraint, then the leak math, then the Silver Bullet ROI reveal</li>
+          <li>Why "the other programs didn't diagnose the constraint" is the most underused handle for spouse-skepticism after past failed investments</li>
+          <li>How Problem Syntax pitch differs from Goal — Pillar 5 (Retention) lands harder for established coaches because they feel retention loss viscerally</li>
+        </ul>
+      </div>
+      <!-- ▼ PASTE DESCRIPT EMBED FOR EPISODE 04 — DANIELLE / PROBLEM SYNTAX ▼ -->
+      <div class="embed-slot">
+        <div class="embed-placeholder">
+          <div class="embed-ph-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <circle cx="11" cy="11" r="9" stroke="#7c3aed" stroke-width="1.5" fill="none"/>
+              <path d="M9 7.5l5 3.5-5 3.5z" fill="#7c3aed"/>
+            </svg>
+          </div>
+          <div class="embed-ph-title">Episode 04 — Coming Soon</div>
+          <div class="embed-ph-sub">Replace this placeholder with the Descript embed <code>&lt;iframe&gt;</code> for the Danielle / Problem Syntax drill.</div>
+        </div>
+      </div>
+      <!-- ▲ END DESCRIPT EMBED · EPISODE 04 ▲ -->
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         EPISODE 05 — OBJECTION HANDLING MASTERY
+         ═══════════════════════════════════════════════════════════════════ -->
+
+    <div class="episode-card" style="--ec:#f59e0b;--ecbg:rgba(245,158,11,.1);--ecborder:#78350f">
+      <div class="ep-header">
+        <div class="ep-num-wrap">
+          <div class="ep-num">Episode 05</div>
+          <div class="ep-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M11 3L4 6v5c0 4 3 7 7 8 4-1 7-4 7-8V6l-7-3z" stroke="#f59e0b" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+              <path d="M11 9v3M11 14v.5" stroke="#f59e0b" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-type">Master Class · Objection Handling</div>
+          <div class="ep-title">The Triple Tie-Down &amp; Every Major Handle</div>
+          <div class="ep-meta">
+            <div class="ep-duration">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3l2 2"/></svg>
+              ~25–30 min
+            </div>
+            <div class="ep-format">Framework Teaching + Live Role-Play Examples</div>
+          </div>
+        </div>
+      </div>
+      <p class="ep-desc">The objection-handling master class. Covers the Master Sequence isolation rule, the full Triple Tie-Down on money (the killshot framework, drilled live), the "I need to think about it" fear-objection sequence, the spouse handle, the ego objection, complaints vs. objections, and the closer mindset rules that override every specific handle. Re-listen to this episode between every drill — the Triple Tie-Down decays without repetition.</p>
+      <div class="ep-learn">
+        <div class="ep-learn-label">What you'll learn</div>
+        <ul>
+          <li><strong>The Master Sequence</strong> — the two-question isolation that pivots you from fighting the prospect to problem-solving with them (used FIRST on every objection)</li>
+          <li><strong>The full Triple Tie-Down on money</strong> — Tie Down #1 (isolate), Tie Down #2 (the hypothetical killshot), Permission Bridge, Open Wallet (all three buckets), Tie Down #3 (custom plan close with "treat you like you paid in full")</li>
+          <li>The "I need to think about it" four-step sequence — clarify, isolate, reframe, cost flip — and why fear-based objections never become follow-ups</li>
+          <li>The spouse objection paths (A vs. B), the ego objection social judo, and why complaints ≠ objections</li>
+          <li>The closer mindset rules that override every framework — silence as weapon, simplicity over complexity, gamify don't defend</li>
+        </ul>
+      </div>
+      <!-- ▼ PASTE DESCRIPT EMBED FOR EPISODE 05 — OBJECTION HANDLING ▼ -->
+      <div class="embed-slot">
+        <div class="embed-placeholder">
+          <div class="embed-ph-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <circle cx="11" cy="11" r="9" stroke="#f59e0b" stroke-width="1.5" fill="none"/>
+              <path d="M9 7.5l5 3.5-5 3.5z" fill="#f59e0b"/>
+            </svg>
+          </div>
+          <div class="embed-ph-title">Episode 05 — Coming Soon</div>
+          <div class="embed-ph-sub">Replace this placeholder with the Descript embed <code>&lt;iframe&gt;</code> for the Objection Handling master class.</div>
+        </div>
+      </div>
+      <!-- ▲ END DESCRIPT EMBED · EPISODE 05 ▲ -->
+    </div>
+
+  </div>
+
+  <div class="tip-block">
+    <div class="tip-icon">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M8 1L3 8h4l-1 5 6-7H8l1-5z" stroke="#38bdf8" stroke-width="1.4" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="tip-text"><strong>How to listen.</strong> These episodes are built for podcast-style consumption — commute, gym, between calls, before your shift starts. The drills (02, 03, 04) are designed to be re-listened to before the prospect persona shows up in your real pipeline. The objection handling episode is the one you re-listen to most.</div>
+  </div>
+
+  <footer class="playbook-footer">
+    <div class="pf-brand">IFCA · Impact Fitness Coaching Academy</div>
+    <div class="pf-values">
+      <div class="pf-v">Relentless Growth</div>
+      <div class="pf-v">Extreme Ownership</div>
+      <div class="pf-v">Authentic Connection</div>
+    </div>
+    <div class="pf-meta">impactcoachacademy.com</div>
+  </footer>
+
+</div>
+</body>
+</html>
