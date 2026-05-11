@@ -78,12 +78,20 @@ h1.hero-title .accent{background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-
 
 /* EMBED SLOT */
 .embed-slot{background:#080f1c;border:1px solid #1e293b;border-radius:12px;padding:8px;overflow:hidden;}
-.embed-slot iframe{display:block;width:100%;border:none;border-radius:8px;min-height:200px;}
+.embed-slot iframe{display:block;width:100%;aspect-ratio:16/9;border:none;border-radius:8px;}
 .embed-placeholder{background:repeating-linear-gradient(45deg,#0a1320,#0a1320 10px,#0c1524 10px,#0c1524 20px);border:1.5px dashed #1e3a5f;border-radius:8px;padding:42px 24px;text-align:center;}
 .embed-ph-icon{width:48px;height:48px;border-radius:12px;background:#0d1f35;display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px;}
 .embed-ph-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#cbd5e1;margin-bottom:6px;}
 .embed-ph-sub{font-size:12px;color:#64748b;line-height:1.6;max-width:380px;margin:0 auto;}
 .embed-ph-sub code{background:#0a1929;border:1px solid #1e3a5f;border-radius:4px;padding:2px 7px;font-size:11px;color:#38bdf8;font-family:'Menlo','Monaco',monospace;}
+
+/* OPEN-IN-NEW-TAB ROW */
+.open-link-row{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:14px;flex-wrap:wrap;}
+.open-link-note{font-size:11px;color:#475569;letter-spacing:.04em;line-height:1.5;}
+.open-link-note strong{color:#64748b;font-weight:600;}
+.open-link{display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#64748b;border:1px solid #1e293b;background:#080f1c;border-radius:6px;padding:8px 14px;text-decoration:none;transition:color .2s,border-color .2s,background .2s;flex-shrink:0;}
+.open-link:hover{color:var(--ec);border-color:var(--ec);background:#0a1320;}
+.open-link svg{width:11px;height:11px;}
 
 /* TIP CARD AT BOTTOM */
 .tip-block{background:#0a1929;border:1px solid #1e3a5f;border-radius:10px;padding:18px 22px;display:flex;gap:14px;align-items:flex-start;margin:48px 0 0;}
@@ -138,7 +146,7 @@ h1.hero-title .accent{background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-
       </div>
       <div class="hs-divider"></div>
       <div class="hero-stat">
-        <div class="hs-num">~3 hrs</div>
+        <div class="hs-num">1h 35m</div>
         <div class="hs-label">Total Runtime</div>
       </div>
       <div class="hs-divider"></div>
@@ -198,7 +206,7 @@ h1.hero-title .accent{background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-
           <div class="ep-meta">
             <div class="ep-duration">
               <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3l2 2"/></svg>
-              ~20 min
+              23 min
             </div>
             <div class="ep-format">Teaching Dialogue + 2 Live Demos</div>
           </div>
@@ -214,18 +222,16 @@ h1.hero-title .accent{background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-
           <li>Why the pitch is a dialogue, not a monologue — and how the Hook → Contrast → Tie-Down pattern unlocks every pillar</li>
         </ul>
       </div>
-      <!-- ▼ PASTE DESCRIPT EMBED FOR EPISODE 01 — FOUNDATIONS ▼ -->
+      <!-- ▼ DESCRIPT EMBED FOR EPISODE 01 — FOUNDATIONS ▼ -->
       <div class="embed-slot">
-        <div class="embed-placeholder">
-          <div class="embed-ph-icon">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              <circle cx="11" cy="11" r="9" stroke="#38bdf8" stroke-width="1.5" fill="none"/>
-              <path d="M9 7.5l5 3.5-5 3.5z" fill="#38bdf8"/>
-            </svg>
-          </div>
-          <div class="embed-ph-title">Episode 01 — Coming Soon</div>
-          <div class="embed-ph-sub">Replace this placeholder with the Descript embed <code>&lt;iframe&gt;</code> for the Foundations episode.</div>
-        </div>
+        <iframe src="https://share.descript.com/embed/JZvImI8HWAW" allowfullscreen></iframe>
+      </div>
+      <div class="open-link-row">
+        <div class="open-link-note"><strong>On mobile?</strong> Tap "Open in new tab" — keep the tab alive and use picture-in-picture so audio keeps playing if you lock your screen.</div>
+        <a class="open-link" href="https://share.descript.com/view/JZvImI8HWAW" target="_blank" rel="noopener">
+          Open in new tab
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3H3v8h8V9M8 3h3v3M11 3L6.5 7.5"/></svg>
+        </a>
       </div>
       <!-- ▲ END DESCRIPT EMBED · EPISODE 01 ▲ -->
     </div>
@@ -250,7 +256,7 @@ h1.hero-title .accent{background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-
           <div class="ep-meta">
             <div class="ep-duration">
               <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3l2 2"/></svg>
-              ~35–45 min
+              18 min
             </div>
             <div class="ep-format">Live Role-Play · 14 Beats + Debrief</div>
           </div>
@@ -266,18 +272,16 @@ h1.hero-title .accent{background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-
           <li>Triple Tie-Down on a fear-wearing-money objection — and why Tie Down #2 is the killshot that prevents enrolling someone who isn't 10/10 on process</li>
         </ul>
       </div>
-      <!-- ▼ PASTE DESCRIPT EMBED FOR EPISODE 02 — MARCUS / GOAL SYNTAX ▼ -->
+      <!-- ▼ DESCRIPT EMBED FOR EPISODE 02 — MARCUS / GOAL SYNTAX ▼ -->
       <div class="embed-slot">
-        <div class="embed-placeholder">
-          <div class="embed-ph-icon">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              <circle cx="11" cy="11" r="9" stroke="#3b82f6" stroke-width="1.5" fill="none"/>
-              <path d="M9 7.5l5 3.5-5 3.5z" fill="#3b82f6"/>
-            </svg>
-          </div>
-          <div class="embed-ph-title">Episode 02 — Coming Soon</div>
-          <div class="embed-ph-sub">Replace this placeholder with the Descript embed <code>&lt;iframe&gt;</code> for the Marcus / Goal Syntax drill.</div>
-        </div>
+        <iframe src="https://share.descript.com/embed/YVHN7sbkBvN" allowfullscreen></iframe>
+      </div>
+      <div class="open-link-row">
+        <div class="open-link-note"><strong>On mobile?</strong> Tap "Open in new tab" — keep the tab alive and use picture-in-picture so audio keeps playing if you lock your screen.</div>
+        <a class="open-link" href="https://share.descript.com/view/YVHN7sbkBvN" target="_blank" rel="noopener">
+          Open in new tab
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3H3v8h8V9M8 3h3v3M11 3L6.5 7.5"/></svg>
+        </a>
       </div>
       <!-- ▲ END DESCRIPT EMBED · EPISODE 02 ▲ -->
     </div>
@@ -303,7 +307,7 @@ h1.hero-title .accent{background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-
           <div class="ep-meta">
             <div class="ep-duration">
               <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3l2 2"/></svg>
-              ~35–45 min
+              18 min
             </div>
             <div class="ep-format">Live Role-Play · 14 Beats + Debrief</div>
           </div>
@@ -320,18 +324,16 @@ h1.hero-title .accent{background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-
           <li>Triple Tie-Down on a cash-flow-during-transition objection — the most common PT Pivot price-drop scenario</li>
         </ul>
       </div>
-      <!-- ▼ PASTE DESCRIPT EMBED FOR EPISODE 03 — KEVIN / PT PIVOT ▼ -->
+      <!-- ▼ DESCRIPT EMBED FOR EPISODE 03 — KEVIN / PT PIVOT ▼ -->
       <div class="embed-slot">
-        <div class="embed-placeholder">
-          <div class="embed-ph-icon">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              <circle cx="11" cy="11" r="9" stroke="#0d9488" stroke-width="1.5" fill="none"/>
-              <path d="M9 7.5l5 3.5-5 3.5z" fill="#0d9488"/>
-            </svg>
-          </div>
-          <div class="embed-ph-title">Episode 03 — Coming Soon</div>
-          <div class="embed-ph-sub">Replace this placeholder with the Descript embed <code>&lt;iframe&gt;</code> for the Kevin / PT Pivot drill.</div>
-        </div>
+        <iframe src="https://share.descript.com/embed/er36tA1dfvE" allowfullscreen></iframe>
+      </div>
+      <div class="open-link-row">
+        <div class="open-link-note"><strong>On mobile?</strong> Tap "Open in new tab" — keep the tab alive and use picture-in-picture so audio keeps playing if you lock your screen.</div>
+        <a class="open-link" href="https://share.descript.com/view/er36tA1dfvE" target="_blank" rel="noopener">
+          Open in new tab
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3H3v8h8V9M8 3h3v3M11 3L6.5 7.5"/></svg>
+        </a>
       </div>
       <!-- ▲ END DESCRIPT EMBED · EPISODE 03 ▲ -->
     </div>
@@ -357,7 +359,7 @@ h1.hero-title .accent{background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-
           <div class="ep-meta">
             <div class="ep-duration">
               <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3l2 2"/></svg>
-              ~40–50 min
+              21 min
             </div>
             <div class="ep-format">Live Role-Play · 17 Beats + Debrief</div>
           </div>
@@ -374,18 +376,16 @@ h1.hero-title .accent{background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-
           <li>How Problem Syntax pitch differs from Goal — Pillar 5 (Retention) lands harder for established coaches because they feel retention loss viscerally</li>
         </ul>
       </div>
-      <!-- ▼ PASTE DESCRIPT EMBED FOR EPISODE 04 — DANIELLE / PROBLEM SYNTAX ▼ -->
+      <!-- ▼ DESCRIPT EMBED FOR EPISODE 04 — DANIELLE / PROBLEM SYNTAX ▼ -->
       <div class="embed-slot">
-        <div class="embed-placeholder">
-          <div class="embed-ph-icon">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              <circle cx="11" cy="11" r="9" stroke="#7c3aed" stroke-width="1.5" fill="none"/>
-              <path d="M9 7.5l5 3.5-5 3.5z" fill="#7c3aed"/>
-            </svg>
-          </div>
-          <div class="embed-ph-title">Episode 04 — Coming Soon</div>
-          <div class="embed-ph-sub">Replace this placeholder with the Descript embed <code>&lt;iframe&gt;</code> for the Danielle / Problem Syntax drill.</div>
-        </div>
+        <iframe src="https://share.descript.com/embed/RNhb7wt80z5" allowfullscreen></iframe>
+      </div>
+      <div class="open-link-row">
+        <div class="open-link-note"><strong>On mobile?</strong> Tap "Open in new tab" — keep the tab alive and use picture-in-picture so audio keeps playing if you lock your screen.</div>
+        <a class="open-link" href="https://share.descript.com/view/RNhb7wt80z5" target="_blank" rel="noopener">
+          Open in new tab
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3H3v8h8V9M8 3h3v3M11 3L6.5 7.5"/></svg>
+        </a>
       </div>
       <!-- ▲ END DESCRIPT EMBED · EPISODE 04 ▲ -->
     </div>
@@ -411,7 +411,7 @@ h1.hero-title .accent{background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-
           <div class="ep-meta">
             <div class="ep-duration">
               <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3l2 2"/></svg>
-              ~25–30 min
+              15 min
             </div>
             <div class="ep-format">Framework Teaching + Live Role-Play Examples</div>
           </div>
@@ -428,18 +428,16 @@ h1.hero-title .accent{background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-
           <li>The closer mindset rules that override every framework — silence as weapon, simplicity over complexity, gamify don't defend</li>
         </ul>
       </div>
-      <!-- ▼ PASTE DESCRIPT EMBED FOR EPISODE 05 — OBJECTION HANDLING ▼ -->
+      <!-- ▼ DESCRIPT EMBED FOR EPISODE 05 — OBJECTION HANDLING ▼ -->
       <div class="embed-slot">
-        <div class="embed-placeholder">
-          <div class="embed-ph-icon">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              <circle cx="11" cy="11" r="9" stroke="#f59e0b" stroke-width="1.5" fill="none"/>
-              <path d="M9 7.5l5 3.5-5 3.5z" fill="#f59e0b"/>
-            </svg>
-          </div>
-          <div class="embed-ph-title">Episode 05 — Coming Soon</div>
-          <div class="embed-ph-sub">Replace this placeholder with the Descript embed <code>&lt;iframe&gt;</code> for the Objection Handling master class.</div>
-        </div>
+        <iframe src="https://share.descript.com/embed/VM6PTyXx3Mh" allowfullscreen></iframe>
+      </div>
+      <div class="open-link-row">
+        <div class="open-link-note"><strong>On mobile?</strong> Tap "Open in new tab" — keep the tab alive and use picture-in-picture so audio keeps playing if you lock your screen.</div>
+        <a class="open-link" href="https://share.descript.com/view/VM6PTyXx3Mh" target="_blank" rel="noopener">
+          Open in new tab
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3H3v8h8V9M8 3h3v3M11 3L6.5 7.5"/></svg>
+        </a>
       </div>
       <!-- ▲ END DESCRIPT EMBED · EPISODE 05 ▲ -->
     </div>
