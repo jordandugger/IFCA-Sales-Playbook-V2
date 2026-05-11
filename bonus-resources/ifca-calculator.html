@@ -523,7 +523,8 @@ body.share-mode .calc-footer{display:none;}
           <div class="field"><label>Sessions / Week</label><input type="number" id="p-sess" value="20" oninput="calcPT()"></div>
           <div class="field"><label>Rate / Session</label><div class="prefix" data-pre="$"><input type="number" id="p-rate" value="75" oninput="calcPT()"></div></div>
         </div>
-        <div class="input-readout">In-person income: <strong id="p-cur-readout">$6,495/mo</strong> · <strong id="p-hours-readout">86 hrs/mo</strong></div>
+        <div class="field"><label>No-Show / Cancellation Rate <span class="hint">(industry avg 25–35%)</span></label><div class="suffix" data-suf="%"><input type="number" id="p-noshow" value="30" oninput="calcPT()"></div></div>
+        <div class="input-readout">Gross: <strong id="p-cur-readout-gross">$6,495/mo</strong> · Real (after no-shows): <strong id="p-cur-readout">$4,547/mo</strong> · <strong id="p-hours-readout">86 hrs/mo</strong></div>
       </div>
 
       <div class="input-section">
@@ -575,26 +576,54 @@ body.share-mode .calc-footer{display:none;}
 
         <div class="view active" id="p-view-ceiling">
           <div class="belief-hero">
-            <div class="ctx">Belief #1 + #3 · The In-Person Ceiling</div>
-            <h2>Here's the wall the in-person model puts you against.</h2>
-            <div class="sub">Time-capped, body-capped income. The cost of staying isn't just money — it's hours.</div>
+            <div class="ctx">Belief #1 + #3 · The In-Person Ceiling &amp; Cost of Inaction</div>
+            <h2>Here's the wall — and what staying costs you.</h2>
+            <div class="sub">Time-capped, body-capped, no-show-eaten income. Below the ceiling: what staying in-person leaves on the table over the next 6 and 12 months.</div>
           </div>
+
+          <!-- Row 1: Ceiling vs Goal -->
           <div class="grid-2" style="margin-bottom:14px;">
             <div class="mcard red hero">
               <div class="mlabel">Where In-Person Caps You</div>
               <div class="mval huge red" id="p-ceiling">—</div>
-              <div class="msub" id="p-ceiling-sub">/mo at full schedule — body-limited</div>
+              <div class="msub" id="p-ceiling-sub">/mo at 40 sess/wk · adjusted for no-shows</div>
             </div>
             <div class="mcard green hero">
               <div class="mlabel">Where You Want to Be</div>
               <div class="mval huge green" id="p-goal-show">—</div>
-              <div class="msub">/mo — without the time and body cost</div>
+              <div class="msub" id="p-goal-show-sub">/mo — without the time and body cost</div>
             </div>
           </div>
-          <div class="mcard amber hero">
-            <div class="mlabel">Hours / Month at Full In-Person Schedule</div>
-            <div class="mval xl amber" id="p-hours">—</div>
-            <div class="msub">that's the ceiling on your time, not just your income</div>
+
+          <!-- Row 2: Hours + No-Show Loss -->
+          <div class="grid-2" style="margin-bottom:18px;">
+            <div class="mcard amber hero">
+              <div class="mlabel">Hours / Month at Full Schedule</div>
+              <div class="mval xl amber" id="p-hours">—</div>
+              <div class="msub">that's the ceiling on your time, not just your income</div>
+            </div>
+            <div class="mcard amber hero">
+              <div class="mlabel">Lost to No-Shows · Monthly</div>
+              <div class="mval xl amber" id="p-noshow-loss">—</div>
+              <div class="msub" id="p-noshow-loss-sub">at your current schedule · already eaten every month</div>
+            </div>
+          </div>
+
+          <!-- Row 3: Cost of Inaction -->
+          <div class="section-title" style="margin-bottom:11px;justify-content:center;color:#be123c;">
+            <span class="step-badge" style="background:#be123c">!</span>Cost of Inaction · The Gap × Time
+          </div>
+          <div class="grid-2">
+            <div class="mcard red hero">
+              <div class="mlabel">Left on the Table · Next 6 Months</div>
+              <div class="mval huge red" id="p-coi-6">—</div>
+              <div class="msub" id="p-coi-6-sub">(goal − current real income) × 6 months</div>
+            </div>
+            <div class="mcard red hero">
+              <div class="mlabel">Left on the Table · Next 12 Months</div>
+              <div class="mval huge red" id="p-coi-12">—</div>
+              <div class="msub" id="p-coi-12-sub">(goal − current real income) × 12 months</div>
+            </div>
           </div>
         </div>
 
@@ -1154,15 +1183,22 @@ function calcGoal(){
 // ═══════════ PT PIVOT CALCULATOR ═══════════
 function calcPT(){
   const sess = num('p-sess'), rate = num('p-rate');
+  const noshow = Math.min(Math.max(num('p-noshow'), 0), 100); // clamp 0–100
   const goal = num('p-goal');
   const offer = offerMath(num('p-fe-rate'), num('p-fe-len'), num('p-be-rate'), num('p-be-len'), num('p-resign'));
   const pif = num('p-pif');
   const signRate = Math.max(num('p-signrate'), 0);
 
-  const inPersonIncome = sess * rate * 4.33;
-  const inPersonHours = Math.round(sess * 4.33);
-  $('p-cur-readout').textContent = fmtFull(inPersonIncome) + '/mo';
-  $('p-hours-readout').textContent = inPersonHours + ' hrs/mo';
+  // No-show-adjusted economics
+  const noShowFactor   = 1 - (noshow / 100);                 // % of revenue you actually keep
+  const inPersonGross  = sess * rate * 4.33;                 // gross at current sessions
+  const inPersonReal   = inPersonGross * noShowFactor;       // real take-home after no-shows
+  const noShowLossMo   = inPersonGross - inPersonReal;       // $$ eaten by no-shows each month
+  const inPersonHours  = Math.round(sess * 4.33);
+
+  $('p-cur-readout-gross').textContent = fmtFull(inPersonGross) + '/mo';
+  $('p-cur-readout').textContent       = fmtFull(inPersonReal) + '/mo';
+  $('p-hours-readout').textContent     = inPersonHours + ' hrs/mo';
   $('p-fe-pkg-readout').textContent = fmtFull(offer.fePkg);
   $('p-ltv-readout').textContent = fmtFull(offer.ltv);
   $('p-signrate-readout').textContent = `${signRate}/mo \u00d7 6 = ${signRate * 6} clients`;
@@ -1177,14 +1213,27 @@ function calcPT(){
   const projGoal = projectCurve(activeClients, offer, goal, pif);
   const projSign = projectCurve(0, offer, goal, pif, signRate);
 
-  // VIEW 1: Ceiling vs Goal
-  const maxSess = 40;
-  const ceiling = maxSess * rate * 4.33;
+  // VIEW 1: Ceiling vs Goal + Cost of Inaction
+  const maxSess     = 40;
+  const ceilingReal = maxSess * rate * 4.33 * noShowFactor;  // realistic max in-person, no-show adjusted
   const ceilingHours = Math.round(maxSess * 4.33);
-  $('p-ceiling').textContent = fmt(ceiling);
-  $('p-ceiling-sub').textContent = `/mo at ${maxSess} sessions/wk \u00b7 ${fmtFull(rate)}/session`;
+
+  // Cost of Inaction = (goal - current real in-person) × time, clamped at 0
+  const gap   = Math.max(goal - inPersonReal, 0);
+  const coi6  = gap * 6;
+  const coi12 = gap * 12;
+
+  $('p-ceiling').textContent = fmt(ceilingReal);
+  $('p-ceiling-sub').textContent = `/mo at ${maxSess} sess/wk \u00d7 ${fmtFull(rate)} \u00b7 ${noshow}% no-show adjustment`;
   $('p-goal-show').textContent = fmt(goal);
+  $('p-goal-show-sub').textContent = `/mo \u2014 ${fmtFull(goal * 6)} over 6 mo \u00b7 ${fmtFull(goal * 12)} over 12 mo`;
   $('p-hours').textContent = ceilingHours + ' hrs';
+  $('p-noshow-loss').textContent = fmt(noShowLossMo);
+  $('p-noshow-loss-sub').textContent = `at ${sess} sess/wk \u00d7 ${fmtFull(rate)} \u00b7 ${noshow}% no-show rate`;
+  $('p-coi-6').textContent  = fmt(coi6);
+  $('p-coi-6-sub').textContent  = `(${fmtFull(goal)} goal \u2212 ${fmtFull(inPersonReal)} real) \u00d7 6 mo`;
+  $('p-coi-12').textContent = fmt(coi12);
+  $('p-coi-12-sub').textContent = `(${fmtFull(goal)} goal \u2212 ${fmtFull(inPersonReal)} real) \u00d7 12 mo`;
 
   // VIEW 2: Clients Needed — anchored to goal (independent of sign rate)
   $('p-cl-active').textContent = activeClients;
@@ -1212,7 +1261,7 @@ function calcPT(){
   $('p-rf-leads').textContent = Math.ceil(leads);
   $('p-rf-spend').textContent = fmt(adSpend);
 
-  // VIEW 4: Combined Reveal — Cost of Staying Capped vs. Total New Client Revenue (sign-rate driven)
+  // VIEW 4: Combined Reveal — now uses 12-month COI (goal × 12) to mirror View 1 framing
   $('p-rv-ceiling').textContent = fmt(goal * 12);
   $('p-rv-contracted').textContent = fmt(projSign.totalContracted);
   $('p-rv-cash').textContent = fmt(projSign.totalCash);
