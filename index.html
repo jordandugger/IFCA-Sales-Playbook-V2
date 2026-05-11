@@ -75,6 +75,24 @@ h1.hero-title .accent{background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-
 .sc-cta svg{width:13px;height:13px;transition:transform .2s;}
 .script-card:hover .sc-cta svg{transform:translateX(4px);}
 
+/* TRAINING LIBRARY STEP 1 CARD */
+.training-card{display:flex;align-items:center;gap:28px;background:linear-gradient(135deg,#0c1524 0%,#0d1f35 100%);border:1px solid #1e3a5f;border-radius:16px;padding:30px 36px;text-decoration:none;color:inherit;position:relative;overflow:hidden;margin-bottom:56px;transition:border-color .2s,transform .18s;}
+.training-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#38bdf8,#818cf8);border-radius:16px 16px 0 0;}
+.training-card::after{content:'';position:absolute;top:0;left:0;bottom:0;width:100px;background:radial-gradient(circle at left center,rgba(56,189,248,.08),transparent 70%);pointer-events:none;}
+.training-card:hover{border-color:#38bdf8;transform:translateY(-3px);}
+.tr-step-badge{display:flex;flex-direction:column;align-items:center;justify-content:center;width:74px;height:74px;border-radius:18px;background:#0d2744;border:1px solid #1e3a5f;flex-shrink:0;position:relative;z-index:1;}
+.tr-step-label{font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#38bdf8;margin-bottom:2px;}
+.tr-step-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#f1f5f9;line-height:1;}
+.tr-body{flex:1;position:relative;z-index:1;min-width:0;}
+.tr-eyebrow{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#38bdf8;margin-bottom:8px;}
+.tr-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#f1f5f9;margin-bottom:10px;letter-spacing:-.03em;line-height:1.2;}
+.tr-desc{font-size:14px;color:#94a3b8;line-height:1.65;margin-bottom:14px;max-width:620px;}
+.tr-pills{display:flex;gap:7px;flex-wrap:wrap;}
+.tr-pill{background:#0a1929;border:1px solid #1e3a5f;border-radius:20px;padding:5px 11px;font-size:10px;font-weight:500;color:#38bdf8;letter-spacing:.04em;opacity:.85;}
+.tr-arrow{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#38bdf8;flex-shrink:0;position:relative;z-index:1;}
+.tr-arrow svg{width:14px;height:14px;transition:transform .2s;}
+.training-card:hover .tr-arrow svg{transform:translateX(5px);}
+
 /* CALCULATOR CARD */
 .calc-card{background:#0c1524;border:1px solid #1e293b;border-radius:14px;padding:32px 36px;display:flex;gap:36px;align-items:flex-start;text-decoration:none;color:inherit;position:relative;overflow:hidden;margin-bottom:56px;transition:border-color .2s,transform .18s;}
 .calc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#0d9488,#14b8a6);transform:scaleX(0);transform-origin:left;transition:transform .25s;border-radius:14px 14px 0 0;}
@@ -123,6 +141,7 @@ h1.hero-title .accent{background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-
 @media(max-width:740px){
   .scripts-grid{grid-template-columns:1fr;}
   .creed-block{padding:30px 24px;}
+  .training-card{flex-direction:column;gap:18px;padding:26px 24px;text-align:left;align-items:flex-start;}
   .calc-card{flex-direction:column;gap:22px;padding:26px 24px;}
   .calc-features{grid-template-columns:1fr 1fr;}
   header{flex-direction:column;align-items:flex-start;}
@@ -215,6 +234,36 @@ h1.hero-title .accent{background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-
 
   <div class="sdiv">
     <div>
+      <div class="sdiv-label">Start Here</div>
+      <div class="sdiv-title">Step 1 — The Training Library</div>
+    </div>
+  </div>
+
+  <a class="training-card" href="./training-library.html" target="_blank">
+    <div class="tr-step-badge">
+      <div class="tr-step-label">Step</div>
+      <div class="tr-step-num">01</div>
+    </div>
+    <div class="tr-body">
+      <div class="tr-eyebrow">5 Podcast Episodes · ~3 hours total</div>
+      <div class="tr-title">Listen Before You Dial</div>
+      <div class="tr-desc">Foundations, three live syntax drills (Marcus / Kevin / Danielle), and the objection handling master class — built for podcast-style listening. Re-listen to the Objection Handling episode between every drill.</div>
+      <div class="tr-pills">
+        <div class="tr-pill">Foundations</div>
+        <div class="tr-pill">Goal Syntax · Marcus</div>
+        <div class="tr-pill">PT Pivot · Kevin</div>
+        <div class="tr-pill">Problem Syntax · Danielle</div>
+        <div class="tr-pill">Objection Handling</div>
+      </div>
+    </div>
+    <div class="tr-arrow">
+      Start
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h10M7 2l5 5-5 5"/></svg>
+    </div>
+  </a>
+
+  <div class="sdiv">
+    <div>
       <div class="sdiv-label">The Scripts</div>
       <div class="sdiv-title">Choose the right syntax for the call</div>
     </div>
@@ -297,7 +346,7 @@ h1.hero-title .accent{background:linear-gradient(90deg,#38bdf8,#818cf8);-webkit-
     </div>
   </div>
 
-  <a class="calc-card" href="./bonus-resources/ifca-calculator.html" target="_blank">
+  <a class="calc-card" href="./playbook/ifca-calculator.html" target="_blank">
     <div class="calc-icon-wrap">
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
         <rect x="3" y="3" width="22" height="22" rx="4" stroke="#0d9488" stroke-width="1.7" fill="none"/>
