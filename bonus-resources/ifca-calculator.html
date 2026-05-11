@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IFCA — Calculator v7</title>
+<title>IFCA — Calculator v8</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -196,6 +196,94 @@ body.share-mode .inputs-col{width:0;min-width:0;opacity:0;overflow:hidden;pointe
 .calc-footer{font-size:10px;color:#94a3b8;text-align:center;padding:16px 0 4px;}
 body.share-mode .calc-footer{display:none;}
 
+/* ═══════════ PROBLEM SYNTAX V3 — Silver Bullet, Severity, CAC Chain ═══════════ */
+/* SILVER BULLET — primary constraint hero */
+.silver-bullet{background:linear-gradient(135deg,#fef2f2 0%,#fff7ed 50%,#fef9c3 100%);border:2px solid #fca5a5;border-radius:14px;padding:22px 26px;margin-bottom:18px;position:relative;overflow:hidden;}
+.silver-bullet::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#dc2626 0%,#f59e0b 100%);}
+.sb-tag{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#991b1b;background:#fff;padding:5px 12px;border-radius:5px;margin-bottom:13px;border:1px solid #fca5a5;}
+.sb-name{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#7f1d1d;margin-bottom:5px;letter-spacing:-.01em;}
+.sb-detail{font-size:13px;color:#92400e;line-height:1.5;margin-bottom:12px;}
+.sb-pillar{display:inline-block;font-size:11.5px;font-weight:700;color:#fff;background:#7c3aed;padding:6px 13px;border-radius:6px;letter-spacing:.02em;}
+.sb-empty{background:#fafafa;border-color:var(--border);}
+.sb-empty::before{background:#cbd5e1;}
+.sb-empty .sb-tag{color:var(--muted);border-color:var(--border);}
+.sb-empty .sb-name{color:var(--muted);}
+
+/* SEVERITY BADGES — 4 tier */
+.sev-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:3px;}
+.sev-critical{background:#dc2626;color:#fff;}
+.sev-broken{background:#ea580c;color:#fff;}
+.sev-gap{background:#fbbf24;color:#78350f;}
+.sev-ok{background:#16a34a;color:#fff;}
+.sev-empty{background:#e2e8f0;color:#64748b;}
+
+/* KPI ROW — restyled for severity */
+.kpi-section-head{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px;padding-left:2px;}
+.kpi-section-head:first-child{margin-top:0;}
+.kpi-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:9px;}
+.kpi-tile{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:11px 13px;position:relative;transition:opacity .2s,filter .2s;}
+.kpi-tile.demoted{opacity:.6;filter:saturate(.7);}
+.kpi-tile.demoted:hover{opacity:1;filter:none;}
+.kpi-tile-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.kpi-tile-name{font-size:11px;font-weight:600;color:var(--text);}
+.kpi-tile-val{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;color:var(--text);line-height:1;margin-bottom:3px;}
+.kpi-tile-bench{font-size:10px;color:var(--muted);}
+.kpi-tile.crit{background:#fef2f2;border-color:#fca5a5;}
+.kpi-tile.crit .kpi-tile-val{color:#dc2626;}
+.kpi-tile.brk{background:#fff7ed;border-color:#fdba74;}
+.kpi-tile.brk .kpi-tile-val{color:#ea580c;}
+.kpi-tile.gp{background:#fffbeb;border-color:#fde68a;}
+.kpi-tile.gp .kpi-tile-val{color:#b45309;}
+.kpi-tile.okk{background:#f0fdf4;border-color:#86efac;}
+.kpi-tile.okk .kpi-tile-val{color:#16a34a;}
+.kpi-tile.empty{background:#fafafa;}
+.kpi-tile.empty .kpi-tile-val{color:#cbd5e1;}
+@media(max-width:880px){.kpi-row{grid-template-columns:1fr 1fr;}}
+
+/* SHOW-ALL TOGGLE */
+.constraint-stack-toggle{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--muted);background:transparent;border:1px dashed #cbd5e1;padding:8px 12px;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:10px;transition:all .15s;}
+.constraint-stack-toggle:hover{background:#fafafa;color:var(--text);border-color:var(--muted);}
+.constraint-stack-toggle .chev{font-size:9px;transition:transform .2s;}
+.constraint-stack-toggle.open .chev{transform:rotate(90deg);}
+
+/* CAC CHAIN READOUT */
+.cac-chain{background:var(--navy);border-radius:9px;padding:13px 16px;margin-top:10px;color:#f8fafc;}
+.cac-chain-title{font-size:9.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#5eead4;margin-bottom:9px;display:flex;align-items:center;gap:6px;}
+.cac-row{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;font-size:11.5px;color:#cbd5e1;border-bottom:1px solid rgba(94,234,212,.1);}
+.cac-row:last-child{border-bottom:none;}
+.cac-row strong{font-family:'Syne',sans-serif;font-weight:800;color:#f8fafc;font-size:13.5px;}
+.cac-row .formula{font-size:9.5px;color:#64748b;margin-left:5px;}
+
+/* COST PER CALL DIAGNOSIS BOX */
+.cpc-diag{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:11px 14px;margin-top:10px;font-size:11.5px;color:#78350f;line-height:1.5;}
+.cpc-diag-title{font-weight:700;color:#92400e;margin-bottom:5px;font-size:12px;}
+.cpc-diag-list{margin:5px 0 0 4px;}
+.cpc-diag-list li{margin:3px 0;padding-left:12px;position:relative;}
+.cpc-diag-list li::before{content:'→';position:absolute;left:0;color:#d97706;font-weight:700;}
+
+/* FUNNEL TYPE SELECT */
+.funnel-select{font-weight:600;}
+
+/* CONSTRAINT GAP VISUAL (View 2) */
+.gap-bar-wrap{margin-top:18px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 18px;}
+.gap-bar-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;text-align:center;}
+.gap-bar{position:relative;height:32px;background:linear-gradient(90deg,#fee2e2 0%,#fef9c3 50%,#dcfce7 100%);border-radius:6px;border:1px solid #e2e8f0;overflow:hidden;}
+.gap-bar-mark{position:absolute;top:-4px;bottom:-4px;width:3px;border-radius:2px;}
+.gap-bar-mark.theirs{background:#dc2626;box-shadow:0 0 0 3px rgba(220,38,38,.15);}
+.gap-bar-mark.bench{background:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.15);}
+.gap-bar-labels{display:flex;justify-content:space-between;margin-top:8px;font-size:10.5px;color:var(--muted);font-weight:600;}
+.gap-narrative{margin-top:14px;font-size:13px;color:var(--text);text-align:center;line-height:1.55;background:#fef2f2;border:1px solid #fecaca;border-radius:7px;padding:10px 14px;}
+.gap-narrative strong{color:var(--red);font-weight:700;}
+
+/* SECONDARY CONSTRAINT MINI-CARDS (View 2 + 3) */
+.secondary-stack{margin-top:18px;display:none;}
+.secondary-stack.open{display:block;}
+.secondary-stack-head{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+.sec-card{background:#fafafa;border:1px solid var(--border);border-radius:8px;padding:10px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px;font-size:11.5px;}
+.sec-card .sec-name{font-weight:600;color:var(--text);}
+.sec-card .sec-vals{font-size:11px;color:var(--muted);}
+.sec-card .sec-vals strong{color:var(--text);font-weight:700;}
+/* ═══════════ END PROBLEM SYNTAX V3 ═══════════ */
 @media(max-width:760px){.split-2,.grid-2,.grid-3{grid-template-columns:1fr;}}
 </style>
 </head>
@@ -204,7 +292,7 @@ body.share-mode .calc-footer{display:none;}
 
   <div class="header">
     <div style="display:flex;align-items:center;">
-      <span class="brand">IFCA<span class="v">v7</span></span>
+      <span class="brand">IFCA<span class="v">v8</span></span>
       <nav class="tab-nav">
         <button class="active" onclick="switchTab('goal',this)">Goal Syntax Calculator</button>
         <button onclick="switchTab('pt',this)">PT Pivot Calculator</button>
@@ -419,7 +507,7 @@ body.share-mode .calc-footer{display:none;}
         </div>
 
       </div>
-      <div class="calc-footer">IFCA · Impact Fitness Coaching Academy · v7</div>
+      <div class="calc-footer">IFCA · Impact Fitness Coaching Academy · v8</div>
     </div>
   </div>
 
@@ -628,63 +716,134 @@ body.share-mode .calc-footer{display:none;}
         </div>
 
       </div>
-      <div class="calc-footer">IFCA · Impact Fitness Coaching Academy · v7</div>
+      <div class="calc-footer">IFCA · Impact Fitness Coaching Academy · v8</div>
     </div>
   </div>
 
-  <!-- ═══════════════ PROBLEM SYNTAX CALCULATOR ═══════════════ -->
+  <!-- ═══════════════ PROBLEM SYNTAX CALCULATOR V3 ═══════════════ -->
   <div class="panel" id="panel-biz">
 
     <div class="inputs-col">
-      <div class="defaults-note"><strong>Defaults:</strong> for advanced prospects with existing pipeline data. Enter their actual numbers; the ❌ identifies the constraint automatically.</div>
+      <div class="defaults-note"><strong>Diagnostic mode:</strong> for existing-business prospects. Fill as they answer in discovery — the <strong>Silver Bullet</strong> constraint surfaces automatically in View 1.</div>
 
       <div class="input-section">
-        <div class="section-title"><span class="step-badge" style="background:#4338ca">1</span>Traffic & Pipeline</div>
+        <div class="section-title"><span class="step-badge" style="background:#7c3aed">1</span>Their Offer</div>
+        <div class="field-row">
+          <div class="field"><label>FE Rate / Mo</label><div class="prefix" data-pre="$"><input type="number" id="b-fe-rate" value="500" oninput="calcBiz()"></div></div>
+          <div class="field"><label>FE Length</label><div class="suffix" data-suf="mo"><input type="number" id="b-fe-len" value="6" oninput="calcBiz()"></div></div>
+        </div>
+        <div class="field"><label>Funnel Type <span class="hint">(determines CPL benchmark)</span></label>
+          <select id="b-funnel" class="funnel-select" onchange="calcBiz()">
+            <option value="dm" selected>DM Funnel (DM automation, conversation start)</option>
+            <option value="follower">Follower Funnel (boosted posts, awareness)</option>
+            <option value="vsl">VSL / Landing Page Funnel</option>
+            <option value="masterclass">Masterclass / Webinar Funnel</option>
+          </select>
+        </div>
+        <div class="input-readout">Package: <strong id="b-pkg-readout">$3,000</strong> · Max CAC: <strong id="b-maxcac-readout">$750</strong></div>
+      </div>
+
+      <div class="input-section">
+        <div class="section-title"><span class="step-badge" style="background:#1d4ed8">2</span>Lead Generation</div>
         <div class="field-row">
           <div class="field"><label>Ad Spend / Mo</label><div class="prefix" data-pre="$"><input type="number" id="b-spend" value="3000" oninput="calcBiz()"></div></div>
-          <div class="field"><label>Leads / Mo</label><input type="number" id="b-leads" value="120" oninput="calcBiz()"></div>
+          <div class="field"><label id="b-leads-label">DM Leads / Mo</label><input type="number" id="b-leads" value="120" oninput="calcBiz()"></div>
         </div>
-        <div class="field-row">
-          <div class="field"><label>Calls Booked</label><input type="number" id="b-booked" value="30" oninput="calcBiz()"></div>
-          <div class="field"><label>Calls Showed</label><input type="number" id="b-show" value="20" oninput="calcBiz()"></div>
-        </div>
+        <div class="field"><label>Organic + Referral Leads / Mo <span class="hint">(not from ads)</span></label><input type="number" id="b-organic" value="20" oninput="calcBiz()"></div>
+        <div class="input-readout">CPL: <strong id="b-cpl-readout">$25</strong> · Target <strong id="b-cpl-bench-readout">&lt;$10</strong></div>
       </div>
+
       <div class="input-section">
-        <div class="section-title"><span class="step-badge" style="background:#4338ca">2</span>Conversion</div>
-        <div class="field"><label>Closes / Mo</label><input type="number" id="b-close" value="3" oninput="calcBiz()"></div>
+        <div class="section-title"><span class="step-badge" style="background:#0891b2">3</span>Pipeline</div>
         <div class="field-row">
-          <div class="field"><label>Package Price</label><div class="prefix" data-pre="$"><input type="number" id="b-pkg" value="5000" oninput="calcBiz()"></div></div>
-          <div class="field"><label>Avg Retention</label><div class="suffix" data-suf="mo"><input type="number" id="b-ret" value="9" oninput="calcBiz()"></div></div>
+          <div class="field"><label>Calls Booked / Mo</label><input type="number" id="b-booked" value="30" oninput="calcBiz()"></div>
+          <div class="field"><label>Calls Showed / Mo</label><input type="number" id="b-show" value="20" oninput="calcBiz()"></div>
         </div>
+        <div class="input-readout">Lead→Book: <strong id="b-l2b-readout">21%</strong> · Show: <strong id="b-show-readout">67%</strong></div>
       </div>
+
+      <div class="input-section">
+        <div class="section-title"><span class="step-badge" style="background:#0d9488">4</span>Sales Conversion</div>
+        <div class="field-row">
+          <div class="field"><label>Closes / Mo</label><input type="number" id="b-close" value="3" oninput="calcBiz()"></div>
+          <div class="field"><label>Cash Collected / Mo</label><div class="prefix" data-pre="$"><input type="number" id="b-cash" value="6000" oninput="calcBiz()"></div></div>
+        </div>
+        <div class="input-readout">Live Close Rate: <strong id="b-close-readout">15%</strong> · CPA: <strong id="b-cpa-readout">$1,000</strong></div>
+      </div>
+
+      <div class="input-section">
+        <div class="section-title"><span class="step-badge" style="background:#16a34a">5</span>Back-End / LTV</div>
+        <div class="field-row">
+          <div class="field"><label>BE Rate / Mo</label><div class="prefix" data-pre="$"><input type="number" id="b-be-rate" value="375" oninput="calcBiz()"></div></div>
+          <div class="field"><label>BE Length</label><div class="suffix" data-suf="mo"><input type="number" id="b-be-len" value="12" oninput="calcBiz()"></div></div>
+        </div>
+        <div class="field"><label>FE → BE Resign Rate <span class="hint">(% who renew)</span></label><div class="suffix" data-suf="%"><input type="number" id="b-resign" value="40" oninput="calcBiz()"></div></div>
+        <div class="input-readout">LTV: <strong id="b-ltv-readout">$4,800</strong> · LTV:CAC: <strong id="b-ltvcac-readout">4.8×</strong></div>
+      </div>
+
     </div>
 
     <div class="results-col">
       <div class="view-bar">
         <button class="view-btn active" onclick="setBizView('kpi',this)"><span class="vnum">1</span>KPI Health</button>
         <button class="view-btn" onclick="setBizView('constraint',this)"><span class="vnum">2</span>The Constraint</button>
-        <button class="view-btn" onclick="setBizView('fix',this)"><span class="vnum">3</span>If We Fix This</button>
+        <button class="view-btn" onclick="setBizView('cost',this)"><span class="vnum">3</span>Cost of the Leak</button>
+        <button class="view-btn" onclick="setBizView('reveal',this)"><span class="vnum">4</span>Silver Bullet ROI</button>
       </div>
 
       <div class="view-content">
 
+        <!-- VIEW 1 — KPI HEALTH (Closer-Side) -->
         <div class="view active" id="b-view-kpi">
           <div class="belief-hero">
-            <div class="ctx">Discovery · Diagnostic</div>
-            <h2>Here's where the leak is.</h2>
-            <div class="sub">Closer-side during discovery. Identifies the ❌ that becomes the priority pillar.</div>
+            <div class="ctx">Discovery · Diagnostic · Closer-Side</div>
+            <h2>Find the silver bullet.</h2>
+            <div class="sub">Fill inputs as the prospect answers. The primary constraint surfaces automatically — that's your lead Full pillar in the pitch.</div>
           </div>
-          <div class="kpi-grid" id="b-kpi-list"></div>
+
+          <!-- SILVER BULLET CALLOUT -->
+          <div class="silver-bullet" id="b-sb">
+            <div class="sb-tag">🎯 The Silver Bullet — Primary Constraint</div>
+            <div class="sb-name" id="b-sb-name">—</div>
+            <div class="sb-detail" id="b-sb-detail">Enter their numbers to surface the constraint.</div>
+            <div class="sb-pillar" id="b-sb-pillar">—</div>
+          </div>
+
+          <!-- CAC CHAIN READOUT -->
+          <div class="cac-chain">
+            <div class="cac-chain-title">📊 Their Funnel Math · Anchored to <span id="b-cc-offer">$3,000</span> Offer</div>
+            <div class="cac-row"><span>Max CAC</span><strong id="b-cc-cac">$750</strong></div>
+            <div class="cac-row"><span>Max Cost / Qualified Call <span class="formula">(CAC ÷ 3)</span></span><strong id="b-cc-qcall">$250</strong></div>
+            <div class="cac-row"><span>Max Cost / Booked Call <span class="formula">(÷ show rate)</span></span><strong id="b-cc-bcall">$333</strong></div>
+            <div class="cac-row"><span>Max CPL <span class="formula">(× lead→book rate)</span></span><strong id="b-cc-cpl">$83</strong></div>
+          </div>
+
+          <!-- KPI GRID — 3 sections of 3 -->
+          <div class="kpi-section-head">Funnel Flow</div>
+          <div class="kpi-row" id="b-kpi-flow"></div>
+
+          <div class="kpi-section-head">Acquisition Economics</div>
+          <div class="kpi-row" id="b-kpi-acq"></div>
+
+          <div class="kpi-section-head">Offer &amp; LTV Economics</div>
+          <div class="kpi-row" id="b-kpi-ltv"></div>
+
+          <!-- COST PER CALL DIAGNOSIS -->
+          <div class="cpc-diag" id="b-cpc-diag" style="display:none;">
+            <div class="cpc-diag-title">⚠ Cost Per Call diagnosis — one of these is the cause:</div>
+            <ul class="cpc-diag-list" id="b-cpc-diag-list"></ul>
+          </div>
         </div>
 
+        <!-- VIEW 2 — THE CONSTRAINT (Share) -->
         <div class="view" id="b-view-constraint">
           <div class="belief-hero">
-            <div class="ctx">Belief #3 · Cost of the Constraint</div>
+            <div class="ctx">Belief #1 + #3 · The Leak</div>
             <h2>Here's the one thing breaking the business.</h2>
             <div class="sub">Their broken metric vs. industry benchmark — side by side, gap visible.</div>
           </div>
           <div class="constraint-card">
-            <div class="constraint-tag">The Constraint</div>
+            <div class="constraint-tag" id="b-con-pillar-tag">The Silver Bullet</div>
             <div class="constraint-name" id="b-con-name">—</div>
             <div class="constraint-comparison">
               <div class="constraint-stat">
@@ -698,30 +857,85 @@ body.share-mode .calc-footer{display:none;}
               </div>
             </div>
           </div>
+
+          <div class="gap-bar-wrap">
+            <div class="gap-bar-title">Where you are vs. where you need to be</div>
+            <div class="gap-bar">
+              <div class="gap-bar-mark theirs" id="b-gap-theirs" style="left:30%"></div>
+              <div class="gap-bar-mark bench" id="b-gap-bench" style="left:70%"></div>
+            </div>
+            <div class="gap-bar-labels"><span>Far below</span><span>Benchmark</span><span>Above</span></div>
+            <div class="gap-narrative" id="b-gap-narrative">—</div>
+          </div>
+
+          <button class="constraint-stack-toggle" id="b-stack-toggle" onclick="toggleConstraintStack()">
+            <span class="chev">▶</span><span>Show secondary constraints (P2, P3)</span>
+          </button>
+          <div class="secondary-stack" id="b-secondary-stack">
+            <div class="secondary-stack-head">Other constraints (address after the Silver Bullet)</div>
+            <div id="b-secondary-list"></div>
+          </div>
         </div>
 
-        <div class="view" id="b-view-fix">
+        <!-- VIEW 3 — COST OF THE LEAK (Share) -->
+        <div class="view" id="b-view-cost">
           <div class="belief-hero">
-            <div class="ctx">Belief #7 · Trust the Methodology</div>
-            <h2>Here's what fixing just that one thing does.</h2>
-            <div class="sub">Two numbers, side by side. Current monthly contracted vs. projected at benchmark.</div>
+            <div class="ctx">Belief #3 · Cost of Inaction</div>
+            <h2>Here's what the leak is costing you.</h2>
+            <div class="sub">Every month this stays broken, here's the contracted revenue you're leaving on the table.</div>
           </div>
           <div class="split-2">
             <div class="mcard red hero">
               <div class="mlabel">Current Monthly Contracted</div>
-              <div class="mval huge red" id="b-fix-now">—</div>
-              <div class="msub">at your current <span id="b-fix-now-metric">—</span></div>
+              <div class="mval huge red" id="b-cost-now">—</div>
+              <div class="msub">at your current <span id="b-cost-now-metric">—</span></div>
+            </div>
+            <div class="mcard amber hero">
+              <div class="mlabel">Lost Every Month to the Leak</div>
+              <div class="mval huge amber" id="b-cost-monthly">—</div>
+              <div class="msub" id="b-cost-monthly-sub">vs. if the silver bullet hits benchmark</div>
+            </div>
+          </div>
+          <div class="rev-caption" style="margin-top:14px;background:#fef2f2;border-color:#fecaca;color:#7f1d1d;">
+            That's <strong id="b-cost-annual" style="color:#dc2626;">$0</strong> in contracted revenue lost every 12 months this constraint stays broken
+            <span class="small" style="color:#991b1b;">— and that's before counting LTV stacking from those clients you never signed</span>
+          </div>
+        </div>
+
+        <!-- VIEW 4 — SILVER BULLET ROI (Pre-Price Reveal) -->
+        <div class="view" id="b-view-reveal">
+          <div class="belief-hero">
+            <div class="ctx">Pre-Price Drop · ROI Reveal</div>
+            <h2>Here's the cost of leaving it — and the path to closing it.</h2>
+            <div class="sub">Both numbers on screen. Stay silent. Drop the price.</div>
+          </div>
+          <div class="split-2">
+            <div class="mcard red hero">
+              <div class="mlabel">12-Month Cost of Leaving the Leak In</div>
+              <div class="mval huge red" id="b-rv-cost">—</div>
+              <div class="msub">if the silver bullet stays broken</div>
             </div>
             <div class="mcard green hero">
-              <div class="mlabel">If <span id="b-fix-name">—</span> Hits Benchmark</div>
-              <div class="mval huge green" id="b-fix-future">—</div>
-              <div class="msub" id="b-fix-future-sub">just by fixing this one constraint</div>
+              <div class="mlabel">12-Month Path to Closing It</div>
+              <div class="mval huge green" id="b-rv-path">—</div>
+              <div class="msub">contracted revenue if the constraint is fixed
+                <div class="reveal-sub-cards">
+                  <div class="rsc-item">
+                    <div class="rsc-lbl">New Monthly</div>
+                    <div class="rsc-val" id="b-rv-new-mo">—</div>
+                  </div>
+                  <div class="rsc-item">
+                    <div class="rsc-lbl">Net Swing</div>
+                    <div class="rsc-val" id="b-rv-swing">—</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
       </div>
-      <div class="calc-footer">IFCA · Impact Fitness Coaching Academy · v7</div>
+      <div class="calc-footer">IFCA · Impact Fitness Coaching Academy · v8</div>
     </div>
   </div>
 
@@ -1024,67 +1238,338 @@ function switchView(panel,v,btn){
   btn.classList.add('active');
 }
 
-// ═══════════ PROBLEM SYNTAX CALCULATOR ═══════════
-const BENCH = {leadToBook:25,bookToShow:75,closeOnShow:35,cpl:50,cpa:1500};
-function calcBiz(){
-  const spend=num('b-spend'),leads=num('b-leads'),booked=num('b-booked'),show=num('b-show'),close=num('b-close');
-  const pkg=num('b-pkg'),ret=num('b-ret');
-  const leadToBook=leads>0?(booked/leads*100):0;
-  const bookToShow=booked>0?(show/booked*100):0;
-  const closeOnShow=show>0?(close/show*100):0;
-  const cpl=leads>0?spend/leads:0;
-  const cpa=close>0?spend/close:0;
+// ═══════════ PROBLEM SYNTAX CALCULATOR V3 ═══════════
+// Funnel-specific CPL benchmarks (target, warn, fail)
+const FUNNEL_CPL = {
+  dm:         {target:10, warn:18, fail:25, label:'DM Leads',          benchLabel:'<$10'},
+  follower:   {target:2,  warn:4,  fail:5,  label:'New Followers',     benchLabel:'<$2'},
+  vsl:        {target:0,  warn:0,  fail:0,  label:'Opt-Ins',           benchLabel:'derived'}, // computed from CAC chain
+  masterclass:{target:15, warn:25, fail:35, label:'Registrants',       benchLabel:'<$15'}
+};
 
-  const kpis=[
-    {n:'Lead → Book',mine:leadToBook,bench:BENCH.leadToBook,fmt:'%',higher:true,name:'leadToBook'},
-    {n:'Book → Show',mine:bookToShow,bench:BENCH.bookToShow,fmt:'%',higher:true,name:'bookToShow'},
-    {n:'Close on Show',mine:closeOnShow,bench:BENCH.closeOnShow,fmt:'%',higher:true,name:'closeOnShow'},
-    {n:'CPL',mine:cpl,bench:BENCH.cpl,fmt:'$',higher:false,name:'cpl'},
-    {n:'CPA',mine:cpa,bench:BENCH.cpa,fmt:'$',higher:false,name:'cpa'}
-  ];
-  const kpiHtml=kpis.map(k=>{
-    const empty=!isFinite(k.mine)||k.mine===0;
-    const passes=empty?false:(k.higher?k.mine>=k.bench:k.mine<=k.bench);
-    const cls=empty?'empty':(passes?'pass':'fail');
-    const icon=empty?'·':(passes?'\u2713':'\u2717');
-    const v=k.fmt==='%'?Math.round(k.mine)+'%':fmtFull(k.mine);
-    const bv=k.fmt==='%'?k.bench+'%':fmtFull(k.bench);
-    return `<div class="kpi-item ${cls}"><div class="kpi-status">${icon}</div><div class="kpi-info"><div class="kpi-name">${k.n}</div><div class="kpi-vals"><span class="kpi-val-main ${cls}">${v}</span> · benchmark ${bv}</div></div></div>`;
-  }).join('');
-  $('b-kpi-list').innerHTML=kpiHtml;
-
-  const failing=kpis.filter(k=>{const empty=!isFinite(k.mine)||k.mine===0;if(empty)return false;return k.higher?k.mine<k.bench:k.mine>k.bench;});
-  const primary=failing[0]||{n:'—',mine:0,bench:0,fmt:'%',higher:true,name:'none'};
-
-  $('b-con-name').textContent=primary.n!=='—'?primary.n+' is the leak':'No clear constraint detected';
-  $('b-con-theirs').textContent=primary.fmt==='%'?Math.round(primary.mine)+'%':fmtFull(primary.mine);
-  $('b-con-bench').textContent=primary.fmt==='%'?primary.bench+'%':fmtFull(primary.bench);
-
-  const currentMonthlyRevenue=close*pkg;
-  let projectedClose=close;
-  if(primary.name==='leadToBook'){
-    const newBooked=leads*BENCH.leadToBook/100;
-    const newShow=newBooked*(bookToShow/100||BENCH.bookToShow/100);
-    projectedClose=newShow*(closeOnShow/100||BENCH.closeOnShow/100);
-  } else if(primary.name==='bookToShow'){
-    const newShow=booked*BENCH.bookToShow/100;
-    projectedClose=newShow*(closeOnShow/100||BENCH.closeOnShow/100);
-  } else if(primary.name==='closeOnShow'){
-    projectedClose=show*BENCH.closeOnShow/100;
-  } else if(primary.name==='cpl'){
-    const newLeads=spend/BENCH.cpl;
-    const newBooked=newLeads*(leadToBook/100||BENCH.leadToBook/100);
-    const newShow=newBooked*(bookToShow/100||BENCH.bookToShow/100);
-    projectedClose=newShow*(closeOnShow/100||BENCH.closeOnShow/100);
-  } else if(primary.name==='cpa'){
-    projectedClose=spend/BENCH.cpa;
+// 4-tier severity. Returns 'crit'|'brk'|'gp'|'okk'|'empty'.
+// higher=true means higher value is better (Lead→Book, Show, Close, LTV, LTV:CAC)
+// higher=false means lower value is better (CPL, CPA, Cost/Call)
+function severity(mine, bench, higher){
+  if(!isFinite(mine)||mine===0||!bench) return 'empty';
+  if(higher){
+    if(mine >= bench) return 'okk';
+    const gap = (bench - mine)/bench;
+    if(gap <= 0.15) return 'gp';
+    if(gap <= 0.40) return 'brk';
+    return 'crit';
+  } else {
+    if(mine <= bench) return 'okk';
+    const over = (mine - bench)/bench;
+    if(over <= 0.25) return 'gp';
+    if(over <= 0.75) return 'brk';
+    return 'crit';
   }
-  const projectedMonthlyRevenue=projectedClose*pkg;
-  $('b-fix-now').textContent=fmt(currentMonthlyRevenue);
-  $('b-fix-now-metric').textContent=primary.fmt==='%'?Math.round(primary.mine)+'%':fmtFull(primary.mine);
-  $('b-fix-future').textContent=fmt(projectedMonthlyRevenue);
-  $('b-fix-future-sub').textContent=`projected monthly contracted — at benchmark ${primary.fmt==='%'?primary.bench+'%':fmtFull(primary.bench)}`;
-  $('b-fix-name').textContent=primary.n;
+}
+
+const SEV_RANK = {crit:0, brk:1, gp:2, okk:3, empty:4};
+const SEV_BADGE = {
+  crit:'<span class="sev-badge sev-critical">CRITICAL</span>',
+  brk: '<span class="sev-badge sev-broken">BROKEN</span>',
+  gp:  '<span class="sev-badge sev-gap">GAP</span>',
+  okk: '<span class="sev-badge sev-ok">OK</span>',
+  empty:'<span class="sev-badge sev-empty">—</span>'
+};
+
+// Pillar mapping for the Silver Bullet
+const PILLAR_MAP = {
+  leadToBook:  {pillar:'Pillar 3 — Impact AI Business Manager', detail:'leads aren\'t converting to booked calls — pipeline + nurture leak'},
+  bookToShow:  {pillar:'Pillar 3 — Impact AI Business Manager', detail:'booked calls aren\'t showing up — pre-call nurture broken'},
+  closeOnShow: {pillar:'Pillar 4 — Conversion + Retention System', detail:'live calls are happening but not closing — sales process leak on the call itself'},
+  cpl:         {pillar:'Pillar 2 — Lead Generation Engine',     detail:'cost per lead is above what the funnel can sustain'},
+  costPerCall: {pillar:'Pillar 2 — Lead Generation Engine',     detail:'cost per live call is above the funnel max — acquisition is inefficient'},
+  cpa:         {pillar:'Pillar 1 — AI Offer Optimization',      detail:'cost per acquisition is too high relative to offer — likely positioning misfire'},
+  cashColl:    {pillar:'Pillar 1 — AI Offer Optimization',      detail:'cash collection rate is low — offer pricing/buyer-fit misalignment'},
+  ltv:         {pillar:'Pillar 4 — LTV Retention Method',       detail:'LTV per client is too low — no back-end or weak resign mechanism'},
+  ltvCac:      {pillar:'Pillar 4 — LTV Retention Method',       detail:'LTV:CAC ratio below 3:1 — every client acquired barely pays back acquisition cost'}
+};
+
+function fmtPct(v){ return isFinite(v)?Math.round(v)+'%':'—'; }
+function fmtMult(v){ return isFinite(v)&&v>0?v.toFixed(1)+'×':'—'; }
+
+function calcBiz(){
+  // INPUTS
+  const feRate    = num('b-fe-rate') || 500;
+  const feLen     = num('b-fe-len')  || 6;
+  const funnel    = $('b-funnel').value || 'dm';
+  const spend     = num('b-spend');
+  const paidLeads = num('b-leads');
+  const orgLeads  = num('b-organic');
+  const booked    = num('b-booked');
+  const showed    = num('b-show');
+  const closes    = num('b-close');
+  const cash      = num('b-cash');
+  const beRate    = num('b-be-rate') || 0;
+  const beLen     = num('b-be-len')  || 0;
+  const resignPct = num('b-resign')  || 0;
+
+  // OFFER MATH
+  const pkg = feRate * feLen;
+  const ltv = pkg + (beRate * beLen * (resignPct/100));
+  const totalLeads = paidLeads + orgLeads;
+
+  // FUNNEL KPIs
+  const leadToBook  = totalLeads>0 ? (booked/totalLeads*100) : 0;
+  const bookToShow  = booked>0 ? (showed/booked*100) : 0;
+  const closeOnShow = showed>0 ? (closes/showed*100) : 0;
+  const cpl         = paidLeads>0 ? spend/paidLeads : 0;       // CPL on paid leads only
+  const costPerCall = showed>0 ? spend/showed : 0;             // ad spend per live call
+  const cpa         = closes>0 ? spend/closes : 0;
+  const contractedRev = closes * pkg;
+  const cashColl    = contractedRev>0 ? (cash/contractedRev*100) : 0;
+  const ltvCac      = cpa>0 ? ltv/cpa : 0;
+
+  // BENCHMARKS — funnel-aware + CAC-derived
+  const maxCac = pkg * 0.25;
+  const maxCostQualCall = maxCac / 3;
+  const showRateForChain = (bookToShow > 0 ? bookToShow/100 : 0.75);
+  const l2bForChain = (leadToBook > 0 ? leadToBook/100 : 0.25);
+  const maxCostBookedCall = maxCostQualCall / showRateForChain;
+  const maxCpl = funnel==='vsl' ? maxCostBookedCall * l2bForChain : FUNNEL_CPL[funnel].target;
+
+  // Per Constraint Intelligence: Cost Per Live Call target ~ $150 floor for direct-to-call,
+  // but anchor primarily to (max cost per qualified call ÷ show rate)
+  const maxCostLiveCall = maxCostQualCall;  // qualified call ≈ live call for our diagnostic
+
+  const BENCH_V3 = {
+    leadToBook:  25,
+    bookToShow:  75,
+    closeOnShow: 35,
+    cpl:         maxCpl,
+    costPerCall: maxCostLiveCall,
+    cpa:         maxCac,
+    cashColl:    40,
+    ltv:         pkg * 1.5,  // healthy LTV is 1.5× FE package minimum
+    ltvCac:      3
+  };
+
+  // READOUTS in input panel
+  $('b-pkg-readout').textContent     = fmtFull(pkg);
+  $('b-maxcac-readout').textContent  = fmtFull(maxCac);
+  $('b-cpl-readout').textContent     = isFinite(cpl)&&cpl>0 ? fmtFull(cpl) : '—';
+  $('b-cpl-bench-readout').textContent = funnel==='vsl' ? '~'+fmtFull(maxCpl)+' (derived)' : FUNNEL_CPL[funnel].benchLabel;
+  $('b-l2b-readout').textContent     = fmtPct(leadToBook);
+  $('b-show-readout').textContent    = fmtPct(bookToShow);
+  $('b-close-readout').textContent   = fmtPct(closeOnShow);
+  $('b-cpa-readout').textContent     = closes>0 ? fmtFull(cpa) : '—';
+  $('b-ltv-readout').textContent     = fmtFull(ltv);
+  $('b-ltvcac-readout').textContent  = ltvCac>0 ? fmtMult(ltvCac) : '—';
+  $('b-leads-label').textContent     = FUNNEL_CPL[funnel].label + ' / Mo';
+
+  // CAC CHAIN PANEL
+  $('b-cc-offer').textContent = fmtFull(pkg);
+  $('b-cc-cac').textContent   = fmtFull(maxCac);
+  $('b-cc-qcall').textContent = fmtFull(maxCostQualCall);
+  $('b-cc-bcall').textContent = fmtFull(maxCostBookedCall);
+  $('b-cc-cpl').textContent   = fmtFull(maxCpl);
+
+  // KPI DEFINITIONS — ordered by funnel priority (P1 candidate first)
+  const KPIS = [
+    {key:'leadToBook',  n:'Lead → Book',       mine:leadToBook,  bench:BENCH_V3.leadToBook,  higher:true,  fmt:'%',  section:'flow'},
+    {key:'bookToShow',  n:'Book → Show',       mine:bookToShow,  bench:BENCH_V3.bookToShow,  higher:true,  fmt:'%',  section:'flow'},
+    {key:'closeOnShow', n:'Live Close Rate',     mine:closeOnShow, bench:BENCH_V3.closeOnShow, higher:true,  fmt:'%',  section:'flow'},
+    {key:'cpl',         n:'CPL',               mine:cpl,         bench:BENCH_V3.cpl,         higher:false, fmt:'$',  section:'acq'},
+    {key:'costPerCall', n:'Cost / Live Call',  mine:costPerCall, bench:BENCH_V3.costPerCall, higher:false, fmt:'$',  section:'acq'},
+    {key:'cpa',         n:'CPA',               mine:cpa,         bench:BENCH_V3.cpa,         higher:false, fmt:'$',  section:'acq'},
+    {key:'cashColl',    n:'Cash Coll %',       mine:cashColl,    bench:BENCH_V3.cashColl,    higher:true,  fmt:'%',  section:'ltv'},
+    {key:'ltv',         n:'LTV / Client',      mine:ltv,         bench:BENCH_V3.ltv,         higher:true,  fmt:'$',  section:'ltv'},
+    {key:'ltvCac',      n:'LTV : CAC',         mine:ltvCac,      bench:BENCH_V3.ltvCac,      higher:true,  fmt:'x',  section:'ltv'}
+  ];
+
+  // Compute severity for each
+  KPIS.forEach(k => { k.sev = severity(k.mine, k.bench, k.higher); });
+
+  // SILVER BULLET — first crit or brk in funnel priority order
+  const failingOrdered = KPIS.filter(k => k.sev==='crit' || k.sev==='brk')
+    .sort((a,b) => SEV_RANK[a.sev] - SEV_RANK[b.sev] || KPIS.indexOf(a) - KPIS.indexOf(b));
+  // If multiple at same severity, keep funnel-priority order (already sorted by KPIS index)
+  const primary = failingOrdered[0] || null;
+
+  // Render KPI tiles — primary gets full color, others demoted unless show-all is open
+  function renderRow(section, mountId){
+    const tiles = KPIS.filter(k=>k.section===section).map(k=>{
+      const isPrimary = primary && k.key===primary.key;
+      const valDisp = k.fmt==='%' ? fmtPct(k.mine)
+                    : k.fmt==='x' ? fmtMult(k.mine)
+                    : (k.mine>0 ? fmtFull(k.mine) : '—');
+      const benchDisp = k.fmt==='%' ? k.bench+'%'
+                      : k.fmt==='x' ? k.bench+'×'
+                      : fmtFull(k.bench);
+      const cls = k.sev==='empty' ? 'empty' : k.sev;
+      // De-emphasize non-primary unless show-all is open OR primary doesn't exist
+      const demoted = primary && !isPrimary && (k.sev==='crit'||k.sev==='brk') ? 'demoted' : '';
+      return `<div class="kpi-tile ${cls} ${demoted}" data-key="${k.key}">
+        <div class="kpi-tile-head"><span class="kpi-tile-name">${k.n}</span>${SEV_BADGE[k.sev]}</div>
+        <div class="kpi-tile-val">${valDisp}</div>
+        <div class="kpi-tile-bench">target ${benchDisp}</div>
+      </div>`;
+    }).join('');
+    $(mountId).innerHTML = tiles;
+  }
+  renderRow('flow','b-kpi-flow');
+  renderRow('acq', 'b-kpi-acq');
+  renderRow('ltv', 'b-kpi-ltv');
+
+  // SILVER BULLET CALLOUT
+  const sbBox = $('b-sb');
+  if(primary){
+    sbBox.classList.remove('sb-empty');
+    $('b-sb-name').textContent = primary.n + ' — your business is leaking here';
+    const mineDisp = primary.fmt==='%' ? fmtPct(primary.mine)
+                   : primary.fmt==='x' ? fmtMult(primary.mine)
+                   : fmtFull(primary.mine);
+    const benchDisp = primary.fmt==='%' ? primary.bench+'%'
+                    : primary.fmt==='x' ? primary.bench+'×'
+                    : fmtFull(primary.bench);
+    $('b-sb-detail').innerHTML = `You're at <strong>${mineDisp}</strong> vs. industry benchmark <strong>${benchDisp}</strong>. ${PILLAR_MAP[primary.key].detail}.`;
+    $('b-sb-pillar').textContent = '→ Lead Full on: ' + PILLAR_MAP[primary.key].pillar;
+  } else {
+    sbBox.classList.add('sb-empty');
+    const hasAnyData = totalLeads>0 || booked>0 || closes>0;
+    $('b-sb-name').textContent = hasAnyData ? 'No critical constraint detected' : 'Enter numbers to surface the constraint';
+    $('b-sb-detail').textContent = hasAnyData ? 'All KPIs are at or near benchmark. Lead the pitch on their stated goal — there\'s no obvious leak to anchor to.' : 'Fill the inputs as the prospect answers during discovery.';
+    $('b-sb-pillar').textContent = hasAnyData ? '→ Run pitch on goal-anchor logic, not constraint logic' : '—';
+  }
+
+  // COST PER CALL DIAGNOSIS — only if Cost/Live Call is failing
+  const cpcKpi = KPIS.find(k=>k.key==='costPerCall');
+  const cpcDiag = $('b-cpc-diag');
+  if(cpcKpi.sev==='crit' || cpcKpi.sev==='brk'){
+    const causes = [];
+    const closeKpi = KPIS.find(k=>k.key==='closeOnShow');
+    const l2bKpi   = KPIS.find(k=>k.key==='leadToBook');
+    if(closeKpi.sev==='crit'||closeKpi.sev==='brk') causes.push('<strong>Live Close Rate too low</strong> — CAC inflates because spend isn\'t converting to closes on the call. Fix close rate first.');
+    if(l2bKpi.sev==='crit'||l2bKpi.sev==='brk')    causes.push('<strong>Lead→Book broken</strong> — leads aren\'t committing to calls, so each live call costs more in spend. Fix pipeline conversion.');
+    if(causes.length===0)                          causes.push('<strong>Pricing problem</strong> — offer can\'t absorb the CAC this funnel produces. Either raise price or shift to a higher-converting funnel type.');
+    $('b-cpc-diag-list').innerHTML = causes.map(c=>`<li>${c}</li>`).join('');
+    cpcDiag.style.display = 'block';
+  } else {
+    cpcDiag.style.display = 'none';
+  }
+
+  // VIEW 2 — The Constraint
+  if(primary){
+    $('b-con-pillar-tag').textContent = '🎯 The Silver Bullet';
+    $('b-con-name').textContent = primary.n + ' is the leak';
+    $('b-con-theirs').textContent = primary.fmt==='%' ? fmtPct(primary.mine)
+                                  : primary.fmt==='x' ? fmtMult(primary.mine)
+                                  : fmtFull(primary.mine);
+    $('b-con-bench').textContent  = primary.fmt==='%' ? primary.bench+'%'
+                                  : primary.fmt==='x' ? primary.bench+'×'
+                                  : fmtFull(primary.bench);
+    // Position markers on the gap bar (0-100% scale)
+    const benchPos = 70;
+    let theirPos;
+    if(primary.higher){
+      theirPos = primary.bench>0 ? Math.max(5, Math.min(95, (primary.mine/primary.bench)*70)) : 5;
+    } else {
+      theirPos = primary.bench>0 ? Math.max(5, Math.min(95, 100 - ((primary.mine - primary.bench)/primary.bench)*30 - 30)) : 95;
+    }
+    $('b-gap-theirs').style.left = theirPos+'%';
+    $('b-gap-bench').style.left = benchPos+'%';
+    // Narrative
+    let multiplier;
+    if(primary.higher){
+      multiplier = primary.mine>0 ? (primary.bench/primary.mine).toFixed(1) : '—';
+      $('b-gap-narrative').innerHTML = `You're at <strong>${primary.fmt==='%'?fmtPct(primary.mine):fmtFull(primary.mine)}</strong>. To hit benchmark you need to ${multiplier}× this metric.`;
+    } else {
+      multiplier = primary.bench>0 ? (primary.mine/primary.bench).toFixed(1) : '—';
+      $('b-gap-narrative').innerHTML = `Your ${primary.n} is <strong>${multiplier}×</strong> the industry benchmark. Every dollar above the line is profit you're not capturing.`;
+    }
+  } else {
+    $('b-con-pillar-tag').textContent = 'The Silver Bullet';
+    $('b-con-name').textContent = 'No constraint detected';
+    $('b-con-theirs').textContent = '—';
+    $('b-con-bench').textContent  = '—';
+    $('b-gap-narrative').textContent = 'Enter the prospect\'s numbers to surface the gap.';
+  }
+
+  // SECONDARY CONSTRAINT LIST (View 2 expandable)
+  const secondary = KPIS.filter(k => (k.sev==='crit'||k.sev==='brk') && (!primary || k.key!==primary.key));
+  if(secondary.length>0){
+    $('b-secondary-list').innerHTML = secondary.map(k=>{
+      const mineDisp = k.fmt==='%' ? fmtPct(k.mine) : k.fmt==='x' ? fmtMult(k.mine) : fmtFull(k.mine);
+      const benchDisp = k.fmt==='%' ? k.bench+'%' : k.fmt==='x' ? k.bench+'×' : fmtFull(k.bench);
+      return `<div class="sec-card">
+        <span class="sec-name">${k.n} ${SEV_BADGE[k.sev]}</span>
+        <span class="sec-vals">at <strong>${mineDisp}</strong> · target ${benchDisp}</span>
+      </div>`;
+    }).join('');
+    $('b-stack-toggle').style.display = 'inline-flex';
+  } else {
+    $('b-secondary-list').innerHTML = '<div class="sec-card"><span class="sec-vals">No other broken constraints — clean diagnostic.</span></div>';
+    $('b-stack-toggle').style.display = primary ? 'inline-flex' : 'none';
+  }
+
+  // VIEW 3 — Cost of the Leak (monthly contracted now vs. monthly contracted lost)
+  // Project what closes would look like if the silver bullet hits benchmark
+  let projClosesIfFixed = closes;
+  if(primary){
+    const useL2B = leadToBook>0 ? leadToBook/100 : 0.25;
+    const useShow = bookToShow>0 ? bookToShow/100 : 0.75;
+    const useClose = closeOnShow>0 ? closeOnShow/100 : 0.35;
+    if(primary.key==='leadToBook'){
+      const newBooked = totalLeads * (BENCH_V3.leadToBook/100);
+      const newShow = newBooked * useShow;
+      projClosesIfFixed = newShow * useClose;
+    } else if(primary.key==='bookToShow'){
+      const newShow = booked * (BENCH_V3.bookToShow/100);
+      projClosesIfFixed = newShow * useClose;
+    } else if(primary.key==='closeOnShow'){
+      projClosesIfFixed = showed * (BENCH_V3.closeOnShow/100);
+    } else if(primary.key==='cpl'){
+      const newPaidLeads = BENCH_V3.cpl>0 ? spend/BENCH_V3.cpl : paidLeads;
+      const newTotal = newPaidLeads + orgLeads;
+      const newBooked = newTotal * useL2B;
+      const newShow = newBooked * useShow;
+      projClosesIfFixed = newShow * useClose;
+    } else if(primary.key==='costPerCall'){
+      const newShow = BENCH_V3.costPerCall>0 ? spend/BENCH_V3.costPerCall : showed;
+      projClosesIfFixed = newShow * useClose;
+    } else if(primary.key==='cpa'){
+      projClosesIfFixed = BENCH_V3.cpa>0 ? spend/BENCH_V3.cpa : closes;
+    } else if(primary.key==='cashColl'){
+      projClosesIfFixed = closes; // cash collection doesn't change close count — but increases cash flow
+    } else if(primary.key==='ltv'||primary.key==='ltvCac'){
+      projClosesIfFixed = closes; // LTV improvements don't change FE closes — they multiply downstream revenue
+    }
+  }
+  const projContracted = projClosesIfFixed * pkg;
+  const monthlyLeak = Math.max(0, projContracted - contractedRev);
+  const annualLeak = monthlyLeak * 12;
+
+  $('b-cost-now').textContent = fmt(contractedRev);
+  const primMineDisp = primary ? (primary.fmt==='%' ? fmtPct(primary.mine) : primary.fmt==='x' ? fmtMult(primary.mine) : fmtFull(primary.mine)) : '—';
+  $('b-cost-now-metric').textContent = primary ? primary.n+' at '+primMineDisp : '—';
+  $('b-cost-monthly').textContent = fmt(monthlyLeak);
+  $('b-cost-monthly-sub').textContent = primary
+    ? 'if ' + primary.n + ' moved from ' + primMineDisp + ' to ' + (primary.fmt==='%'?primary.bench+'%':primary.fmt==='x'?primary.bench+'×':fmtFull(primary.bench))
+    : 'silver bullet not yet identified';
+  $('b-cost-annual').textContent = fmtFull(annualLeak);
+
+  // VIEW 4 — Silver Bullet ROI Reveal
+  const annualLost = annualLeak;
+  const annualProjected = projContracted * 12;
+  $('b-rv-cost').textContent = fmtFull(annualLost);
+  $('b-rv-path').textContent = fmtFull(annualProjected);
+  $('b-rv-new-mo').textContent = fmt(projContracted);
+  $('b-rv-swing').textContent = '+' + fmt(monthlyLeak);
+}
+
+// Toggle the constraint stack (show/hide secondary P2/P3 constraints)
+function toggleConstraintStack(){
+  const btn = $('b-stack-toggle');
+  const stack = $('b-secondary-stack');
+  btn.classList.toggle('open');
+  stack.classList.toggle('open');
+  btn.querySelector('span:last-child').textContent = stack.classList.contains('open')
+    ? 'Hide secondary constraints'
+    : 'Show secondary constraints (P2, P3)';
 }
 
 // ═══════════ TAB SWITCHING + GLOBAL ═══════════
@@ -1114,8 +1599,11 @@ function resetCurrent(){
     $('p-pif').value=40;$('p-signrate').value=2;
     calcPT();
   } else if(active==='panel-biz'){
-    $('b-spend').value=3000;$('b-leads').value=120;$('b-booked').value=30;$('b-show').value=20;
-    $('b-close').value=3;$('b-pkg').value=5000;$('b-ret').value=9;
+    $('b-fe-rate').value=500;$('b-fe-len').value=6;$('b-funnel').value='dm';
+    $('b-spend').value=3000;$('b-leads').value=120;$('b-organic').value=20;
+    $('b-booked').value=30;$('b-show').value=20;
+    $('b-close').value=3;$('b-cash').value=6000;
+    $('b-be-rate').value=375;$('b-be-len').value=12;$('b-resign').value=40;
     calcBiz();
   }
 }
