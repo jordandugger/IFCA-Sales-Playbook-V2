@@ -33,17 +33,16 @@ h1.hero-title .accent{background:linear-gradient(90deg,#f59e0b,#fbbf24);-webkit-
 .covered-pill{background:#0c1524;border:1px solid #1e293b;border-radius:20px;padding:6px 14px;font-size:11px;font-weight:500;color:#94a3b8;display:flex;align-items:center;gap:7px;}
 .covered-pill::before{content:'';width:6px;height:6px;border-radius:50%;background:#f59e0b;flex-shrink:0;}
 
-/* LOOM CARD */
-.loom-card{background:#0c1524;border:1px solid #1e293b;border-radius:14px;padding:28px 32px;margin:40px 0;display:flex;gap:28px;align-items:flex-start;position:relative;overflow:hidden;}
-.loom-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#f59e0b,#fbbf24);border-radius:14px 14px 0 0;}
-.loom-icon-wrap{width:52px;height:52px;border-radius:12px;background:rgba(245,158,11,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.loom-content{flex:1;}
-.loom-eyebrow{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#f59e0b;margin-bottom:8px;}
-.loom-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:#f1f5f9;margin-bottom:8px;letter-spacing:-.02em;}
-.loom-desc{font-size:13.5px;color:#475569;line-height:1.65;margin-bottom:18px;}
-.loom-btn{display:inline-flex;align-items:center;gap:9px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:8px;padding:10px 18px;text-decoration:none;color:#fbbf24;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:background .2s,border-color .2s;}
-.loom-btn:hover{background:rgba(245,158,11,.18);border-color:rgba(245,158,11,.5);}
-.loom-btn svg{width:16px;height:16px;}
+/* TRAINING VIDEO EMBED */
+.video-card{background:#0c1524;border:1px solid #1e293b;border-radius:14px;margin:40px 0;position:relative;overflow:hidden;}
+.video-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#f59e0b,#fbbf24);border-radius:14px 14px 0 0;z-index:2;}
+.video-meta{padding:28px 32px 22px;}
+.video-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#f59e0b;margin-bottom:12px;}
+.vm-dot{width:7px;height:7px;border-radius:50%;background:#f59e0b;box-shadow:0 0 12px rgba(245,158,11,.6);}
+.video-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#f1f5f9;margin-bottom:10px;letter-spacing:-.02em;}
+.video-desc{font-size:13.5px;color:#475569;line-height:1.65;}
+.video-desc strong{color:#94a3b8;font-weight:500;}
+.video-embed{background:#000;border-top:1px solid #1e293b;}
 
 /* SECTION DIVIDER */
 .sdiv{display:flex;align-items:center;gap:16px;margin:52px 0 24px;}
@@ -150,28 +149,28 @@ h1.hero-title .accent{background:linear-gradient(90deg,#f59e0b,#fbbf24);-webkit-
     </div>
   </div>
 
-  <!-- LOOM VIDEO -->
-  <div class="loom-card">
-    <div class="loom-icon-wrap">
-      <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-        <circle cx="13" cy="13" r="11" stroke="#f59e0b" stroke-width="1.6" fill="none"/>
-        <path d="M10.5 9.5l7 3.5-7 3.5V9.5z" fill="#f59e0b"/>
-      </svg>
+  <!-- TRAINING VIDEO — AP TRIPLE TIE-DOWN WALKTHROUGH -->
+  <div class="video-card">
+    <div class="video-meta">
+      <div class="video-eyebrow">
+        <span class="vm-dot"></span>
+        Training Video · AP, Former Sales Manager
+      </div>
+      <div class="video-title">Triple Tie-Down — Financial Objection Walkthrough</div>
+      <div class="video-desc"><strong>AP</strong> walks through the full Triple Tie-Down sequence on financial objections — isolating the true objection, the open wallet conversation, and closing on a custom plan. Watch this once end-to-end before running the framework live on your next call.</div>
     </div>
-    <div class="loom-content">
-      <div class="loom-eyebrow">Training Video</div>
-      <div class="loom-title">Triple Tie-Down — Full Walkthrough</div>
-      <div class="loom-desc">Watch the full framework in action: isolating the objection, the open wallet sequence, and closing on a custom plan. Covers every variation — emotional, logistical, and combined.</div>
-      <!-- ── REPLACE THE href BELOW WITH YOUR REAL LOOM URL ── -->
-      <a class="loom-btn" href="PASTE_LOOM_URL_HERE" target="_blank" rel="noopener">
-        <svg viewBox="0 0 16 16" fill="none">
-          <circle cx="8" cy="8" r="7" stroke="#fbbf24" stroke-width="1.4" fill="none"/>
-          <path d="M6.5 5.5l4 2.5-4 2.5V5.5z" fill="#fbbf24"/>
-        </svg>
-        Watch on Loom
-      </a>
+    <div class="video-embed">
+      <div style="padding:75% 0 0 0;position:relative;">
+        <iframe src="https://player.vimeo.com/video/1191163302?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                frameborder="0"
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                style="position:absolute;top:0;left:0;width:100%;height:100%;"
+                title="Triple Tie Down - Financial Objections"></iframe>
+      </div>
     </div>
   </div>
+  <script src="https://player.vimeo.com/api/player.js"></script>
 
   <!-- FRAMEWORK -->
   <div class="sdiv">
