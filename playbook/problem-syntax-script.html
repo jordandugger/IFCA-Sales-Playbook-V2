@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Problem Syntax Script v3 — IFCA</title>
+<title>Problem Syntax Script v4 — IFCA</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
 <style>
 :root{--navy:#0f172a;--bg:#f1f5f9;--white:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--say-bg:#eff6ff;--say-border:#3b82f6;--say-label:#1d4ed8;--coach-bg:#fefce8;--coach-border:#fbbf24;--coach-label:#92400e;--coach-text:#78350f;--rule-bg:#fff1f2;--rule-border:#f43f5e;--rule-text:#9f1239;--calc-bg:#f0fdfa;--calc-border:#0d9488;--calc-text:#134e4a;}
@@ -76,19 +76,112 @@
 .when-bar strong{color:#15803d;font-weight:700;flex-shrink:0;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding-top:1px;}
 /* Guide */
 .guide-section{margin-bottom:16px;}.guide-section-title{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--text);letter-spacing:-.1px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}.guide-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:2px;}.guide-table th{background:#f8fafc;padding:7px 10px;text-align:left;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);}.guide-table td{padding:8px 10px;border-bottom:1px solid #f1f5f9;vertical-align:top;line-height:1.5;}.guide-table tr:last-child td{border-bottom:none;}.guide-mode-chip{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;margin:1px 2px;}.chip-q{background:#dcfce7;color:#15803d;}.chip-f{background:#dbeafe;color:#1d4ed8;}.chip-d{background:#fef3c7;color:#92400e;}.guide-formula{background:#f8fafc;border:1px solid var(--border);border-radius:7px;padding:13px 15px;font-size:13.5px;line-height:1.7;color:var(--text);}.guide-formula strong{color:#4338ca;}.guide-rule{background:#fff1f2;border-left:4px solid #f43f5e;border-radius:0 7px 7px 0;padding:10px 15px;font-size:13px;font-weight:600;color:var(--rule-text);}
+.guide-callout{background:linear-gradient(180deg,#fef3c7 0%,#fffbeb 100%);border:1px solid #fcd34d;border-left:4px solid #f59e0b;border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:14px;}
+.guide-callout-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:#78350f;margin-bottom:8px;letter-spacing:-.2px;}
+.guide-callout-body{font-size:13px;line-height:1.7;color:#451a03;}
+.guide-callout-body p{margin-bottom:9px;}.guide-callout-body p:last-child{margin-bottom:0;}
+.guide-callout-body strong{color:#7c2d12;font-weight:700;}
+.guide-mode-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:10px;}
+.guide-mode-card-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding-bottom:9px;border-bottom:1px solid var(--border);}
+.guide-mode-icon{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.guide-mode-icon.q{background:#dcfce7;color:#15803d;}.guide-mode-icon.m{background:#dbeafe;color:#1d4ed8;}.guide-mode-icon.d{background:#fef3c7;color:#92400e;}
+.guide-mode-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--text);}
+.guide-mode-tagline{font-size:11.5px;color:var(--muted);margin-top:1px;}
+.guide-mode-body{font-size:13px;line-height:1.65;color:var(--text);}
+.guide-mode-body p{margin-bottom:8px;}.guide-mode-body p:last-child{margin-bottom:0;}
+.guide-mode-when{margin-top:10px;padding:8px 12px;background:#f8fafc;border-radius:6px;font-size:12px;line-height:1.55;color:#475569;border-left:3px solid #cbd5e1;}
+.guide-mode-when strong{color:#1e293b;}
+.guide-principle{background:#fff;border:1px solid var(--border);border-radius:8px;padding:13px 15px;margin-bottom:10px;display:flex;gap:14px;}
+.guide-principle-num{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#7c3aed;line-height:1;flex-shrink:0;width:32px;text-align:center;}
+.guide-principle-body{flex:1;}
+.guide-principle-title{font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:5px;letter-spacing:-.2px;}
+.guide-principle-desc{font-size:12.5px;line-height:1.65;color:#475569;}
+.guide-principle-desc p{margin-bottom:7px;}.guide-principle-desc p:last-child{margin-bottom:0;}
+.guide-principle-desc strong{color:var(--text);}
+.guide-decision{background:#1e293b;color:#fff;border-radius:8px;padding:14px 18px;margin-bottom:14px;}
+.guide-decision-eyebrow{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fbbf24;margin-bottom:6px;}
+.guide-decision-q{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff;line-height:1.45;margin-bottom:10px;letter-spacing:-.2px;}
+.guide-decision-body{font-size:12.5px;line-height:1.7;color:#cbd5e1;}
+.guide-decision-body strong{color:#fff;}
+.guide-decision-body .accent{color:#fbbf24;font-weight:600;}
+/* Quick Script — Live-Call Optimized (bigger fonts, wider spacing) */
+body:not(.sop-mode) .content{padding:24px 32px 80px;}
+body:not(.sop-mode) #content{max-width:920px;margin:0 auto;}
+body:not(.sop-mode) .phase{margin-bottom:30px;}
+body:not(.sop-mode) .phase-head{padding:14px 20px;}
+body:not(.sop-mode) .phase-badge{font-size:19px;width:40px;height:40px;}
+body:not(.sop-mode) .phase-name{font-size:18px;}
+body:not(.sop-mode) .phase-sub{font-size:11.5px;}
+body:not(.sop-mode) .phase-body{padding:18px 20px;gap:15px;}
+body:not(.sop-mode) .say-text{font-size:17px;line-height:1.95;}
+body:not(.sop-mode) .say-text p{margin-bottom:13px;}
+body:not(.sop-mode) .block-say{padding:15px 19px;}
+body:not(.sop-mode) .say-label{font-size:10px;margin-bottom:9px;}
+body:not(.sop-mode) .pm-text{font-size:16.5px;line-height:1.95;}
+body:not(.sop-mode) .pm-text p{margin-bottom:12px;}
+body:not(.sop-mode) .pm-block{padding:15px 19px;}
+body:not(.sop-mode) .pm-tag{font-size:10.5px;margin-bottom:11px;}
+body:not(.sop-mode) .btext{font-size:16.5px;line-height:1.9;}
+body:not(.sop-mode) .btext p{margin-bottom:12px;}
+body:not(.sop-mode) .cue{font-size:14.5px;}
+body:not(.sop-mode) .pm-text .tie-line{font-size:16.5px;margin-top:14px;padding-top:14px;}
+body:not(.sop-mode) .disc-head{padding:11px 16px;}
+body:not(.sop-mode) .disc-num{width:26px;height:26px;font-size:13px;}
+body:not(.sop-mode) .disc-lbl{font-size:14px;}
+body:not(.sop-mode) .disc-body{padding:14px 16px;gap:12px;}
+body:not(.sop-mode) .belief-chip{font-size:10px;padding:3px 9px;}
+body:not(.sop-mode) .sec-head{padding:10px 16px;}
+body:not(.sop-mode) .sec-lbl{font-size:11.5px;}
+body:not(.sop-mode) .sec-body{padding:14px 16px;}
+body:not(.sop-mode) .opening-head{padding:10px 16px;}
+body:not(.sop-mode) .opening-lbl{font-size:11.5px;}
+body:not(.sop-mode) .opening-body{padding:14px 16px;}
+body:not(.sop-mode) .block-rule{padding:13px 18px;}
+body:not(.sop-mode) .rule-lbl{font-size:10.5px;margin-bottom:7px;}
+body:not(.sop-mode) .rule-body{font-size:15.5px;line-height:1.7;}
+body:not(.sop-mode) .block-calc{padding:14px 18px;}
+body:not(.sop-mode) .calc-icon{font-size:21px;}
+body:not(.sop-mode) .calc-tab{font-size:10.5px;margin-bottom:5px;}
+body:not(.sop-mode) .calc-action{font-size:15.5px;line-height:1.7;}
+body:not(.sop-mode) .obj-head{padding:10px 16px;}
+body:not(.sop-mode) .obj-lbl{font-size:11.5px;}
+body:not(.sop-mode) .obj-body{padding:14px 16px;}
+body:not(.sop-mode) .block-support{padding:14px 17px;}
+body:not(.sop-mode) .support-lbl{font-size:10.5px;margin-bottom:9px;}
+body:not(.sop-mode) .list-title{font-size:11.5px;margin-bottom:12px;}
+body:not(.sop-mode) .closer-beliefs li{font-size:15.5px;line-height:1.7;padding:11px 16px;}
+body:not(.sop-mode) .beliefs-label{font-size:11.5px;margin-bottom:12px;}
+body:not(.sop-mode) .beliefs-table{font-size:14px;}
+body:not(.sop-mode) .beliefs-table th{font-size:10px;padding:9px 12px;}
+body:not(.sop-mode) .beliefs-table td{padding:10px 12px;}
+body:not(.sop-mode) .b-num{font-size:15px;width:30px;}
+body:not(.sop-mode) .b-name{width:170px;}
+body:not(.sop-mode) .hook-box{padding:12px 16px;margin-bottom:14px;}
+body:not(.sop-mode) .hook-lbl{font-size:10.5px;margin-bottom:8px;}
+body:not(.sop-mode) .hook-intro{font-size:13px;margin-bottom:9px;}
+body:not(.sop-mode) .hook-list li{font-size:15px;padding:5px 0 5px 18px;line-height:1.6;}
+body:not(.sop-mode) .when-bar{margin-top:14px;padding:10px 16px;font-size:13.5px;line-height:1.6;}
+body:not(.sop-mode) .when-bar strong{font-size:10px;}
+body:not(.sop-mode) .constraint-header{padding:11px 16px;}
+body:not(.sop-mode) .constraint-title{font-size:11.5px;}
+body:not(.sop-mode) .constraint-table{font-size:14px;}
+body:not(.sop-mode) .constraint-table th{font-size:10px;padding:9px 12px;}
+body:not(.sop-mode) .constraint-table td{padding:10px 12px;}
+/* Quick Script — Hide Pitch Guide section (training only) */
+body:not(.sop-mode) #phase-guide{display:none;}
 </style>
 </head>
 <body>
 <div id="app">
   <aside class="sidebar">
-    <div class="sidebar-brand"><div class="brand-eyebrow">IFCA · May 2026 · v3</div><div class="brand-title">Problem Syntax</div><div class="brand-sub">Problem Syntax Calculator · Existing Business $2K–$40K+/Mo</div></div>
+    <div class="sidebar-brand"><div class="brand-eyebrow">IFCA · May 2026 · v4</div><div class="brand-title">Problem Syntax</div><div class="brand-sub">Problem Syntax Calculator · Existing Business $2K–$40K+/Mo</div></div>
     <div class="nav-label">Closer Reference</div>
     <nav><div class="nav-item" id="nav-guide" style="--nc:#7c3aed" onclick="jumpToGuide()"><div class="nav-ref-dot">📋</div><div class="nav-text"><div class="nav-name">Pitch Guide</div><div class="nav-sub">Modes · Matrix · Formula</div></div></div></nav>
     <div class="nav-label">Phases</div><nav id="phase-nav"></nav>
   </aside>
   <div class="main">
     <div class="topbar">
-      <div class="topbar-left"><div><div class="doc-title">Problem Syntax Script</div><div class="doc-meta">Closer Training Guide · Dialogue Pitch · Advanced Prospects · 6-Phase Cole Gordon Framework</div></div><div class="tabs"><button class="tab-btn active" onclick="setMode('quick')">Quick Script</button><button class="tab-btn" onclick="setMode('sop')">Full SOP</button></div></div>
+      <div class="topbar-left"><div><div class="doc-title">Problem Syntax Script v4</div><div class="doc-meta">Closer Training Guide · Dialogue Pitch · Advanced Prospects · 6-Phase Cole Gordon Framework</div></div><div class="tabs"><button class="tab-btn active" onclick="setMode('quick')">Quick Script</button><button class="tab-btn" onclick="setMode('sop')">Full SOP</button></div></div>
       <div class="topbar-right"><button class="coach-toggle" id="coach-btn" onclick="toggleCoaching()">📝 Coaching Notes</button></div>
     </div>
     <div class="content" id="content"></div>
@@ -128,13 +221,14 @@ const PHASES=[
     {t:"coach",c:"In Problem Syntax, the prospect already HAS a business. The problem is a broken piece of an existing one \u2014 not the absence of a business. Discovery job: (1) understand their current offer + numbers, (2) find the specific constraint causing the revenue problem, (3) expose the gap, (4) build the cost of inaction so staying stuck feels worse than investing. Build all 7 Beliefs here. Don't rush."},
     {t:"opening",c:`"Okay \u2014 so a good place to start: what's the main challenge you've been running into with the business right now, or what's the main thing that motivated you to book this call today?"\n[prospect responds \u2014 let them talk fully before you say anything]\n\n[If vague:] "What do you mean by that \u2014 tell me more." / "How long has that been going on?" / "Give me a specific example \u2014 like what happened last week?"`},
     {t:"block",num:1,label:"OFFER & BACKGROUND",belief:"BELIEF #1: PAIN",bc:"#dc2626",
-      coach:"Understand what they're selling, who they're selling it to, and how they've priced it. This diagnoses whether the constraint is an offer/positioning problem or a distribution problem. Key signals: Low price point = Pillar 1 problem. Wrong leads = offer/messaging problem. No back-end = LTV problem. Weak sales process = Pillar 4 problem. Ask these conversationally \u2014 not like a checklist.",
-      c:`"Got it. So let's back up a second \u2014 what exactly are you selling right now, and who specifically are you selling it to?"\n[prospect responds]\n\n"And what's the price point on that?"\n[prospect responds]\n\n"How did you land on that number \u2014 who taught you that pricing?"\n[prospect responds]\n\n"And who's your ideal client \u2014 if you paint a picture of the perfect person you want to work with, what does that look like?"\n[prospect responds]\n\n"Are the people you're actually attracting right now matching that picture, or are you getting a different type of person showing up?"\n[prospect responds]\n\n"Walk me through your sales process \u2014 how does someone go from finding you to becoming a paying client?"\n[prospect responds]\n\n"And do you have a back-end offer \u2014 once someone finishes with you, is there a next step you're offering them?"\n[prospect responds]`},
+      coach:"Two jobs here: (1) extract <strong>FE Rate, FE Length, BE Rate, BE Length, and Resign Rate</strong> for the calculator \u2014 these 5 numbers feed the LTV math and the offer health diagnostic. (2) Build a quick mental picture of who they're selling and how. Ask these conversationally \u2014 not like a checklist. If they price their offer way under $300/mo or have no back-end, that's a Pillar 1 / Pillar 4 problem and the calculator will surface it automatically once numbers are entered.",
+      c:`"Got it. So let's back up a second \u2014 what exactly are you selling right now, and who's the main customer for that?"\n[prospect responds]\n\n"And what's the price point and length on that \u2014 like, is it a monthly retainer, a 3-month package, 6 months?"\n[prospect responds \u2014 capture FE Rate + FE Length. Type into calculator silently.]\n\n"Got it. And do you have a back-end offer \u2014 once someone finishes with you, is there a next step they typically move into?"\n[prospect responds]\n\n[IF YES \u2014 capture BE Rate + BE Length + Resign Rate:]\n"What's that priced at, and how long do they typically stay on it?"\n[prospect responds]\n\n"And roughly what % of front-end clients move onto it?"\n[prospect responds]\n\n[IF NO BACK-END:]\n"Got it. So they finish with you, and then what \u2014 they just leave?"\n[Let them confirm. This builds Pillar 4 LTV problem-link automatically.]\n\n"And quickly \u2014 walk me through your sales process. How does someone go from finding you to becoming a paying client?"\n[prospect responds \u2014 short answer here, you're just diagnosing funnel structure, not running full discovery on it]`},
+    {t:"coach",c:"<strong>Optional probes \u2014 deploy only if signal warrants:</strong><br><br><strong>If FE Rate is significantly under $300/mo</strong> (e.g., $99/mo, $149/mo, low-ticket monthly): probe pricing decision. Ask: <em>\"How did you land on that pricing \u2014 was it research, what others charge, gut feel?\"</em> Their answer tells you whether it's a confidence problem or a positioning problem. Pillar 1 link is automatic.<br><br><strong>If they describe a vague ICA</strong> (\"online coaches,\" \"busy moms,\" \"anyone who wants to lose weight\"): probe further. Ask: <em>\"Are the people actually showing up matching that picture, or are you getting a different type of person?\"</em> Wrong-fit leads = positioning issue, not lead-volume issue.<br><br><strong>Don't ask these by default</strong> \u2014 they slow the chunk-down. Only deploy when something in their answer signals you need to."},
     {t:"block",num:2,label:"CHUNK DOWN TO NUMBERS",belief:"BELIEFS #1 & #3: PAIN, COST",bc:"#dc2626",
-      coach:"This is where you identify the constraint with precision. Vague problems don't create urgency \u2014 specific numbers do. As they give you numbers, enter them in the Problem Syntax Calculator silently. CPL, show rate, and close rate tell you exactly which pillar to lead with. Benchmarks: CPL < $10 | Show Rate \u2265 70% | Close Rate \u2265 30%",
-      c:`"How are you generating most of your leads right now \u2014 primarily paid ads, organic content, referrals, or a mix?"\n[prospect responds]\n\n[IF RUNNING PAID ADS:]\n"What platform are you running on?"\n"What's your monthly ad spend right now?"\n"And roughly what are you paying per lead \u2014 do you know your CPL?"\n"What's your ROAS looking like \u2014 for every dollar you put in, how much are you getting back?"\n"Are you running those yourself or through an agency?"\n[If agency:] "And what's your experience been \u2014 are you happy with what they're delivering?"\n\n[IF ORGANIC ONLY:]\n"How often are you posting right now?"\n"Are you seeing actual results from it \u2014 DMs coming in, calls booked? Or more just likes and followers?"\n"What's your follower count on your main platform?"\n\n"Okay \u2014 and in terms of actual sales calls, how many are you getting per week right now?"\n[prospect responds]\n\n"And out of those calls, what percentage are actually your ideal client?"\n[prospect responds]\n\n"And what's your rough close rate \u2014 out of every 10 calls you take, how many are you closing?"\n[prospect responds]\n\n"When calls don't close \u2014 what's the most common reason you're hearing?"\n[prospect responds]`},
-    {t:"calc",tab:"Problem Syntax Calculator \u00b7 Inputs Panel",quickAction:"Open the Problem Syntax Calculator tab. Fill inputs as they answer: Ad Spend, Leads, Calls Booked, Calls Showed, Closes, Pkg Price, Avg Retention. Don't share screen yet \u2014 the \u274c will identify itself.",action:"Open the Problem Syntax Calculator tab. Silently fill in the left input panel as they talk: Ad Spend, Leads, Calls Booked, Calls Showed, Closes, Package Price, Avg Retention. All three views (KPI Health, The Constraint, If We Fix This) auto-calculate \u2014 the \u274c is identified for you. Do NOT click Share View yet \u2014 you're building the diagnostic privately first.",
-      note:"You don't need all their numbers. Even 3-4 data points are enough to identify the primary constraint. Lead-to-Book + Show Rate + Close Rate will tell you 80% of what you need to know about which pillar to lead Full on."},
+      coach:"This block extracts the remaining 8 calculator inputs: <strong>Funnel Type, Ad Spend, Paid Leads, Organic+Referral Leads, Calls Booked, Calls Showed, Closes, Cash Collected.</strong> Go in this exact order \u2014 the calculator surfaces the \u274c automatically as you fill it in. Skip questions that obviously don't apply (no ads = skip ad spend). Vague answers are okay early \u2014 keep moving and let the math sharpen the picture. <strong>Benchmarks:</strong> CPL &lt; $10 (DM) / &lt; $20 (VSL) \u00b7 Lead\u2192Book \u2265 5% \u00b7 Show Rate \u2265 70% \u00b7 Close-on-Show \u2265 30%.",
+      c:`"Okay \u2014 let me ask a few quick numbers questions so I can really understand where the business is right now. Cool?"\n[prospect: yes]\n\n"1. How are you generating leads right now \u2014 paid ads, DMs, organic content, referrals, or a mix? And what's the main mechanism \u2014 like, are people opting in via a VSL, a masterclass, a DM conversation, a boosted post?"\n[prospect responds \u2014 captures Funnel Type: DM / Follower / VSL / Masterclass]\n\n"2. Monthly ad spend right now?"\n[prospect responds \u2014 captures Ad Spend. If no ads: skip and note it.]\n\n"3. And how many leads is that bringing in each month \u2014 actual count, not CPL?"\n[prospect responds \u2014 captures Paid Leads/Mo. Calculator derives CPL from spend \u00f7 leads.]\n\n"4. Outside of paid \u2014 how many leads are you getting from organic content or referrals each month?"\n[prospect responds \u2014 captures Organic + Referral Leads/Mo]\n\n"5. Of all those leads, how many actually get on a call with you per month?"\n[prospect responds \u2014 captures Calls Booked/Mo]\n\n"6. And out of those booked calls \u2014 how many actually show up?"\n[prospect responds \u2014 captures Calls Showed/Mo. The Booked-vs-Showed gap is the show rate \u2014 a critical KPI most coaches don't track.]\n\n"7. Of the calls that show \u2014 how many close? And roughly what's your cash collected month-over-month?"\n[prospect responds \u2014 captures Closes/Mo + Cash Collected/Mo]`},
+    {t:"calc",tab:"Problem Syntax Calculator \u00b7 Inputs Panel \u2192 View 1 surfaces \u274c automatically",quickAction:"Fill all 13 inputs silently while they answer Block 1 + Block 2. <strong>Don't share screen yet.</strong> The \u274c on View 1 KPI Health is your private diagnostic \u2014 it tells you which pillar to lead Full on.",action:"Silently fill in the entire inputs panel as they walk through Block 1 + Block 2. <strong>Section 1 (Offer):</strong> FE Rate, FE Length, Funnel Type. <strong>Section 2 (Leads):</strong> Ad Spend, Paid Leads, Organic+Referral Leads. <strong>Section 3 (Pipeline):</strong> Calls Booked, Calls Showed. <strong>Section 4 (Sales):</strong> Closes, Cash Collected. <strong>Section 5 (Back-End):</strong> BE Rate, BE Length, Resign Rate. All four views auto-calculate as you go. <strong>Do NOT click Share View yet</strong> \u2014 View 1 KPI Health is closer-side only. The \u274c on screen tells you which pillar to lead Full on. The first failing KPI in priority order (Lead\u2192Book \u2192 Book\u2192Show \u2192 Close-on-Show \u2192 CPL \u2192 CPA) is the constraint.",
+      note:"You don't need all 13 inputs to surface the constraint \u2014 even 6-8 data points are usually enough to identify the primary \u274c. If they don't know a number, ballpark it: 'Roughly?' or 'Best guess?' is fine. Don't stop the chunk-down to drill into one number. <strong>If they push back on questions:</strong> 'I'm just trying to get the clearest picture of where the leak is \u2014 the math tells us in 30 seconds what the gut couldn't figure out in 6 months.' Keep moving."},
     {t:"block",num:3,label:"COST OF INACTION",belief:"BELIEFS #2 & #3: DOUBT, COST",bc:"#9f1239",
       coach:"This is where you make the cost of staying stuck feel more real than the cost of investing. Don't rush. The Knife Turn is the most powerful moment of the call \u2014 ask it once, cleanly, then sit in silence. Let them feel the weight of their own answer.",
       c:`"How long have you been dealing with this?"\n[prospect responds]\n\n"And in that time \u2014 what have you tried to fix it? Like what have you already done to try to solve this?"\n[prospect responds]\n\n"And none of it got you where you wanted to go?"\n[prospect responds]\n\n"Can I ask you something a little more personal? You've been at this [X months/years], you've tried [recap what they mentioned]... what's kept you going instead of just throwing in the towel?"\n[prospect responds \u2014 let them articulate why it matters. This builds Belief #4: Desire.]`},
@@ -276,13 +370,97 @@ function renderBlock(b,pc){
 }
 
 function pitchGuideHtml(){
-  return`<div class="phase" id="phase-guide"><div class="phase-head" style="background:#7c3aed"><div class="phase-badge">\ud83d\udccb</div><div class="phase-info"><div class="phase-name">Pitch Guide</div><div class="phase-sub">Mode Reference \u00b7 Problem Syntax \u00b7 Problem Syntax Calculator Framework</div></div></div><div class="phase-body">
-  <div class="guide-section"><div class="guide-section-title">When to Use Each Mode</div><table class="guide-table"><thead><tr><th>Situation</th><th>Use</th></tr></thead><tbody>
-  <tr><td>Pillar IS their diagnosed \u274c constraint</td><td><span class="guide-mode-chip chip-f">\ud83d\udccb Full</span> + Discovery Hook</td></tr>
-  <tr><td>Pillar is relevant but not the core constraint</td><td><span class="guide-mode-chip chip-q">\u26a1 Quick</span></td></tr>
-  <tr><td>Discovery surfaced their exact words for that pillar</td><td><span class="guide-mode-chip chip-f">\ud83d\udccb Full</span> + matching Discovery Hook</td></tr>
-  <tr><td>Running long on time or call momentum slowing</td><td><span class="guide-mode-chip chip-q">\u26a1 Quick</span> on 3 pillars + <span class="guide-mode-chip chip-f">\ud83d\udccb Full</span> on primary \u274c only</td></tr>
-  </tbody></table></div>
+  return`<div class="phase" id="phase-guide"><div class="phase-head" style="background:#7c3aed"><div class="phase-badge">\ud83d\udccb</div><div class="phase-info"><div class="phase-name">Pitch Guide</div><div class="phase-sub">Training Reference \u00b7 Full SOP Only \u00b7 Problem Syntax Framework</div></div></div><div class="phase-body">
+
+  <div class="guide-callout">
+    <div class="guide-callout-title">Why the Pitch Matters More Than Anything Else on the Call</div>
+    <div class="guide-callout-body">
+      <p>The pitch is where the close is actually won or lost. Everything before it \u2014 discovery, the Knife Turn, the Hamburger Transition \u2014 is set-up. Everything after \u2014 temp check, price drop, objection handling \u2014 is consequence. The pitch itself is the only phase where the prospect transitions from <em>"I have a problem"</em> to <em>"this is the specific solution."</em></p>
+      <p>Most closers think the pitch is where you explain the program. <strong>That's wrong.</strong> The pitch is where you build <strong>Belief #7 \u2014 Trust the Methodology</strong> in real time, while simultaneously confirming that everything they told you in discovery is being addressed by something specific.</p>
+      <p>If they don't believe IFCA's method is the precise answer to their specific problem by the time you finish the pitch, <strong>you'll get an objection at price drop. Every time.</strong></p>
+      <p>For Problem Syntax especially: the calculator already told you which pillar is the \u274c. The prospect's job is to <em>feel</em> that diagnosis as the right one. <strong>A great pitch makes price feel like a logical next step.</strong> A bad pitch makes price feel like a surprise.</p>
+    </div>
+  </div>
+
+  <div class="guide-section">
+    <div class="guide-section-title">The Three Dialogue Principles \u2014 Apply to Every Pillar</div>
+
+    <div class="guide-principle">
+      <div class="guide-principle-num">1</div>
+      <div class="guide-principle-body">
+        <div class="guide-principle-title">Start from what they said \u2014 or ask a question</div>
+        <div class="guide-principle-desc">
+          <p>Never just launch into <em>"Number one is offer optimization."</em> Every pillar opens with either (a) a mirror of their exact language from discovery (the amber <strong>Discovery Hook</strong>), or (b) a question that surfaces the gap in real time.</p>
+          <p>When a prospect hears their own words come back at them, they automatically feel understood. When they answer a question, they're now <strong>participating</strong> in the diagnosis instead of receiving it. Both build buy-in before the solution is introduced.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-principle">
+      <div class="guide-principle-num">2</div>
+      <div class="guide-principle-body">
+        <div class="guide-principle-title">Compare and contrast \u2014 cost of DIY vs. our way</div>
+        <div class="guide-principle-desc">
+          <p>The human brain only understands things through comparison. Every pillar should compare what most established coaches try (or what they've tried before) against what we do \u2014 and explain <strong>why theirs failed</strong> and <strong>why ours works</strong>.</p>
+          <p>Without contrast: <em>"we build campaigns with you"</em> = a feature. With contrast: <em>"most coaches spent $5K\u2013$10K with an agency and got zero clients \u2014 we build campaigns WITH you, not for you"</em> = a meaningful advantage. <strong>Same fact. Different weight.</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-principle">
+      <div class="guide-principle-num">3</div>
+      <div class="guide-principle-body">
+        <div class="guide-principle-title">Tie down with a belief-specific question</div>
+        <div class="guide-principle-desc">
+          <p>Every pillar ends with a question that requires a real answer. <strong>Not</strong> <em>"Make sense?"</em> \u2014 anyone mumbles yes without being bought in. Belief-specific tie-downs lock in the exact thing that pillar is supposed to build:</p>
+          <p>P1 \u2192 <em>"When the right buyer self-qualifies before they book, does that change what your close rate looks like?"</em><br>P2 \u2192 <em>"Does the difference between agency cold ads and us building campaigns specifically around your offer feel meaningful?"</em><br>P3 \u2192 <em>"When every lead lands in one place, automatically nurtured, does that feel like a meaningful unlock?"</em><br>P4 \u2192 <em>"Does that change the size of the business you can actually build?"</em></p>
+          <p>If they can't give a confident yes, <strong>that's a real objection surfacing early \u2014 when you can still address it.</strong> Skip the tie-down and that same objection shows up at price drop, fully formed and twice as hard to handle.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="guide-section">
+    <div class="guide-section-title">The Two Pitch Modes \u2014 When to Use Each</div>
+
+    <p style="font-size:12.5px;line-height:1.65;color:#475569;margin-bottom:14px;">There are three core linking techniques used to build value inside a pitch \u2014 <em>Quick Benefit</em>, <em>Market Problem</em>, and <em>Discovery Linking</em>. We've simplified them into <strong>two modes</strong> you'll actually toggle on the call:</p>
+
+    <div class="guide-mode-card">
+      <div class="guide-mode-card-head">
+        <div class="guide-mode-icon q">\u26a1</div>
+        <div><div class="guide-mode-name">Quick = Benefit Linking</div><div class="guide-mode-tagline">Short \u00b7 fast \u00b7 keeps call momentum \u00b7 ~30\u201345 sec</div></div>
+      </div>
+      <div class="guide-mode-body">
+        <p>Feature-and-benefit framing. <em>"Here's what we do, here's what it gives you, here's the tie-down."</em> Used when <strong>the pillar is NOT the \u274c</strong> on your Problem Syntax Calculator \u2014 it's a supporting piece, not the silver bullet.</p>
+        <p>The prospect doesn't need to be sold on this pillar. They just need to know it exists and is included. <strong>Don't burn 90 seconds on a pillar that isn't the diagnosed leak.</strong></p>
+      </div>
+      <div class="guide-mode-when"><strong>Example:</strong> Problem Syntax Calculator shows close rate is the \u274c. P2 (Lead Engine) and P3 (Business Manager) run Quick. P4 (Conversion) runs Full. Don't waste airtime building urgency around a healthy pillar.</div>
+    </div>
+
+    <div class="guide-mode-card">
+      <div class="guide-mode-card-head">
+        <div class="guide-mode-icon m">\ud83d\udccb</div>
+        <div><div class="guide-mode-name">Full = Market Problem + Discovery (blended)</div><div class="guide-mode-tagline">~60\u2013120 sec \u00b7 compare-and-contrast + their words</div></div>
+      </div>
+      <div class="guide-mode-body">
+        <p>Full mode combines two linking techniques into one delivery:</p>
+        <p><strong>1. Market Problem Linking (the safe baseline)</strong> \u2014 Name what most established coaches do, why it fails, why ours is different. This is the foundation of Full mode. <strong>If you're ever unsure how to deliver a Full pitch, just read the Market Problem Linking copy and it will land well.</strong> The contrast carries the weight.</p>
+        <p><strong>2. Discovery Linking (the skill ceiling)</strong> \u2014 Open with their exact words from discovery, then transition into the Market Problem framing. The amber <strong>Discovery Hook</strong> callout in Full mode gives you 2\u20133 ready-made openers based on common Problem Syntax discovery answers. Pick one if it matches what they said. Skip if it doesn't.</p>
+        <p><strong>Use Full mode on the pillar that IS the \u274c</strong> \u2014 the constraint your Problem Syntax Calculator diagnosed. As you build reps, layer Discovery Linking on top of Market Problem to make it feel surgical.</p>
+      </div>
+      <div class="guide-mode-when"><strong>The coaching:</strong> Market Problem is the cake. Discovery Linking is the icing. The cake alone closes calls. The icing makes the close feel inevitable. <strong>When in doubt, default to Market Problem and don't force Discovery.</strong></div>
+    </div>
+  </div>
+
+  <div class="guide-decision">
+    <div class="guide-decision-eyebrow">\u2192 Decision Rule \u2014 Before You Enter the Pitch</div>
+    <div class="guide-decision-q">Look at your Problem Syntax Calculator. Which pillar maps to the diagnosed \u274c?</div>
+    <div class="guide-decision-body">
+      <p>That pillar runs <span class="accent">Full</span>. Everything else runs <span class="accent">Quick</span>. The calculator already made this call for you \u2014 trust the math.</p>
+      <p><strong>The rule that holds:</strong> only <strong>ONE</strong> pillar runs Full per call. Try to run all four in Full and the pitch dilutes \u2014 you stop sounding like a doctor diagnosing the leak and start sounding like a salesperson reading a brochure. <strong>Pick the one. Make it precise. Keep the others moving.</strong></p>
+    </div>
+  </div>
+
   <div class="guide-section"><div class="guide-section-title">Constraint \u2192 Pillar Matrix</div><table class="guide-table"><thead><tr><th>Diagnosed \u274c</th><th>Lead Full On</th><th>Why</th></tr></thead><tbody>
   <tr><td>Wrong leads / price shoppers / ICA mismatch</td><td><strong>P1 \u2014 Offer Optimization</strong></td><td>It's positioning, not marketing</td></tr>
   <tr><td>CPL too high / lead volume / agency burn</td><td><strong>P2 \u2014 Lead Engine</strong></td><td>Build campaigns with them, not for them</td></tr>
@@ -290,30 +468,60 @@ function pitchGuideHtml(){
   <tr><td>Close rate below 30%</td><td><strong>P4 \u2014 Conversion</strong></td><td>Call reviews patch the leak in the conversation</td></tr>
   <tr><td>No back-end / retention below 12 months</td><td><strong>P4 \u2014 Retention</strong></td><td>17-month LTV system stops the treadmill</td></tr>
   </tbody></table></div>
+
+  <div class="guide-callout" style="background:linear-gradient(180deg,#f0fdfa 0%,#ecfeff 100%);border-color:#5eead4;border-left-color:#0d9488;">
+    <div class="guide-callout-title" style="color:#134e4a;">\ud83d\udcca The Problem Syntax Calculator \u2014 How to Deploy Each View</div>
+    <div class="guide-callout-body" style="color:#134e4a;">
+      <p><strong>Core rule:</strong> The Problem Syntax Calculator is structurally different from Goal Syntax / PT Pivot. <strong>View 1 is NOT optional here</strong> \u2014 it's your closer-side diagnostic and runs on every call. The math IS the discovery for this prospect type.</p>
+      <p><strong>Universal rule:</strong> Don't click <em>Share View</em> until the prospect has verbalized the belief you're about to confirm (applies to Views 2\u20134 only). <strong>Math that confirms = closes. Math that surprises = creates resistance.</strong></p>
+      <p style="margin-top:14px;padding:10px 12px;background:rgba(220,252,231,.6);border-radius:6px;border-left:3px solid #15803d;"><strong>\u2705 View 1 \u2014 KPI Health</strong> \u00b7 <em>ALWAYS \u00b7 Closer-side only during Block 2.</em><br>Fill inputs silently as the prospect answers. Watch for the \u274c to surface on screen. <strong>NEVER share this view</strong> \u2014 it's your private diagnostic. The first failing KPI in priority order (Lead\u2192Book \u2192 Book\u2192Show \u2192 Close-on-Show \u2192 CPL \u2192 CPA) tells you which pillar to lead Full on.</p>
+      <p style="padding:10px 12px;background:rgba(220,252,231,.6);border-radius:6px;border-left:3px solid #15803d;"><strong>\u2705 View 2 \u2014 The Constraint</strong> \u00b7 <em>ALWAYS \u00b7 First share moment, post-Knife Turn.</em><br>Click Share View. Say: <em>"I noticed something while we were talking \u2014 let me show you."</em> 5-second silence. The constraint name + their number + the benchmark are on screen at once \u2014 the gap does the work. Then: <em>"That's the leak. That one number is what's pulling the entire business off-track."</em> Builds Belief #3 (Cost) by visualizing the gap.</p>
+      <p style="padding:10px 12px;background:rgba(220,252,231,.6);border-radius:6px;border-left:3px solid #15803d;"><strong>\u2705 View 3 \u2014 Cost of the Leak</strong> \u00b7 <em>ALWAYS \u00b7 During the Full pillar that maps to the \u274c.</em><br>Mid-pitch, when you're delivering Full on the constraint pillar \u2014 reactivate this view to show what fixing the \u274c is worth. <em>"This is what fixing that one number unlocks in your business."</em> Builds Belief #4 (Desire) + Belief #7 (Trust the methodology).</p>
+      <p style="padding:10px 12px;background:rgba(220,252,231,.6);border-radius:6px;border-left:3px solid #15803d;margin-bottom:0;"><strong>\u2705 View 4 \u2014 Silver Bullet ROI</strong> \u00b7 <em>ALWAYS \u00b7 Pre-price drop.</em><br>The final lock-in. Cost of staying stuck (red) vs. value of fixing the constraint (green). This is where the prospect makes the <em>internal decision</em> before they hear the number. Stay silent. The math closes them.</p>
+    </div>
+  </div>
+
   <div class="guide-section"><div class="guide-section-title">High Level Promise Formula</div><div class="guide-formula">"This is going to be <strong>[# pillars] steps</strong> to fix <strong>[their constraint]</strong> and get you from <strong>[current state]</strong> to <strong>[desired state]</strong> in <strong>[approximate timeframe]</strong>."</div></div>
-  <div class="guide-section"><div class="guide-section-title">The Three Dialogue Principles (Apply to Every Pillar)</div><table class="guide-table"><thead><tr><th>#</th><th>Principle</th><th>Why</th></tr></thead><tbody>
-  <tr><td>1</td><td>Open with their words \u2014 or a question</td><td>Either mirror their language from discovery (use Discovery Hook in Full mode) or ask a question that surfaces the gap. Builds buy-in before content lands.</td></tr>
-  <tr><td>2</td><td>Compare and contrast \u2014 cost of DIY vs. our way</td><td>Without contrast, "done in 48 hours" is a feature. With contrast ("most coaches spent $5K-$10K with an agency and got zero clients"), it's a meaningful advantage.</td></tr>
-  <tr><td>3</td><td>Tie down with a belief-specific question</td><td>Never "Make sense?" \u2014 anyone mumbles yes. Ask a question that requires a real answer about the belief that pillar is supposed to build.</td></tr>
-  </tbody></table></div>
-  <div class="guide-section"><div class="guide-section-title">Tie-Down Rule \u2014 No "Make Sense?"</div><div class="guide-rule">Every pillar ends with a belief-specific question. Examples for Problem Syntax: P1 \u2192 "When the right buyer self-qualifies before they book, does that change what your close rate looks like?" \u00b7 P2 \u2192 "Does the difference between an agency running cold ads and us building campaigns specifically around your offer feel meaningful?" \u00b7 P3 \u2192 "When every lead lands in one place, automatically nurtured, does that feel like a meaningful unlock?" \u00b7 P4 \u2192 "Does that change the size of the business you can actually build?" If they can't give a confident yes, that's a real objection \u2014 surface it now, not at price drop.</div></div>
+
   <div class="guide-section"><div class="guide-section-title">Discovery Hook \u2014 How to Use the Amber Callout</div><div class="guide-formula">In Full mode, the amber Discovery Hook callout shows 2\u20133 ready-made openers based on common discovery answers. <strong>Pick one if it matches what they actually said. Skip it entirely if it doesn't.</strong> The hook replaces the old Discovery mode \u2014 cleaner, less toggling, same belief-locking effect.</div></div>
-  <div class="guide-section"><div class="guide-section-title">The Problem Syntax Calculator Calculator \u2014 4 Pulls Per Call</div><div class="guide-formula"><strong>Pull #1 (Discovery):</strong> View 1 KPI Health \u2014 closer-side only, identifies the \u274c. Don't share. \u00b7 <strong>Pull #2 (Post-Knife Turn):</strong> View 2 The Constraint \u2014 first share moment, the gap visualization. \u00b7 <strong>Pull #3 (Mid-Pitch):</strong> View 3 If We Fix This \u2014 shown when delivering the pillar that maps to the \u274c. \u00b7 <strong>Pull #4 (Pre-Price Drop):</strong> View 3 Re-Show \u2014 anchor the cost-of-staying right before commitment.</div></div>
+
+  <div class="guide-section"><div class="guide-section-title">Tie-Down Rule \u2014 No "Make Sense?"</div><div class="guide-rule">Every pillar ends with a belief-specific question. If they can't give a confident yes, that's a real objection \u2014 surface it now, not at price drop.</div></div>
+
   </div></div>`;
 }
 
 function renderNav(){document.getElementById('phase-nav').innerHTML=PHASES.map(p=>`<div class="nav-item" id="nav-${p.id}" style="--nc:${p.color}" onclick="jumpTo(${p.id})"><div class="nav-dot" style="background:${p.color}">${p.id}</div><div class="nav-text"><div class="nav-name">${p.name}</div>${p.sub?`<div class="nav-sub">${p.sub}</div>`:''}</div></div>`).join('');}
 
+function renderPhase(p){
+  const isPitch=p.id===6;
+  return`<div class="phase" id="phase-${p.id}"><div class="phase-head" style="background:${p.color}"><div class="phase-badge">${p.id}</div><div class="phase-info"><div class="phase-name">${p.name}</div>${p.sub?`<div class="phase-sub">${p.sub}</div>`:''}</div>${isPitch?`<div class="pitch-toggle-bar"><button class="ptgl-btn active" id="ptgl-quick" onclick="setGlobalPM('quick')">\u26a1 Quick</button><button class="ptgl-btn" id="ptgl-full" onclick="setGlobalPM('full')">\ud83d\udccb Full</button></div>`:''}</div><div class="phase-body">${p.blocks.map(b=>renderBlock(b,p.color)).join('')}</div></div>`;
+}
+
 function renderContent(){
-  document.getElementById('content').innerHTML=pitchGuideHtml()+PHASES.map(p=>{
-    const isPitch=p.id===6;
-    return`<div class="phase" id="phase-${p.id}"><div class="phase-head" style="background:${p.color}"><div class="phase-badge">${p.id}</div><div class="phase-info"><div class="phase-name">${p.name}</div>${p.sub?`<div class="phase-sub">${p.sub}</div>`:''}</div>${isPitch?`<div class="pitch-toggle-bar"><button class="ptgl-btn active" id="ptgl-quick" onclick="setGlobalPM('quick')">\u26a1 Quick</button><button class="ptgl-btn" id="ptgl-full" onclick="setGlobalPM('full')">\ud83d\udccb Full</button></div>`:''}</div><div class="phase-body">${p.blocks.map(b=>renderBlock(b,p.color)).join('')}</div></div>`;
-  }).join('')+'<div class="calc-footer">IFCA · Impact Fitness Coaching Academy · impactcoachacademy.com</div>';
+  const phase0=PHASES.find(p=>p.id===0);
+  const otherPhases=PHASES.filter(p=>p.id!==0);
+  const phase0Html=phase0?renderPhase(phase0):'';
+  const otherPhasesHtml=otherPhases.map(p=>renderPhase(p)).join('');
+  document.getElementById('content').innerHTML=phase0Html+pitchGuideHtml()+otherPhasesHtml+'<div class="calc-footer">IFCA · Impact Fitness Coaching Academy · impactcoachacademy.com</div>';
 }
 
 let mode='quick',coaching=false;
-function applyClasses(){document.body.classList.toggle('sop-mode',mode==='sop');document.body.classList.toggle('notes-on',coaching);}
-function setMode(m){mode=m;document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&m==='quick')||(i===1&&m==='sop')));if(m==='quick'){coaching=false;document.getElementById('coach-btn').classList.remove('on');}applyClasses();}
+function applyClasses(){
+  document.body.classList.toggle('sop-mode',mode==='sop');
+  document.body.classList.toggle('notes-on',coaching);
+  const navGuide=document.getElementById('nav-guide');
+  if(navGuide)navGuide.style.display=mode==='sop'?'flex':'none';
+}
+function setMode(m){
+  mode=m;
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&m==='quick')||(i===1&&m==='sop')));
+  if(m==='quick'){coaching=false;document.getElementById('coach-btn').classList.remove('on');}
+  applyClasses();
+  if(m==='quick'){
+    const navGuide=document.getElementById('nav-guide');
+    if(navGuide&&navGuide.classList.contains('active')){jumpTo(0);}
+  }
+}
 function toggleCoaching(){if(mode==='quick'){setMode('sop');return;}coaching=!coaching;document.getElementById('coach-btn').classList.toggle('on',coaching);applyClasses();}
 function jumpTo(id){const el=document.getElementById(`phase-${id}`);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));const an=document.getElementById(`nav-${id}`);if(an)an.classList.add('active');}
 function jumpToGuide(){const el=document.getElementById('phase-guide');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById('nav-guide').classList.add('active');}
@@ -323,7 +531,12 @@ document.addEventListener('DOMContentLoaded',()=>{
     const ge=document.getElementById('phase-guide');
     const phase0=document.getElementById('phase-0');
     const clear=()=>document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-    if(phase0&&content.scrollTop<phase0.offsetTop-40){clear();if(ge)document.getElementById('nav-guide').classList.add('active');return;}
+    if(phase0&&content.scrollTop<phase0.offsetTop-40){clear();document.getElementById('nav-0')?.classList.add('active');return;}
+    if(mode==='sop'&&ge&&phase0){
+      const guideTop=ge.offsetTop-40;
+      const phase1=document.getElementById('phase-1');
+      if(phase1&&content.scrollTop>=guideTop&&content.scrollTop<phase1.offsetTop-40){clear();document.getElementById('nav-guide').classList.add('active');return;}
+    }
     let active=0;
     PHASES.forEach(p=>{const el=document.getElementById(`phase-${p.id}`);if(el&&el.offsetTop-40<=content.scrollTop)active=p.id;});
     clear();
@@ -331,7 +544,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(an){an.classList.add('active');an.scrollIntoView({block:'nearest'});}
   });
 });
-renderNav();renderContent();initPMs();document.getElementById('nav-guide').classList.add('active');
+renderNav();renderContent();initPMs();applyClasses();document.getElementById('nav-0').classList.add('active');
 </script>
 </body>
 </html>
