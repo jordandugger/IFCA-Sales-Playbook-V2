@@ -48,11 +48,13 @@ body.share-mode .inputs-col{width:0;min-width:0;opacity:0;overflow:hidden;pointe
 
 /* VIEW SWITCHER */
 .view-bar{display:flex;background:var(--white);border-bottom:1px solid var(--border);padding:0 20px;flex-shrink:0;gap:0;overflow-x:auto;}
-.view-btn{padding:13px 14px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;transition:all .15s;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+.view-btn{padding:13px 14px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;transition:all .15s;display:flex;align-items:center;gap:8px;white-space:nowrap;position:relative;}
 .view-btn:hover{color:var(--text);}
 .view-btn.active{color:var(--text);border-bottom-color:var(--blue);}
 .view-btn .vnum{width:18px;height:18px;border-radius:50%;background:#e2e8f0;color:var(--muted);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .view-btn.active .vnum{background:var(--blue);color:#fff;}
+.view-btn .opt-tag{font-size:8.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#92400e;background:#fef3c7;border:1px solid #fcd34d;padding:1px 6px;border-radius:8px;margin-left:2px;}
+.view-btn.active .opt-tag{background:#fffbeb;}
 .view-content{flex:1;overflow-y:auto;padding:24px 28px 32px;}
 .view{display:none;}
 .view.active{display:block;}
@@ -356,7 +358,7 @@ body.share-mode .calc-footer{display:none;}
 
     <div class="results-col">
       <div class="view-bar">
-        <button class="view-btn active" onclick="setGoalView('coi',this)"><span class="vnum">1</span>Cost of Inaction</button>
+        <button class="view-btn active" onclick="setGoalView('coi',this)"><span class="vnum">1</span>Cost of Inaction<span class="opt-tag">Optional</span></button>
         <button class="view-btn" onclick="setGoalView('clients',this)"><span class="vnum">2</span>Clients Needed</button>
         <button class="view-btn" onclick="setGoalView('path',this)"><span class="vnum">3</span>6-Month Path</button>
         <button class="view-btn" onclick="setGoalView('reveal',this)"><span class="vnum">4</span>Combined Reveal</button>
@@ -568,7 +570,7 @@ body.share-mode .calc-footer{display:none;}
 
     <div class="results-col">
       <div class="view-bar">
-        <button class="view-btn active" onclick="setPTView('ceiling',this)"><span class="vnum">1</span>In-Person Ceiling vs Goal</button>
+        <button class="view-btn active" onclick="setPTView('ceiling',this)"><span class="vnum">1</span>In-Person Ceiling vs Goal<span class="opt-tag">Optional</span></button>
         <button class="view-btn" onclick="setPTView('clients',this)"><span class="vnum">2</span>Clients Needed</button>
         <button class="view-btn" onclick="setPTView('path',this)"><span class="vnum">3</span>6-Month Path</button>
         <button class="view-btn" onclick="setPTView('reveal',this)"><span class="vnum">4</span>Combined Reveal</button>
