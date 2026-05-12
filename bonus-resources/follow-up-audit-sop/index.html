@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Follow-Up Loom Audit SOP — IFCA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:#060d1a;color:#f1f5f9;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(56,189,248,.033) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.033) 1px,transparent 1px);background-size:52px 52px;pointer-events:none;z-index:0;}
+.hero-glow{position:fixed;top:-240px;left:50%;transform:translateX(-50%);width:1000px;height:680px;background:radial-gradient(ellipse at 50% 30%,rgba(139,92,246,.14) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.page{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:0 28px 100px;}
+
+/* HEADER */
+header{display:flex;align-items:center;justify-content:space-between;padding:30px 0 0;flex-wrap:wrap;gap:16px;}
+.logo-group{display:flex;align-items:center;gap:14px;text-decoration:none;}
+.logo-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#38bdf8;line-height:1;}
+.logo-sub{font-size:10px;color:#334155;letter-spacing:.07em;text-transform:uppercase;margin-top:3px;}
+.back-link{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#334155;text-decoration:none;transition:color .15s;}
+.back-link:hover{color:#64748b;}
+.back-link svg{width:13px;height:13px;}
+
+/* HERO */
+.hero{padding:52px 0 44px;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#8b5cf6;margin-bottom:20px;}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:28px;height:1px;background:#8b5cf6;opacity:.45;}
+h1.hero-title{font-family:'Syne',sans-serif;font-size:clamp(30px,5vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.04em;color:#f8fafc;margin-bottom:16px;}
+h1.hero-title .accent{background:linear-gradient(90deg,#8b5cf6,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:16px;color:#64748b;line-height:1.7;max-width:620px;margin-bottom:28px;}
+.covered-pills{display:flex;gap:9px;flex-wrap:wrap;}
+.covered-pill{background:#0c1524;border:1px solid #1e293b;border-radius:20px;padding:6px 14px;font-size:11px;font-weight:500;color:#94a3b8;display:flex;align-items:center;gap:7px;}
+.covered-pill::before{content:'';width:6px;height:6px;border-radius:50%;background:#8b5cf6;flex-shrink:0;}
+
+/* "WHAT THIS IS" CARD */
+.what-card{background:#0c1524;border:1px solid #1e293b;border-radius:14px;padding:28px 32px;margin:40px 0;position:relative;overflow:hidden;}
+.what-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:linear-gradient(180deg,#8b5cf6,#c084fc);}
+.what-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8b5cf6;margin-bottom:13px;}
+.what-eyebrow .what-dot{width:7px;height:7px;border-radius:50%;background:#8b5cf6;box-shadow:0 0 12px rgba(139,92,246,.6);}
+.what-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#f1f5f9;margin-bottom:14px;letter-spacing:-.02em;}
+.what-body{font-size:14.5px;color:#94a3b8;line-height:1.75;}
+.what-body p{margin-bottom:11px;}
+.what-body p:last-child{margin-bottom:0;}
+.what-body strong{color:#e2e8f0;font-weight:600;}
+
+/* CLAUDE PROJECT CTA */
+.project-cta{display:flex;align-items:center;gap:18px;background:linear-gradient(135deg,#0d1f35 0%,#1a1538 100%);border:1px solid #1e3a5f;border-radius:14px;padding:24px 28px;margin:32px 0 8px;text-decoration:none;transition:all .2s;position:relative;overflow:hidden;}
+.project-cta::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#38bdf8,#8b5cf6);}
+.project-cta:hover{transform:translateY(-2px);border-color:#38bdf8;box-shadow:0 16px 40px rgba(56,189,248,.15);}
+.project-icon{width:54px;height:54px;border-radius:12px;background:#0d2744;border:1px solid #1e3a5f;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.project-icon svg{width:26px;height:26px;}
+.project-body{flex:1;}
+.project-tag{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#38bdf8;margin-bottom:4px;}
+.project-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:#f8fafc;margin-bottom:5px;letter-spacing:-.02em;}
+.project-desc{font-size:13px;color:#64748b;line-height:1.55;}
+.project-arrow{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#38bdf8;flex-shrink:0;}
+.project-arrow svg{width:14px;height:14px;}
+
+.warn-strip{background:#1a0e1a;border:1px solid #4c1d2f;border-left:3px solid #f43f5e;border-radius:10px;padding:13px 18px;margin:12px 0 8px;font-size:12.5px;color:#fda4af;line-height:1.6;display:flex;gap:10px;align-items:flex-start;}
+.warn-strip strong{color:#fecdd3;font-weight:700;}
+.warn-strip svg{width:16px;height:16px;flex-shrink:0;margin-top:1px;}
+
+/* SECTION DIVIDER */
+.sdiv{display:flex;align-items:center;gap:16px;margin:52px 0 24px;}
+.sdiv::before,.sdiv::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,#1e293b,transparent);}
+.sdiv-inner{text-align:center;white-space:nowrap;}
+.sdiv-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8b5cf6;}
+.sdiv-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#f1f5f9;margin-top:5px;letter-spacing:-.03em;}
+
+/* DATA TABLE */
+.dtable-wrap{background:#0c1524;border:1px solid #1e293b;border-radius:12px;overflow:hidden;margin-bottom:14px;}
+.dtable{width:100%;border-collapse:collapse;}
+.dtable th{background:#0a1119;text-align:left;padding:11px 16px;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#475569;border-bottom:1px solid #1e293b;}
+.dtable td{padding:13px 16px;font-size:13.5px;color:#cbd5e1;line-height:1.55;border-bottom:1px solid #15212f;vertical-align:top;}
+.dtable tr:last-child td{border-bottom:none;}
+.dtable td:first-child{font-weight:600;color:#f1f5f9;width:32%;}
+.dtable td strong{color:#8b5cf6;font-weight:600;}
+
+/* STEPS */
+.steps-stack{display:flex;flex-direction:column;gap:14px;}
+.step-card{background:#0c1524;border:1px solid #1e293b;border-radius:12px;padding:22px 26px;display:flex;gap:18px;position:relative;overflow:hidden;}
+.step-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:#8b5cf6;}
+.step-num{font-family:'Syne',sans-serif;font-size:30px;font-weight:800;color:#8b5cf6;line-height:1;flex-shrink:0;width:48px;letter-spacing:-.04em;}
+.step-content{flex:1;}
+.step-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#64748b;margin-bottom:6px;}
+.step-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:#f1f5f9;margin-bottom:10px;letter-spacing:-.02em;}
+.step-body{font-size:13.5px;color:#94a3b8;line-height:1.7;}
+.step-body p{margin-bottom:8px;}
+.step-body p:last-child{margin-bottom:0;}
+.step-body strong{color:#e2e8f0;font-weight:600;}
+.step-body ul{margin:8px 0 0;padding:0;list-style:none;}
+.step-body ul li{padding:5px 0 5px 22px;position:relative;color:#94a3b8;}
+.step-body ul li::before{content:'';position:absolute;left:8px;top:13px;width:6px;height:6px;border-radius:50%;background:#8b5cf6;}
+.step-body ul li strong{color:#cbd5e1;font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:10px;margin-right:6px;background:#1a1538;padding:2px 7px;border-radius:4px;border:1px solid #2d1e54;}
+
+/* SUBMISSION BLOCK */
+.submission-block{background:#0a1119;border:1px solid #1e293b;border-radius:10px;padding:18px 22px;margin-top:14px;font-family:'DM Mono','SF Mono',Menlo,Monaco,monospace;font-size:12.5px;color:#94a3b8;line-height:1.85;white-space:pre-wrap;position:relative;}
+.submission-block::before{content:'COPY THIS';position:absolute;top:11px;right:14px;font-size:8.5px;font-weight:700;letter-spacing:.12em;color:#8b5cf6;background:#1a1538;border:1px solid #2d1e54;padding:3px 9px;border-radius:5px;font-family:'DM Sans',sans-serif;}
+.submission-block .var{color:#8b5cf6;}
+
+/* BEATS — LOOM STRUCTURE */
+.beats-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.beat-card{background:#0c1524;border:1px solid #1e293b;border-radius:11px;padding:18px 20px;}
+.beat-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.beat-num{width:30px;height:30px;border-radius:8px;background:#1a1538;border:1px solid #2d1e54;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:#c084fc;flex-shrink:0;}
+.beat-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#f1f5f9;line-height:1.25;letter-spacing:-.01em;flex:1;}
+.beat-time{font-size:10px;font-weight:700;letter-spacing:.08em;color:#475569;background:#0a1119;border:1px solid #15212f;padding:2px 7px;border-radius:5px;flex-shrink:0;}
+.beat-body{font-size:12.5px;color:#94a3b8;line-height:1.65;}
+
+.loom-rule{background:linear-gradient(135deg,rgba(244,63,94,.06) 0%,rgba(244,63,94,.02) 100%);border:1px solid rgba(244,63,94,.25);border-left:3px solid #f43f5e;border-radius:10px;padding:17px 22px;margin-top:6px;}
+.loom-rule-eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fb7185;margin-bottom:8px;}
+.loom-rule-body{font-size:13.5px;color:#fecdd3;line-height:1.7;}
+.loom-rule-body strong{color:#fda4af;font-weight:600;}
+
+/* HARD RULES */
+.rules-stack{display:flex;flex-direction:column;gap:10px;}
+.rule-row{display:flex;gap:14px;align-items:flex-start;background:#0c1524;border:1px solid #1e293b;border-radius:10px;padding:14px 18px;}
+.rule-num{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:#8b5cf6;background:#1a1538;border:1px solid #2d1e54;border-radius:5px;padding:4px 9px;flex-shrink:0;margin-top:1px;letter-spacing:.05em;}
+.rule-text{font-size:13.5px;color:#cbd5e1;line-height:1.65;flex:1;}
+.rule-text strong{color:#f1f5f9;font-weight:600;}
+
+/* EXAMPLE AUDITS */
+.examples-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.example-card{background:#0c1524;border:1px solid #1e293b;border-radius:12px;padding:22px;text-decoration:none;display:flex;flex-direction:column;gap:12px;transition:all .2s;position:relative;overflow:hidden;}
+.example-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#8b5cf6,#c084fc);}
+.example-card:hover{transform:translateY(-3px);border-color:#8b5cf6;box-shadow:0 14px 36px rgba(139,92,246,.12);}
+.example-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8b5cf6;}
+.example-name{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#f8fafc;letter-spacing:-.02em;}
+.example-meta{font-size:12.5px;color:#64748b;line-height:1.55;}
+.example-meta strong{color:#94a3b8;font-weight:500;}
+.example-constraint{font-size:12.5px;color:#cbd5e1;line-height:1.55;background:#0a1119;border:1px solid #15212f;border-radius:7px;padding:9px 12px;margin-top:2px;}
+.example-arrow{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.1em;color:#38bdf8;margin-top:auto;padding-top:6px;}
+.example-arrow svg{width:13px;height:13px;}
+
+/* FAQ */
+.faq-stack{display:flex;flex-direction:column;gap:10px;}
+.faq-row{background:#0c1524;border:1px solid #1e293b;border-radius:11px;padding:18px 22px;}
+.faq-q{font-family:'Syne',sans-serif;font-size:14.5px;font-weight:700;color:#f1f5f9;margin-bottom:9px;letter-spacing:-.01em;display:flex;gap:11px;align-items:flex-start;}
+.faq-q::before{content:'Q';font-size:10px;font-weight:800;color:#8b5cf6;background:#1a1538;border:1px solid #2d1e54;padding:3px 8px;border-radius:5px;letter-spacing:.05em;flex-shrink:0;margin-top:1px;}
+.faq-a{font-size:13.5px;color:#94a3b8;line-height:1.7;padding-left:30px;}
+.faq-a p{margin-bottom:8px;}
+.faq-a p:last-child{margin-bottom:0;}
+.faq-a strong{color:#e2e8f0;font-weight:600;}
+.faq-a .upcoming{display:inline-flex;align-items:center;gap:6px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);border-radius:6px;padding:3px 9px;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#38bdf8;margin:6px 0 4px;}
+
+/* FOOTER */
+.playbook-footer{margin-top:80px;padding-top:32px;border-top:1px solid #1e293b;text-align:center;}
+.pf-brand{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#475569;margin-bottom:14px;}
+.pf-values{display:flex;justify-content:center;gap:30px;margin-bottom:18px;flex-wrap:wrap;}
+.pf-v{font-size:9.5px;font-weight:600;color:#334155;letter-spacing:.1em;text-transform:uppercase;}
+.pf-meta{font-size:10px;color:#1e293b;letter-spacing:.06em;}
+
+/* RESPONSIVE */
+@media (max-width:720px){
+  .page{padding:0 18px 80px;}
+  .beats-grid,.examples-grid{grid-template-columns:1fr;}
+  .step-card{padding:18px 20px;gap:13px;}
+  .step-num{font-size:24px;width:36px;}
+  .project-cta{flex-wrap:wrap;}
+  .project-icon{width:46px;height:46px;}
+}
+</style>
+</head>
+<body>
+<div class="hero-glow"></div>
+<div class="page">
+
+<header>
+  <a class="logo-group" href="../../index.html">
+    <div>
+      <div class="logo-name">IFCA</div>
+      <div class="logo-sub">Sales Playbook</div>
+    </div>
+  </a>
+  <a class="back-link" href="../../index.html">
+    <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7H2M7 12l-5-5 5-5"/></svg>
+    Back to Playbook
+  </a>
+</header>
+
+<section class="hero">
+  <div class="hero-eyebrow">Closer SOP · Follow-Up System</div>
+  <h1 class="hero-title">Follow-Up <span class="accent">Loom Audit</span></h1>
+  <p class="hero-sub">Re-engage prospects who didn't close, no-showed, or went quiet. Build a personalized business audit and walk it through on a Loom — turn cold follow-ups into clarity-driven re-opens. Takes about 20–30 minutes from transcript to Loom sent.</p>
+  <div class="covered-pills">
+    <div class="covered-pill">No-Close Re-Open</div>
+    <div class="covered-pill">No-Show Recovery</div>
+    <div class="covered-pill">Quiet Prospect Re-Engagement</div>
+    <div class="covered-pill">Competitive Comparison Counter</div>
+  </div>
+</section>
+
+<div class="what-card">
+  <div class="what-eyebrow"><div class="what-dot"></div>What This Is</div>
+  <div class="what-title">A personalized audit replaces a generic "just checking in" text.</div>
+  <div class="what-body">
+    <p>When a prospect doesn't close, a generic follow-up won't get them back on a call. This system builds a <strong>personalized business audit</strong> for each prospect that shows you diagnosed their actual constraints — not just their surface objection — and gives you a structured Loom script to walk through it.</p>
+    <p>Claude builds a two-tab HTML file you download and open in your browser. <strong>Tab 1 (Prospect View)</strong> is what you screen-share during the Loom. <strong>Tab 2 (Closer Intel)</strong> is your internal prep: objection bank, Loom script outline, and follow-up prep notes. You never share the file — you record a Loom over Tab 1 and send the prospect the Loom link only.</p>
+  </div>
+</div>
+
+<a class="project-cta" href="https://claude.ai/project/019db761-257e-76e6-9e07-56d644d27777" target="_blank" rel="noopener">
+  <div class="project-icon">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2L3 7v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V7l-9-5z" stroke="#38bdf8" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M9 12l2 2 4-4" stroke="#38bdf8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <div class="project-body">
+    <div class="project-tag">Required · Claude Project</div>
+    <div class="project-title">IFCA Sales Team Hub</div>
+    <div class="project-desc">All prospect audits must be built inside the designated Claude project. Click to open in a new tab.</div>
+  </div>
+  <div class="project-arrow">Open <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11L11 3M5 3h6v6"/></svg></div>
+</a>
+
+<div class="warn-strip">
+  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1l7 13H1L8 1z"/><path d="M8 6v4M8 12.5v.1"/></svg>
+  <div><strong>Always use the IFCA Sales Team Hub.</strong> Starting a generic Claude chat will produce an audit that doesn't align with our scripts, constraint framework, or design format.</div>
+</div>
+
+<!-- WHEN TO USE -->
+<div class="sdiv">
+  <div class="sdiv-inner">
+    <div class="sdiv-label">Section 1</div>
+    <div class="sdiv-title">When to Use It</div>
+  </div>
+</div>
+
+<div class="dtable-wrap">
+  <table class="dtable">
+    <thead>
+      <tr><th>Situation</th><th>What Happened</th><th>When to Send</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Unclosed call</td>
+        <td>Got through pitch and price — they didn't close. "Need to think about it," comparing options, cash timing.</td>
+        <td><strong>Within 24 hours</strong></td>
+      </tr>
+      <tr>
+        <td>No-show</td>
+        <td>Setter booked the call, prospect didn't show. They applied — they're warm.</td>
+        <td><strong>Within 24 hours of no-show</strong></td>
+      </tr>
+      <tr>
+        <td>Gone quiet</td>
+        <td>Call went well but they've gone quiet for 3–7 days.</td>
+        <td><strong>5–7 days after last contact</strong></td>
+      </tr>
+      <tr>
+        <td>Competitive comparison</td>
+        <td>Prospect said they're evaluating 2–3 other programs.</td>
+        <td><strong>Same day — before the next call</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- STEP-BY-STEP -->
+<div class="sdiv">
+  <div class="sdiv-inner">
+    <div class="sdiv-label">Section 2</div>
+    <div class="sdiv-title">Step-by-Step Process</div>
+  </div>
+</div>
+
+<div class="steps-stack">
+
+  <div class="step-card">
+    <div class="step-num">00</div>
+    <div class="step-content">
+      <div class="step-tag">Before You Start</div>
+      <div class="step-title">Gather these inputs</div>
+      <div class="step-body">
+        <ul>
+          <li><strong>Required</strong>Grain transcript URL or pasted transcript</li>
+          <li><strong>Strongly Preferred</strong>HubSpot contact link (full URL from the contact record)</li>
+          <li><strong>Required</strong>Prospect full name</li>
+          <li><strong>Required</strong>Your name (closer name)</li>
+          <li><strong>Required</strong>Call outcome — Closed / No-close / No-show / Follow-up scheduled</li>
+          <li><strong>Optional</strong>Follow-up date if scheduled</li>
+          <li><strong>Optional</strong>Any promises made on the call (resources, intros, scorecards, screenshots)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num">01</div>
+    <div class="step-content">
+      <div class="step-tag">Open Claude</div>
+      <div class="step-title">Go to the IFCA Sales Team Hub project</div>
+      <div class="step-body">
+        <p>All prospect audits are built inside the IFCA Sales Team Hub Claude project. Don't start a random new chat — the project has the context, scripts, and design templates baked in.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num">02</div>
+    <div class="step-content">
+      <div class="step-tag">Submit</div>
+      <div class="step-title">Paste the submission block</div>
+      <div class="step-body">
+        <p>Copy the format below, fill in the fields, paste into Claude, and hit send. Claude will pull HubSpot, search for social presence, and analyze the transcript before building anything.</p>
+        <div class="submission-block">Build a prospect audit for:
+
+Prospect: <span class="var">[First Last]</span>
+Closer: <span class="var">[Your Name]</span>
+Outcome: <span class="var">[Closed / No-close / No-show / Follow-up]</span>
+HubSpot: <span class="var">[paste full URL]</span>
+Follow-up Date: <span class="var">[date or TBD]</span>
+Promises Made: <span class="var">[anything you committed to send]</span>
+
+Grain Transcript:
+<span class="var">[paste full transcript here, or paste Grain URL]</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num">03</div>
+    <div class="step-content">
+      <div class="step-tag">Wait · ~3–5 minutes</div>
+      <div class="step-title">Claude builds the audit</div>
+      <div class="step-body">
+        <p>Claude will automatically:</p>
+        <ul>
+          <li><strong>Pull</strong>The HubSpot contact record and setter notes</li>
+          <li><strong>Search</strong>For the prospect's Instagram or website</li>
+          <li><strong>Analyze</strong>The transcript — extract revenue, goals, objections, alignment score</li>
+          <li><strong>Classify</strong>The prospect: Goal Syntax / Problem Syntax / PT Pivot</li>
+          <li><strong>Diagnose</strong>Constraints P1 / P2 / P3 / OK and rank by severity</li>
+          <li><strong>Build</strong>The full two-tab HTML file</li>
+        </ul>
+        <p>When it's done, download the HTML file to your desktop.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num">04</div>
+    <div class="step-content">
+      <div class="step-tag">Internal Prep</div>
+      <div class="step-title">Review the Closer Intel tab FIRST</div>
+      <div class="step-body">
+        <p>Open the HTML file in Chrome or Safari. Click <strong>Closer Intel</strong> before you record anything. Read:</p>
+        <ul>
+          <li><strong>Cross-Source Flags</strong>Anything important that wasn't obvious on the call</li>
+          <li><strong>Objection Bank</strong>What they really meant + your reframe for the Loom</li>
+          <li><strong>Prep Items</strong>Any promises to follow through on before you send</li>
+        </ul>
+        <p>Then switch to <strong>Prospect View</strong> and quickly scan the constraints before you hit record.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num">05</div>
+    <div class="step-content">
+      <div class="step-tag">Record · Target 5–7 min</div>
+      <div class="step-title">Record the Loom</div>
+      <div class="step-body">
+        <p>Screen-share the <strong>Prospect View</strong> tab. Riff from the Loom Script outline in Closer Intel — don't read it word for word. The 5-beat structure is below.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- THE 5 BEATS -->
+<div class="sdiv">
+  <div class="sdiv-inner">
+    <div class="sdiv-label">Section 3 · Loom Structure</div>
+    <div class="sdiv-title">The 5 Beats</div>
+  </div>
+</div>
+
+<div class="beats-grid">
+  <div class="beat-card">
+    <div class="beat-head">
+      <div class="beat-num">1</div>
+      <div class="beat-title">Open</div>
+      <div class="beat-time">30 sec</div>
+    </div>
+    <div class="beat-body">"Hey [Name] — [you] here. Wanted to send something over before our next call."</div>
+  </div>
+  <div class="beat-card">
+    <div class="beat-head">
+      <div class="beat-num">2</div>
+      <div class="beat-title">Cost of Inaction</div>
+      <div class="beat-time">45 sec</div>
+    </div>
+    <div class="beat-body">Pull up the red COI number. "Every month at [the job / current situation] is $X you're not making."</div>
+  </div>
+  <div class="beat-card">
+    <div class="beat-head">
+      <div class="beat-num">3</div>
+      <div class="beat-title">Constraint Walkthrough</div>
+      <div class="beat-time">2 min</div>
+    </div>
+    <div class="beat-body">Walk P1 → P2 → P3 constraint cards using their exact words from the call.</div>
+  </div>
+  <div class="beat-card">
+    <div class="beat-head">
+      <div class="beat-num">4</div>
+      <div class="beat-title">Proof Bridge</div>
+      <div class="beat-time">45 sec</div>
+    </div>
+    <div class="beat-body">Anchor to their prior success or the results they already got.</div>
+  </div>
+  <div class="beat-card" style="grid-column:1/-1;">
+    <div class="beat-head">
+      <div class="beat-num">5</div>
+      <div class="beat-title">Solutions + Close</div>
+      <div class="beat-time">1 min</div>
+    </div>
+    <div class="beat-body">Reference the Solutions table. Give one CTA — follow-up date, or "text me if another program reaches out first." Not both.</div>
+  </div>
+</div>
+
+<div class="loom-rule">
+  <div class="loom-rule-eyebrow">⚠ Hard Rule</div>
+  <div class="loom-rule-body"><strong>Do not re-sell on the Loom.</strong> The Loom's job is clarity and certainty — not a second pitch. Show them what's blocking them, show them what IFCA builds, and stop. When the prospect watches it, the follow-up call should feel like paperwork.</div>
+</div>
+
+<!-- TIMELINE -->
+<div class="sdiv">
+  <div class="sdiv-inner">
+    <div class="sdiv-label">Section 4</div>
+    <div class="sdiv-title">The Follow-Up Timeline</div>
+  </div>
+</div>
+
+<div class="dtable-wrap">
+  <table class="dtable">
+    <thead>
+      <tr><th>When</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Immediately after the call</td>
+        <td>Log outcome in HubSpot. Update lead status, add call note, set follow-up task.</td>
+      </tr>
+      <tr>
+        <td>Within 2 hours</td>
+        <td>Send a short human text: <em>"Good chatting — putting something together for you, sending in the next day or so."</em></td>
+      </tr>
+      <tr>
+        <td>Within 24 hours</td>
+        <td>Submit to Claude, build the audit, review Closer Intel, record the Loom.</td>
+      </tr>
+      <tr>
+        <td>Within 24–48 hours of the call</td>
+        <td>Send the Loom: <em>"Put together a quick breakdown of what I saw in your business — 5 minutes. Wanted you to have this before [date]."</em></td>
+      </tr>
+      <tr>
+        <td>1–2 days before follow-up call</td>
+        <td>Confirmation text: <em>"Still on for [day]? Let me know if you have questions after watching the breakdown."</em></td>
+      </tr>
+      <tr>
+        <td>Day of the follow-up call</td>
+        <td>Have the payment plan ready based on what they signaled on the original call.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- HARD RULES -->
+<div class="sdiv">
+  <div class="sdiv-inner">
+    <div class="sdiv-label">Section 5</div>
+    <div class="sdiv-title">Hard Rules</div>
+  </div>
+</div>
+
+<div class="rules-stack">
+  <div class="rule-row">
+    <div class="rule-num">01</div>
+    <div class="rule-text"><strong>Never share the HTML file with the prospect.</strong> The Closer Intel tab is internal only.</div>
+  </div>
+  <div class="rule-row">
+    <div class="rule-num">02</div>
+    <div class="rule-text"><strong>Always use the IFCA Sales Team Hub project</strong> — not a new chat.</div>
+  </div>
+  <div class="rule-row">
+    <div class="rule-num">03</div>
+    <div class="rule-text"><strong>Send the Loom within 48 hours of the call.</strong> After that, send rate drops significantly.</div>
+  </div>
+  <div class="rule-row">
+    <div class="rule-num">04</div>
+    <div class="rule-text"><strong>One CTA at the end of the Loom</strong> — follow-up date or "text me." Not both.</div>
+  </div>
+  <div class="rule-row">
+    <div class="rule-num">05</div>
+    <div class="rule-text"><strong>Don't re-sell on the Loom.</strong> Don't mention price. Show the diagnosis and the plan.</div>
+  </div>
+</div>
+
+<!-- EXAMPLES -->
+<div class="sdiv">
+  <div class="sdiv-inner">
+    <div class="sdiv-label">Section 6</div>
+    <div class="sdiv-title">Example Audits</div>
+  </div>
+</div>
+
+<div class="examples-grid">
+  <a class="example-card" href="./example-dan-hosking.html" target="_blank" rel="noopener">
+    <div class="example-tag">Goal Syntax · Pre-Revenue</div>
+    <div class="example-name">Dan Hosking</div>
+    <div class="example-meta"><strong>Closer:</strong> Ramona Nijjar &nbsp;·&nbsp; <strong>Call Date:</strong> May 8, 2026 &nbsp;·&nbsp; <strong>Outcome:</strong> No-close, follow-up booked</div>
+    <div class="example-constraint">Offer undefined · Pricing 3–4× below market · Zero acquisition system</div>
+    <div class="example-arrow">Open Example
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11L11 3M5 3h6v6"/></svg>
+    </div>
+  </a>
+  <a class="example-card" href="./example-ross-jordan.html" target="_blank" rel="noopener">
+    <div class="example-tag">Goal Syntax · Pre-Revenue</div>
+    <div class="example-name">Ross Jordan</div>
+    <div class="example-meta"><strong>Closer:</strong> Jason Meland &nbsp;·&nbsp; <strong>Call Date:</strong> May 6, 2026 &nbsp;·&nbsp; <strong>Outcome:</strong> No-close, follow-up May 22</div>
+    <div class="example-constraint">No offer defined · No infrastructure · Cash-constrained until May 22</div>
+    <div class="example-arrow">Open Example
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11L11 3M5 3h6v6"/></svg>
+    </div>
+  </a>
+</div>
+
+<!-- FAQ -->
+<div class="sdiv">
+  <div class="sdiv-inner">
+    <div class="sdiv-label">Section 7</div>
+    <div class="sdiv-title">FAQ</div>
+  </div>
+</div>
+
+<div class="faq-stack">
+
+  <div class="faq-row">
+    <div class="faq-q">Do I send the HTML file to the prospect?</div>
+    <div class="faq-a"><p><strong>No. Never.</strong> The Closer Intel tab contains internal diagnosis and objection decoding that is not for prospect eyes. Send the Loom link only.</p></div>
+  </div>
+
+  <div class="faq-row">
+    <div class="faq-q">What if I don't have the Grain transcript?</div>
+    <div class="faq-a"><p>Paste your call notes instead. If you only have HubSpot + setter notes, Claude can still build a partial audit. <strong>A partial audit is better than no follow-up.</strong></p></div>
+  </div>
+
+  <div class="faq-row">
+    <div class="faq-q">How long should the Loom be?</div>
+    <div class="faq-a"><p>5–7 minutes. Under 5 feels cursory. Over 8 and most prospects won't finish it. Follow the 5-beat structure and you'll land in range.</p></div>
+  </div>
+
+  <div class="faq-row">
+    <div class="faq-q">What if they watch it and still don't respond?</div>
+    <div class="faq-a"><p>Wait 48 hours then send one follow-up text: <em>"Hey [Name] — any questions before [date]?"</em> After that, move to General Follow-Up in HubSpot with a 2-week task. <strong>Don't chase.</strong></p></div>
+  </div>
+
+  <div class="faq-row">
+    <div class="faq-q">Can I use this before an initial call?</div>
+    <div class="faq-a">
+      <p><strong>Yes — with the right inputs.</strong> The audit needs context to produce a useful output. If you have a setter or triage call recorded, a thorough application, social presence, and HubSpot notes — you can absolutely run this pre-call. The diagnosis quality scales directly with input quality.</p>
+      <p>Until then, deploy this pre-call <strong>only</strong> with prospects where you already have substantial context — a previous call, deep setter notes, or a documented triage conversation. Don't run it on application-only data — the output won't earn the time.</p>
+      <div class="upcoming">→ Coming Soon · Pre-Call Brief Agent</div>
+      <p>Jordan is building a new process that automates context gathering across HubSpot, applications, and social presence to generate a pre-call brief on every prospect. The brief will both prepare the closer AND optionally generate a pre-call audit to send to the prospect as homework. <strong>A few weeks out</strong> — requires agent infrastructure that's currently being built. More to come.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer class="playbook-footer">
+  <div class="pf-brand">IFCA · Impact Fitness Coaching Academy</div>
+  <div class="pf-values">
+    <div class="pf-v">Relentless Growth</div>
+    <div class="pf-v">Extreme Ownership</div>
+    <div class="pf-v">Authentic Connection</div>
+  </div>
+  <div class="pf-meta">impactcoachacademy.com</div>
+</footer>
+
+</div>
+</body>
+</html>

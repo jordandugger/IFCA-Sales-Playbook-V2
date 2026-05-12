@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ross Jordan — IFCA Business Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0B1A2B;
+  --bg-card:#142845;
+  --bg-card2:#1a3255;
+  --orange:#E87722;
+  --blue:#4A7FA5;
+  --green:#22C55E;
+  --yellow:#F59E0B;
+  --red:#DC2626;
+  --purple:#8B5CF6;
+  --text:#E8EDF5;
+  --muted:#7C93B8;
+  --border:#1F3355;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6}
+
+/* TAB BAR */
+.tab-bar{
+  position:sticky;top:0;z-index:200;
+  background:rgba(11,26,43,.97);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:0 32px;
+  display:flex;
+  gap:0;
+}
+.tab-btn{
+  font-family:'DM Mono',monospace;
+  font-size:11px;
+  letter-spacing:1.8px;
+  text-transform:uppercase;
+  color:var(--muted);
+  background:none;
+  border:none;
+  border-bottom:2px solid transparent;
+  padding:16px 20px;
+  cursor:pointer;
+  transition:all .2s;
+  white-space:nowrap;
+}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--orange);border-bottom-color:var(--orange)}
+.tab-badge{
+  font-size:9px;
+  letter-spacing:1px;
+  padding:2px 6px;
+  border-radius:3px;
+  margin-left:6px;
+  vertical-align:middle;
+}
+.tab-badge.prospect{background:rgba(74,127,165,.2);color:#7ab4d4}
+.tab-badge.closer{background:rgba(139,92,246,.2);color:#a78bfa}
+
+/* PANELS */
+.panel{display:none}
+.panel.active{display:block}
+
+/* HERO */
+.hero{
+  background:linear-gradient(160deg,#0d1f38 0%,#0B1A2B 100%);
+  border-bottom:1px solid var(--border);
+  padding:52px 32px 40px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::after{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:340px;height:340px;
+  background:radial-gradient(circle,rgba(232,119,34,.07) 0%,transparent 68%);
+  pointer-events:none;
+}
+.hero-inner{max-width:1060px;margin:0 auto}
+.hero-eyebrow{
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--orange);margin-bottom:10px;
+}
+.hero-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(40px,5.5vw,68px);
+  letter-spacing:1px;color:#fff;line-height:1;margin-bottom:6px;
+}
+.hero-sub{font-size:15px;color:var(--muted);margin-bottom:28px;font-weight:500}
+.hero-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px}
+.htag{
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;
+  text-transform:uppercase;padding:4px 10px;border-radius:4px;font-weight:500;
+}
+.htag.stage{background:rgba(74,127,165,.2);color:#7ab4d4;border:1px solid rgba(74,127,165,.3)}
+.htag.fit{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.25)}
+.htag.warn{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.25)}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;max-width:860px}
+.stat{background:rgba(20,40,69,.7);border:1px solid var(--border);border-radius:10px;padding:14px 18px}
+.stat-lbl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.5px;line-height:1}
+.stat-val.o{color:var(--orange)}.stat-val.g{color:var(--green)}.stat-val.b{color:#7ab4d4}.stat-val.y{color:var(--yellow)}.stat-val.w{color:#fff}
+
+/* SECTIONS */
+.section{max-width:1060px;margin:0 auto;padding:52px 32px;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.sec-num{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:5px}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:.5px;color:#fff}
+.sec-sub{font-size:13px;color:var(--muted);margin-top:4px;max-width:560px}
+
+/* CARDS */
+.card{background:var(--bg-card2);border:1px solid var(--border);border-radius:12px;padding:22px;position:relative}
+.card.gl{border-left:3px solid var(--green)}
+.card.ol{border-left:3px solid var(--orange)}
+.card.rl{border-left:3px solid var(--red)}
+.card.yl{border-left:3px solid var(--yellow)}
+.card.bl{border-left:3px solid var(--blue)}
+.card.pl{border-left:3px solid var(--purple)}
+.card h4{font-size:14px;font-weight:700;color:#fff;margin-bottom:8px}
+.card p{font-size:14px;color:#a8b8d1;line-height:1.65}
+.card p strong{color:#e8edf5;font-weight:600}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+
+/* DIAG CARDS */
+.diag{background:var(--bg-card2);border:1px solid var(--border);border-radius:12px;padding:18px 22px;display:flex;gap:18px;align-items:flex-start;margin-bottom:10px}
+.diag.p1{border-left:4px solid var(--red)}
+.diag.p2{border-left:4px solid var(--orange)}
+.diag.p3{border-left:4px solid var(--yellow)}
+.diag.ok{border-left:4px solid var(--green)}
+.diag-rank{font-family:'Bebas Neue',sans-serif;font-size:20px;min-width:38px;line-height:1;margin-top:2px}
+.diag.p1 .diag-rank{color:var(--red)}
+.diag.p2 .diag-rank{color:var(--orange)}
+.diag.p3 .diag-rank{color:var(--yellow)}
+.diag.ok .diag-rank{color:var(--green)}
+.diag-title{font-weight:700;font-size:14px;color:#fff;margin-bottom:5px}
+.diag-desc{font-size:13px;color:#a8b8d1;line-height:1.6;margin-bottom:8px}
+.diag-fix{font-size:12px;color:#7C93B8;font-style:italic;padding-left:10px;border-left:2px solid var(--border);line-height:1.6}
+.diag-fix strong{color:var(--orange);font-style:normal}
+
+/* PITCH TABLE */
+.pt{width:100%;border-collapse:collapse;font-size:14px}
+.pt th{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);background:rgba(20,40,69,.5)}
+.pt td{padding:12px 14px;color:#a8b8d1;border-bottom:1px solid rgba(31,51,85,.5);vertical-align:top}
+.pt tr:last-child td{border-bottom:none}
+.pt td:first-child{color:#e8edf5;font-weight:600;width:28%}
+.pt tr:hover td{background:rgba(20,40,69,.3)}
+
+/* QUOTE */
+.quote{border-left:3px solid var(--orange);padding:13px 18px;background:rgba(232,119,34,.06);border-radius:0 8px 8px 0;margin:14px 0;font-size:14px;color:#dbe5f0;font-style:italic;line-height:1.7}
+.quote-attr{font-style:normal;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:6px;display:block}
+
+/* COI */
+.coi{background:linear-gradient(135deg,rgba(220,38,38,.07),rgba(20,40,69,.5));border:1px solid rgba(220,38,38,.22);border-radius:12px;padding:22px 26px;margin-bottom:14px}
+.coi-lbl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:8px}
+.coi-num{font-family:'Bebas Neue',sans-serif;font-size:44px;color:var(--red);line-height:1;margin-bottom:3px}
+.coi-desc{font-size:13px;color:#a8b8d1;line-height:1.6}
+
+/* CLOSER INTEL SECTION */
+.intel{background:rgba(20,40,69,.5);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:14px}
+.intel-src{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:6px}
+.intel-body{font-size:14px;color:#a8b8d1;line-height:1.65}
+.intel-body strong{color:#e8edf5}
+
+/* OBJ ROWS */
+.obj-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+.obj-box{background:var(--bg-card2);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.obj-lbl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:500}
+.obj-lbl.said{color:var(--red)}.obj-lbl.meant{color:var(--yellow)}.obj-lbl.reframe{color:var(--green)}
+.obj-text{font-size:13px;color:#a8b8d1;line-height:1.6}
+
+/* LOOM STEPS */
+.loom-wrap{background:linear-gradient(135deg,rgba(232,119,34,.1),rgba(20,40,69,.7));border:1px solid rgba(232,119,34,.28);border-radius:14px;padding:26px 28px;margin-top:28px}
+.loom-header{font-weight:700;font-size:15px;color:#fff;margin-bottom:4px}
+.loom-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+.loom-step{font-size:13px;color:#a8b8d1;line-height:1.7;padding:10px 14px;border-left:2px solid rgba(232,119,34,.3);margin-bottom:10px;border-radius:0 6px 6px 0;background:rgba(232,119,34,.03)}
+.loom-step strong{color:#e8edf5}
+.loom-time{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:4px}
+
+/* PLAN ITEMS */
+.plan-item{display:flex;gap:14px;align-items:flex-start;padding:14px 18px;background:var(--bg-card2);border:1px solid var(--border);border-radius:10px;margin-bottom:10px}
+.plan-num{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--orange);min-width:28px;line-height:1;margin-top:2px}
+.plan-title{font-weight:700;font-size:14px;color:#fff;margin-bottom:3px}
+.plan-desc{font-size:13px;color:#a8b8d1;line-height:1.6}
+.plan-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.ptag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:3px 7px;border-radius:4px;font-weight:500}
+.ptag.sales{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.2)}
+.ptag.ops{background:rgba(74,127,165,.15);color:#7ab4d4;border:1px solid rgba(74,127,165,.2)}
+.ptag.offer{background:rgba(232,119,34,.15);color:#fb923c;border:1px solid rgba(232,119,34,.2)}
+.ptag.rel{background:rgba(139,92,246,.15);color:#a78bfa;border:1px solid rgba(139,92,246,.2)}
+.ptag.fu{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.2)}
+
+/* FLAG BANNER */
+.flag-banner{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:14px 18px;margin-bottom:20px;font-size:13px;color:#fbbf24;display:flex;gap:10px;align-items:flex-start}
+.flag-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.flag-text{color:#a8b8d1;line-height:1.6}
+.flag-text strong{color:#fbbf24}
+
+/* FOOTER */
+footer{max-width:1060px;margin:0 auto;padding:28px 32px 44px;text-align:center}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--orange);margin-bottom:6px}
+.footer-text{font-size:11px;color:var(--muted)}
+
+@media(max-width:768px){
+  .hero{padding:32px 18px 28px}
+  .section{padding:36px 18px}
+  .tab-bar{padding:0 14px}
+  .g2,.g3,.obj-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('prospect')">
+    Prospect View <span class="tab-badge prospect">Loom Screen Share</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab('closer')">
+    Closer Intel <span class="tab-badge closer">Internal Only</span>
+  </button>
+</div>
+
+<!-- ============================================================
+     PANEL 1: PROSPECT VIEW
+     ============================================================ -->
+<div class="panel active" id="panel-prospect">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">IFCA Business Audit · May 2026</div>
+      <div class="hero-name">Ross Jordan</div>
+      <div class="hero-sub">Aspiring Online Fitness Coach · St. Pete, FL · Plant-Based Physique & Fat Loss</div>
+      <div class="hero-tags">
+        <span class="htag stage">Pre-Revenue · Building Phase</span>
+        <span class="htag fit">High-Fit Candidate</span>
+        <span class="htag warn">7K/mo Replacement Target</span>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="stat-lbl">Current Coaching Rev</div><div class="stat-val o">$0/mo</div></div>
+        <div class="stat"><div class="stat-lbl">Replacement Target</div><div class="stat-val g">$7K/mo</div></div>
+        <div class="stat"><div class="stat-lbl">Stretch Goal</div><div class="stat-val b">$15–20K/mo</div></div>
+        <div class="stat"><div class="stat-lbl">Cost of 3-Month Delay</div><div class="stat-val y">$21K+</div></div>
+        <div class="stat"><div class="stat-lbl">Alignment Score</div><div class="stat-val w">9 / 10</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 01: SITUATION -->
+  <div class="section" id="situation">
+    <div class="sec-num">01 — Situation</div>
+    <div class="sec-title">Where You're At Right Now</div>
+    <div class="sec-sub" style="margin-bottom:28px">What we heard on the call — decoded honestly</div>
+
+    <div class="g2" style="margin-bottom:14px">
+      <div class="card ol">
+        <h4>Your business today</h4>
+        <p>Pre-revenue coaching. You've helped 2–3 friends — one down 90 lbs, one down 20 lbs — but charging close to nothing for friends who aren't your ideal clients. You have the skills. You don't have the system.</p>
+      </div>
+      <div class="card bl">
+        <h4>What you're building toward</h4>
+        <p>1-on-1 online coaching in the plant-based physique space. You've been plant-based since 2018, you know the science, and you've lived the transformation. The niche is real — it just needs packaging.</p>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="card yl">
+        <h4>The lead generation reality</h4>
+        <p>722 followers on Instagram. Posting fitness content consistently but with no strategy, no CTA, no DM automation. Your network is warm — Jason's data shows 3–7 clients possible from affinity launch alone before touching a single ad.</p>
+      </div>
+      <div class="card gl">
+        <h4>What you already have going for you</h4>
+        <p>You ran a CBD company to <strong>$16K/month — completely alone, zero ads, zero systems.</strong> That wasn't luck. You already know how to build something. This time you have a blueprint, a team, and a niche that transforms lives.</p>
+      </div>
+    </div>
+
+    <div class="quote" style="margin-top:20px">
+      "I just feel like I could expedite the process and get jump-started to actually make revenue a lot quicker if I didn't do it on my own."
+      <span class="quote-attr">— Ross Jordan, on the call with Jason</span>
+    </div>
+  </div>
+
+  <!-- SECTION 02: CONSTRAINT DIAGNOSIS -->
+  <div class="section" id="constraints">
+    <div class="sec-num">02 — Constraint Diagnosis</div>
+    <div class="sec-title">What's Actually Blocking You</div>
+    <div class="sec-sub" style="margin-bottom:28px">Ranked by priority — P1 is what we fix first</div>
+
+    <div class="coi">
+      <div class="coi-lbl">Cost of inaction — based on your $7K/mo replacement target</div>
+      <div class="coi-num">$21,000+</div>
+      <div class="coi-desc">Every month you stay in the job without a launched coaching business is approximately $7,000 in forgone income. At 3 months of delay that's $21K left on the table — before you even count the burnout and lost time freedom you told us about.</div>
+    </div>
+
+    <div class="diag p1">
+      <div class="diag-rank">P1</div>
+      <div>
+        <div class="diag-title">Offer & Positioning — Nothing Is Defined Yet</div>
+        <div class="diag-desc">You know what you want to do (plant-based physique coaching) but the avatar, mechanism, price, and packaging aren't locked. You're at $200–250/month — 60% below market. Without a defined offer, every other lever — content, ads, sales — has nothing to point at.</div>
+        <div class="diag-fix"><strong>How we fix it:</strong> Week one with your coach — AI Offer Optimization Scorecard. We lock your avatar, name your mechanism, set your price ($350–500), write your IG bio and offer statement. You go into week two knowing exactly what you're selling and to who.</div>
+      </div>
+    </div>
+
+    <div class="diag p2">
+      <div class="diag-rank">P2</div>
+      <div>
+        <div class="diag-title">Lead Generation — No System, All Dormant</div>
+        <div class="diag-desc">722 followers with no content strategy and no DM automation. Your warm network is a real Phase 1 asset — Jason's affinity launch model typically produces 3–7 clients from existing relationships before spending a dollar on ads. But that's a one-time event, not a lead engine. After that, you need an organic system flowing into paid amplification.</div>
+        <div class="diag-fix"><strong>How we fix it:</strong> Affinity launch first (immediate revenue) → AI Content Engine tuned to the plant-based niche → DM automation via Impact AI → Phase 3 paid ads once your offer converts organically. IFCA covers your first month of ad spend (~$400).</div>
+      </div>
+    </div>
+
+    <div class="diag p2">
+      <div class="diag-rank">P2</div>
+      <div>
+        <div class="diag-title">Systems & Backend — You're Operating on Zero Infrastructure</div>
+        <div class="diag-desc">No CRM. No contracts. No payment processing. No scheduling tool. No automated follow-up sequences. When leads come in from the affinity launch or your content, there's no place for them to go. This bottleneck needs to be solved in week one.</div>
+        <div class="diag-fix"><strong>How we fix it:</strong> IFCA's tech lead Robert installs your complete backend — CRM, landing pages, contracts, scheduling, email/SMS automations — in a single Zoom session. Fully done for you in the first 7 days.</div>
+      </div>
+    </div>
+
+    <div class="diag p3">
+      <div class="diag-rank">P3</div>
+      <div>
+        <div class="diag-title">Sales Framework — You Have the Instincts, Need the Structure</div>
+        <div class="diag-desc">You have a sales background and good instincts. The gap is a structured framework specifically for fitness coaching discovery calls — pre-qualification, discovery, pitch, and close. Not a crisis today because volume is zero, but needs to be built before the affinity launch fires.</div>
+        <div class="diag-fix"><strong>How we fix it:</strong> IFCA sales coach provides personalized call feedback. Scripts and pre-qualification sequences so you're only getting on calls with ready buyers. Most coaches close their first few clients before they feel "ready."</div>
+      </div>
+    </div>
+
+    <div class="diag ok">
+      <div class="diag-rank">OK</div>
+      <div>
+        <div class="diag-title">Delivery Capability — Your Actual Coaching Is Real</div>
+        <div class="diag-desc">You've coached real people to real results. 90 lbs down. 20 lbs down. You know plant-based nutrition and progressive overload. The IFCA done-for-you Trainerize program means you skip the 3-month programming build and start with a premium, fully built system on day one.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 03: WHAT WE'LL BUILD -->
+  <div class="section" id="solutions">
+    <div class="sec-num">03 — Exact Solutions</div>
+    <div class="sec-title">Constraint → What IFCA Builds With You</div>
+    <div class="sec-sub" style="margin-bottom:28px">Every gap mapped to a specific deliverable in your program</div>
+
+    <table class="pt">
+      <thead>
+        <tr>
+          <th>Your Constraint</th>
+          <th>IFCA Deliverable</th>
+          <th>What It Means for You</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>No defined offer, no niche lock, pricing 60% below market</td>
+          <td>AI Offer Optimization Scorecard + 1-on-1 positioning session</td>
+          <td>Week one — avatar locked, mechanism named, price set, IG bio rewritten. You know exactly what you're selling before week two begins.</td>
+        </tr>
+        <tr>
+          <td>No backend: no CRM, contracts, payments, or scheduling</td>
+          <td>Impact AI (Go High Level) — fully installed by IFCA tech team</td>
+          <td>Robert gets on Zoom and installs your entire backend in one session. You go from zero infrastructure to fully operational without touching code.</td>
+        </tr>
+        <tr>
+          <td>Warm network with no launch plan to monetize it</td>
+          <td>Affinity Launch Campaign — structured rollout to your existing network</td>
+          <td>Before running a single ad, we run a targeted campaign to people who already trust you. Average result: 3–7 clients. That's your first revenue month.</td>
+        </tr>
+        <tr>
+          <td>722 followers, inconsistent posting, no content system or DM automation</td>
+          <td>AI Content Engine (Claude-trained, plant-based niche) + DM automation</td>
+          <td>Jordan's AI content system is already trained on the plant-based space. You plug in your offer and voice — it outputs a week of content in 15 minutes. DM automation handles first contact so you're not living in your inbox.</td>
+        </tr>
+        <tr>
+          <td>No ad budget, scared to waste money on ads that don't convert</td>
+          <td>IFCA covers first month of ad spend (~$400) + teaches you the skill simultaneously</td>
+          <td>We invest the first month of ads for you. Based on IFCA benchmarks across ~5,000 students: 200–400 leads, ~10 consultations, ~5 new clients. You learn how to run ads as we go — no agency dependency.</td>
+        </tr>
+        <tr>
+          <td>CBD-era feast/famine — inconsistent revenue, no retention system</td>
+          <td>LTV Client Journey Map — frontend → backend → continuity offer</td>
+          <td>Average IFCA client lifetime is 15 months. We design your journey from day one so clients don't finish a 3-month program and disappear. That's what creates a predictable $7K floor — not just landing new clients every month.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <div class="footer-logo">IFCA</div>
+    <div class="footer-text">Impact Fitness Coaching Academy · Business Audit · Ross Jordan · May 2026<br>Prepared by Jason Meland · Follow-Up: May 22, 2026</div>
+  </footer>
+
+</div><!-- end panel-prospect -->
+
+<!-- ============================================================
+     PANEL 2: CLOSER INTEL
+     ============================================================ -->
+<div class="panel" id="panel-closer">
+
+  <div class="section" id="ci-overview">
+    <div class="sec-num">Closer Intel — Internal Only</div>
+    <div class="sec-title">Ross Jordan · Pre-Call Brief</div>
+    <div class="sec-sub">Not shown to prospect. Use this to prep the May 22 call and record the Loom.</div>
+
+    <div class="flag-banner" style="margin-top:24px">
+      <div class="flag-icon">⚠</div>
+      <div class="flag-text"><strong>2-week gap risk:</strong> Ross is warm (9/10, said he'd sign "absolutely" if he had the money) but he's also talked to 4–5 other agencies. The next two weeks are where you lose him to a competitor. This Loom is the bridge — send it within 48 hours of the call. Don't go quiet.</div>
+    </div>
+  </div>
+
+  <!-- INTEL SOURCES -->
+  <div class="section" id="ci-intel">
+    <div class="sec-num">Pre-Audit Research</div>
+    <div class="sec-title">What We Pulled Before Building This</div>
+
+    <div class="intel">
+      <div class="intel-src">HubSpot CRM</div>
+      <div class="intel-body">
+        <strong>Lead Status:</strong> Call Booked + Applied · <strong>Lifecycle:</strong> Opportunity · <strong>Source:</strong> IFCA Instagram (booked 5/4/26) · <strong>Deal:</strong> Open, created 5/6. Email: rossjordandf@gmail.com. No prior deal history — first IFCA touchpoint.
+      </div>
+    </div>
+
+    <div class="intel">
+      <div class="intel-src">Setter Notes (5/6)</div>
+      <div class="intel-body">
+        Booked from IFCA IG. Knows someone who went through the program (didn't name them). Challenge: "online coaching top to bottom — confident in coaching but lacking systems and how to build the business and get leads." Goal: quit project management for freedom and flexibility. Was looking at agencies — setter reframed toward full mentorship, was receptive. Resources sent: pre-call video + Christian Caba pod.
+      </div>
+    </div>
+
+    <div class="intel">
+      <div class="intel-src">Instagram: @ross.poweredbyplants</div>
+      <div class="intel-body">
+        722 followers. Jason viewed live on the call — last post 2 days prior. Posting gym/plant-based content inconsistently, no CTA, no defined niche hook. Authentic personality on camera. Strong raw material for entity building once positioned. Handle confirmed by Jason on the call.
+      </div>
+    </div>
+
+    <div class="intel">
+      <div class="intel-src">Cross-Source Flags</div>
+      <div class="intel-body">
+        <strong>Flag 1 — Cash timing:</strong> Bonuses + tax return expected ~May 22. Confirmed "absolutely" would invest if he had the funds today. No down payment possible at time of call.<br><br>
+        <strong>Flag 2 — Competition:</strong> 4–5 agencies/mentorships evaluated so far. Called IFCA "the best sounding one." One was aggressive in follow-up — Jason differentiated well. Risk of someone else closing him in the gap.<br><br>
+        <strong>Flag 3 — CBD precedent:</strong> $16K/mo peak, all organic, no help. Massive self-belief anchor. Jason used it — <strong>keep leaning into it on the May 22 call.</strong><br><br>
+        <strong>Flag 4 — Robbie intro promised:</strong> Jason committed to connecting Ross with Robbie D'Angelo (St. Pete church/entrepreneur scene). Do this before the follow-up call regardless of whether he closes — it builds genuine trust and separates you from every other program.
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJECTION BANK -->
+  <div class="section" id="ci-obj">
+    <div class="sec-num">Objection Bank</div>
+    <div class="sec-title">What He Said vs. What He Meant</div>
+    <div class="sec-sub" style="margin-bottom:24px">Three objections from the call — decoded and reframed</div>
+
+    <div class="obj-grid">
+      <div class="obj-box">
+        <div class="obj-lbl said">He Said</div>
+        <div class="obj-text">"I don't have the money right now — I'm strapped until ~May 22."</div>
+      </div>
+      <div class="obj-box">
+        <div class="obj-lbl meant">He Meant</div>
+        <div class="obj-text">Timing is real but also a fear buffer. He said he'd sign "absolutely" if he had it. Cash flow constraint, not a belief constraint.</div>
+      </div>
+      <div class="obj-box">
+        <div class="obj-lbl reframe">Reframe</div>
+        <div class="obj-text">Don't pressure the money — reduce friction instead. Use the Loom to make May 22 feel like paperwork, not a decision.</div>
+      </div>
+    </div>
+
+    <div class="obj-grid">
+      <div class="obj-box">
+        <div class="obj-lbl said">He Said</div>
+        <div class="obj-text">"I'd give it a 10 once I actually see that I can do it. Until I see it, I can't fully believe."</div>
+      </div>
+      <div class="obj-box">
+        <div class="obj-lbl meant">He Meant</div>
+        <div class="obj-text">Thomas the Apostle objection. First-timer fear. He already proved he can build — he just hasn't redirected that confidence to coaching yet.</div>
+      </div>
+      <div class="obj-box">
+        <div class="obj-lbl reframe">Reframe</div>
+        <div class="obj-text">"You did $16K alone in CBD with zero help. Now you have a team, a blueprint, and a niche that transforms lives. The only variable is you." Use his history as evidence.</div>
+      </div>
+    </div>
+
+    <div class="obj-grid">
+      <div class="obj-box">
+        <div class="obj-lbl said">He Said</div>
+        <div class="obj-text">"My biggest concern is investing the money and not making any sales."</div>
+      </div>
+      <div class="obj-box">
+        <div class="obj-lbl meant">He Meant</div>
+        <div class="obj-text">Fear of sunk cost. 5 years corporate with no promotion — he's pattern-matching to effort that didn't pay off. Guarantee language matters here.</div>
+      </div>
+      <div class="obj-box">
+        <div class="obj-lbl reframe">Reframe</div>
+        <div class="obj-text">Re-surface the guarantee clearly: "Average IFCA student recoups their investment in 10 weeks. If you don't in 6 months, we keep working with you for free." Tie to his work ethic explicitly.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOOM SCRIPT -->
+  <div class="section" id="ci-loom">
+    <div class="sec-num">Loom Script</div>
+    <div class="sec-title">What to Record Before May 22</div>
+    <div class="sec-sub">Bullet outline — riff from this, don't read it. Target: 5–7 minutes. Screen-share the Prospect View tab while recording.</div>
+
+    <div class="loom-wrap">
+      <div class="loom-header">Ross Jordan Follow-Up Loom</div>
+      <div class="loom-sub">Record on the Prospect View tab. Walk each section. Goal: he feels like the decision is already made before the call.</div>
+
+      <div class="loom-step">
+        <div class="loom-time">Open — 30 sec</div>
+        <strong>"Hey Ross — Jason here."</strong> I put together a quick breakdown of what I see in your business and exactly what we'd build together. Pull it up on your screen — takes about 5 minutes. This is so when we talk on the 22nd you already know what you're walking into.
+      </div>
+
+      <div class="loom-step">
+        <div class="loom-time">Cost of inaction — 45 sec</div>
+        Pull up Section 02, the red COI box. <strong>"You said you might make this your phone background — here it is."</strong> $7K/month forgone. $21K in 3 months. I'm not saying it to create pressure — you said it yourself on the call. Every month in the job is a month not building.
+      </div>
+
+      <div class="loom-step">
+        <div class="loom-time">Constraint walkthrough — 2 min</div>
+        Scroll through the P1/P2/P3 cards. <strong>"Here's what I see when I look at your situation."</strong> Your P1 is your offer — not defined, not packaged, priced 60% below market. That's week one. Your P2 is lead gen — you've got a warm network we're going to turn into 3–7 clients before we touch an ad. Your backend infrastructure is at zero — we fix that in the first week too.
+      </div>
+
+      <div class="loom-step">
+        <div class="loom-time">CBD bridge — 45 sec</div>
+        <strong>"You did $16K a month in CBD — alone, no ads, no systems."</strong> That's not luck. That's you knowing how to build something. You have that in you. Now you've got a team, a proven blueprint, and a niche where you're transforming people's lives instead of selling a commodity. The ceiling here is higher than CBD ever was.
+      </div>
+
+      <div class="loom-step">
+        <div class="loom-time">Solutions table — 1 min</div>
+        Scroll to Section 03. <strong>"I mapped every constraint to the exact thing we build with you."</strong> This isn't a generic program — this is your first 30 days. Done-for-you tech install, affinity launch, content engine trained on the plant-based niche, first month of ads covered.
+      </div>
+
+      <div class="loom-step">
+        <div class="loom-time">Close — 30 sec</div>
+        <strong>"We're locked in for the 22nd."</strong> Between now and then — if another agency slides in your DMs, text me first. I'd rather you come to me than make a decision without the full picture. See you Friday.
+      </div>
+    </div>
+  </div>
+
+  <!-- FOLLOW-UP PREP -->
+  <div class="section" id="ci-prep">
+    <div class="sec-num">May 22 Call Prep</div>
+    <div class="sec-title">Before the Follow-Up</div>
+    <div class="sec-sub" style="margin-bottom:20px">Four things to have done before Ross gets back on the phone</div>
+
+    <div class="plan-item">
+      <div class="plan-num">1</div>
+      <div>
+        <div class="plan-title">Send this Loom within 48 hours of the original call</div>
+        <div class="plan-desc">The gap is the risk. The Loom keeps IFCA top of mind and demonstrates that you did real homework — not a generic follow-up. Drop the link with a short text: "Hey Ross — put together a quick breakdown of what I saw in your business. 5 minutes. Wanted you to have this before the 22nd."</div>
+        <div class="plan-tags"><span class="ptag fu">follow-up</span></div>
+      </div>
+    </div>
+
+    <div class="plan-item">
+      <div class="plan-num">2</div>
+      <div>
+        <div class="plan-title">Send the Offer Scorecard Jason promised on the call</div>
+        <div class="plan-desc">Jason explicitly said he'd "dig around the backend and find some things" — specifically an offer scorecard example to help Ross get the wheels turning. Follow through on this. Attach it to the Loom message or send separately. Follow-through is the differentiator from the aggressive agencies he mentioned.</div>
+        <div class="plan-tags"><span class="ptag offer">offer</span><span class="ptag fu">follow-up</span></div>
+      </div>
+    </div>
+
+    <div class="plan-item">
+      <div class="plan-num">3</div>
+      <div>
+        <div class="plan-title">Make the Robbie intro — regardless of whether he closes</div>
+        <div class="plan-desc">Jason promised to connect Ross with Robbie D'Angelo (St. Pete, church community, entrepreneurial scene). Do this unconditionally. It builds real relationship capital and makes IFCA feel like a community, not a company trying to extract $15K from him.</div>
+        <div class="plan-tags"><span class="ptag rel">relationship</span></div>
+      </div>
+    </div>
+
+    <div class="plan-item">
+      <div class="plan-num">4</div>
+      <div>
+        <div class="plan-title">Have a specific payment plan ready — don't make him do the math</div>
+        <div class="plan-desc">Ross said $3–5K down with 3–4 monthly installments. Have a concrete structure ready: e.g., $3,500 down + 3 payments of $3,000 = $12,500 total (PIF discount applied). Put it in front of him. The less he has to calculate under pressure, the easier the yes.</div>
+        <div class="plan-tags"><span class="ptag sales">sales</span><span class="ptag ops">ops</span></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">IFCA</div>
+    <div class="footer-text">Closer Intelligence — Internal Use Only · Ross Jordan · Jason Meland · May 2026</div>
+  </footer>
+
+</div><!-- end panel-closer -->
+
+<script>
+function switchTab(tab){
+  document.querySelectorAll('.tab-btn').forEach(function(b,i){
+    b.classList.toggle('active', (i===0&&tab==='prospect')||(i===1&&tab==='closer'));
+  });
+  document.getElementById('panel-prospect').classList.toggle('active', tab==='prospect');
+  document.getElementById('panel-closer').classList.toggle('active', tab==='closer');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

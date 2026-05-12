@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dan Hosking — IFCA Business Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0B1A2B;--bg2:#142845;--bg3:#1a3255;--or:#E87722;--bl:#4A7FA5;--gr:#22C55E;--ye:#F59E0B;--re:#DC2626;--pu:#8B5CF6;--tx:#E8EDF5;--mu:#7C93B8;--bo:#1F3355}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-size:15px;line-height:1.6}
+.tabs{position:sticky;top:0;z-index:200;background:rgba(11,26,43,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--bo);padding:0 32px;display:flex}
+.tab{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:var(--mu);background:none;border:none;border-bottom:2px solid transparent;padding:16px 20px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.tab:hover{color:var(--tx)}.tab.on{color:var(--or);border-bottom-color:var(--or)}
+.bdg{font-size:9px;letter-spacing:1px;padding:2px 6px;border-radius:3px;margin-left:6px;vertical-align:middle}
+.bdg.p{background:rgba(74,127,165,.2);color:#7ab4d4}.bdg.c{background:rgba(139,92,246,.2);color:#a78bfa}
+.panel{display:none}.panel.on{display:block}
+.hero{background:linear-gradient(160deg,#0d1f38 0%,#0B1A2B 100%);border-bottom:1px solid var(--bo);padding:52px 32px 40px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;top:-60px;right:-60px;width:320px;height:320px;background:radial-gradient(circle,rgba(232,119,34,.07) 0%,transparent 68%);pointer-events:none}
+.wi{max-width:1060px;margin:0 auto}
+.ey{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--or);margin-bottom:10px}
+.hn{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,5.5vw,68px);letter-spacing:1px;color:#fff;line-height:1;margin-bottom:6px}
+.hs{font-size:15px;color:var(--mu);margin-bottom:26px}
+.htags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px}
+.ht{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:4px;font-weight:500}
+.ht.a{background:rgba(74,127,165,.2);color:#7ab4d4;border:1px solid rgba(74,127,165,.3)}
+.ht.b{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.25)}
+.ht.c{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.25)}
+.ht.d{background:rgba(220,38,38,.15);color:#f87171;border:1px solid rgba(220,38,38,.25)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:14px;max-width:860px}
+.stat{background:rgba(20,40,69,.7);border:1px solid var(--bo);border-radius:10px;padding:14px 18px}
+.sl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);margin-bottom:5px}
+.sv{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.5px;line-height:1}
+.oc{color:var(--or)}.gc{color:var(--gr)}.bc{color:#7ab4d4}.yc{color:var(--ye)}.wc{color:#fff}
+.sec{max-width:1060px;margin:0 auto;padding:52px 32px;border-bottom:1px solid var(--bo)}
+.sec:last-child{border-bottom:none}
+.sn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-bottom:5px}
+.st{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:.5px;color:#fff}
+.ss{font-size:13px;color:var(--mu);max-width:560px;margin-top:4px;margin-bottom:26px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{background:var(--bg3);border:1px solid var(--bo);border-radius:12px;padding:22px}
+.card.gl{border-left:3px solid var(--gr)}.card.ol{border-left:3px solid var(--or)}.card.rl{border-left:3px solid var(--re)}.card.yl{border-left:3px solid var(--ye)}.card.bl{border-left:3px solid var(--bl)}
+.card h4{font-size:14px;font-weight:700;color:#fff;margin-bottom:7px}
+.card p{font-size:13px;color:#a8b8d1;line-height:1.65}
+.card p strong{color:#e8edf5;font-weight:600}
+.diag{background:var(--bg3);border:1px solid var(--bo);border-radius:12px;padding:18px 22px;display:flex;gap:18px;align-items:flex-start;margin-bottom:10px}
+.diag.p1{border-left:4px solid var(--re)}.diag.p2{border-left:4px solid var(--or)}.diag.p3{border-left:4px solid var(--ye)}.diag.ok{border-left:4px solid var(--gr)}
+.dr{font-family:'Bebas Neue',sans-serif;font-size:20px;min-width:38px;line-height:1;margin-top:2px}
+.diag.p1 .dr{color:var(--re)}.diag.p2 .dr{color:var(--or)}.diag.p3 .dr{color:var(--ye)}.diag.ok .dr{color:var(--gr)}
+.dt{font-weight:700;font-size:14px;color:#fff;margin-bottom:5px}
+.dd{font-size:13px;color:#a8b8d1;line-height:1.6;margin-bottom:7px}
+.df{font-size:12px;color:#7C93B8;font-style:italic;padding-left:10px;border-left:2px solid var(--bo);line-height:1.6}
+.df strong{color:var(--or);font-style:normal}
+.coi{background:linear-gradient(135deg,rgba(220,38,38,.07),rgba(20,40,69,.5));border:1px solid rgba(220,38,38,.22);border-radius:12px;padding:22px 26px;margin-bottom:14px}
+.coil{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--re);margin-bottom:8px}
+.coin{font-family:'Bebas Neue',sans-serif;font-size:44px;color:var(--re);line-height:1;margin-bottom:3px}
+.coid{font-size:13px;color:#a8b8d1;line-height:1.6}
+.pt{width:100%;border-collapse:collapse;font-size:13px}
+.pt th{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);padding:10px 14px;text-align:left;border-bottom:1px solid var(--bo);background:rgba(20,40,69,.5)}
+.pt td{padding:12px 14px;color:#a8b8d1;border-bottom:1px solid rgba(31,51,85,.5);vertical-align:top}
+.pt tr:last-child td{border-bottom:none}
+.pt td:first-child{color:#e8edf5;font-weight:600;width:27%}
+.pt tr:hover td{background:rgba(20,40,69,.3)}
+.qt{border-left:3px solid var(--or);padding:13px 18px;background:rgba(232,119,34,.06);border-radius:0 8px 8px 0;margin:14px 0;font-size:13px;color:#dbe5f0;font-style:italic;line-height:1.7}
+.qa{font-style:normal;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--mu);margin-top:6px;display:block}
+.intel{background:rgba(20,40,69,.5);border:1px solid var(--bo);border-radius:10px;padding:18px 22px;margin-bottom:12px}
+.isrc{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-bottom:6px}
+.ibody{font-size:13px;color:#a8b8d1;line-height:1.65}
+.ibody strong{color:#e8edf5}
+.og{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:10px}
+.ob{background:var(--bg3);border:1px solid var(--bo);border-radius:10px;padding:14px 16px}
+.ol2{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:500}
+.ol2.s{color:var(--re)}.ol2.m{color:var(--ye)}.ol2.r{color:var(--gr)}
+.ot{font-size:13px;color:#a8b8d1;line-height:1.6}
+.lw{background:linear-gradient(135deg,rgba(232,119,34,.1),rgba(20,40,69,.7));border:1px solid rgba(232,119,34,.28);border-radius:14px;padding:26px 28px;margin-top:26px}
+.lh{font-weight:700;font-size:15px;color:#fff;margin-bottom:3px}
+.ls{font-size:13px;color:var(--mu);margin-bottom:18px}
+.lstep{font-size:13px;color:#a8b8d1;line-height:1.7;padding:10px 14px;border-left:2px solid rgba(232,119,34,.3);margin-bottom:10px;border-radius:0 6px 6px 0;background:rgba(232,119,34,.03)}
+.lstep strong{color:#e8edf5}
+.lt{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--or);margin-bottom:3px}
+.pi{display:flex;gap:14px;align-items:flex-start;padding:14px 18px;background:var(--bg3);border:1px solid var(--bo);border-radius:10px;margin-bottom:10px}
+.pn{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--or);min-width:28px;line-height:1;margin-top:2px}
+.ptit{font-weight:700;font-size:14px;color:#fff;margin-bottom:3px}
+.pdesc{font-size:13px;color:#a8b8d1;line-height:1.6}
+.ptags{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.ptag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:3px 7px;border-radius:4px;font-weight:500}
+.ptag.s{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.2)}
+.ptag.o{background:rgba(232,119,34,.15);color:#fb923c;border:1px solid rgba(232,119,34,.2)}
+.ptag.r{background:rgba(139,92,246,.15);color:#a78bfa;border:1px solid rgba(139,92,246,.2)}
+.ptag.f{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.2)}
+.flag{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:14px 18px;margin-bottom:18px;font-size:13px;display:flex;gap:10px;align-items:flex-start}
+.flag span{color:#a8b8d1;line-height:1.6}
+.flag span strong{color:#fbbf24}
+footer{max-width:1060px;margin:0 auto;padding:26px 32px 42px;text-align:center}
+.fl{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--or);margin-bottom:5px}
+.ft{font-size:11px;color:var(--mu)}
+@media(max-width:768px){.hero{padding:32px 18px 28px}.sec{padding:36px 18px}.tabs{padding:0 14px}.g2,.og{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="tabs">
+  <button class="tab on" onclick="sw('p')">Prospect View <span class="bdg p">Loom Screen Share</span></button>
+  <button class="tab" onclick="sw('c')">Closer Intel <span class="bdg c">Internal Only</span></button>
+</div>
+
+<!-- ══ PROSPECT VIEW ══ -->
+<div class="panel on" id="pp">
+  <div class="hero"><div class="wi">
+    <div class="ey">IFCA Business Audit · May 2026</div>
+    <div class="hn">Dan Hosking</div>
+    <div class="hs">Online Fitness Coach · UK · Co-Parenting Father of Twins · Using EverFit</div>
+    <div class="htags">
+      <span class="ht a">Goal Syntax — Pre-Scale</span>
+      <span class="ht b">High Fit · 8/10</span>
+      <span class="ht c">Warm — Needs Nurture</span>
+      <span class="ht d">Competing Call Same Day</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="sl">Current Revenue</div><div class="sv oc">~£2K/mo</div></div>
+      <div class="stat"><div class="sl">Active Clients</div><div class="sv yc">~20</div></div>
+      <div class="stat"><div class="sl">Acquisition</div><div class="sv wc">100% Referral</div></div>
+      <div class="stat"><div class="sl">Income Goal</div><div class="sv gc">£20K/mo</div></div>
+      <div class="stat"><div class="sl">Cost of 3-Mo Delay</div><div class="sv yc">£54K+</div></div>
+    </div>
+  </div></div>
+
+  <div class="sec">
+    <div class="sn">01 — Situation</div><div class="st">Where You're At Right Now</div>
+    <div class="ss">What we heard on the call — decoded honestly</div>
+    <div class="g2" style="margin-bottom:14px">
+      <div class="card ol"><h4>Your business today</h4><p>~20 clients, ~£2K/month — all from personal referrals. Full-time since leaving construction. The income is real but it's not predictable. <strong>Two dry weeks last month</strong>, then two clients appeared from old posts. That's not a system — that's luck.</p></div>
+      <div class="card bl"><h4>Your offer situation</h4><p>Charging <strong>£400 for 12 weeks (£33/month)</strong>. Market rate for 1-on-1 online coaching: £150–200/month. You're doing premium work at discount pricing. You're not undercharging because you're not good enough — you're undercharging because no one showed you the numbers.</p></div>
+    </div>
+    <div class="g2">
+      <div class="card yl"><h4>Lead generation reality</h4><p>Zero ads. Zero content strategy. Every client has come from someone you personally know. When referrals dry up — even for two weeks — the business feels like it's collapsing. You can't build to £20K on a system that relies entirely on who you know.</p></div>
+      <div class="card gl"><h4>What's actually working</h4><p>Strong retention. Real results — 12 women starting from scratch, all doing well. <strong>You built to 20 clients with zero infrastructure.</strong> That's the foundation, not the ceiling. The talent is there. The system is what's missing.</p></div>
+    </div>
+    <div class="qt">"I'd love to get to a place where I'm just not worrying about where the next person is coming from. I went two weeks without a single new client. And then this week, two just appeared out of nowhere."<span class="qa">— Dan Hosking, on the call with Ramona</span></div>
+  </div>
+
+  <div class="sec">
+    <div class="sn">02 — Constraint Diagnosis</div><div class="st">What's Actually Blocking You</div>
+    <div class="ss">Ranked by priority — P1 is what we fix first</div>
+    <div class="coi">
+      <div class="coil">Cost of inaction — based on your £20K/mo goal</div>
+      <div class="coin">£54,000+</div>
+      <div class="coid">At your stated £20K goal, every month you stay at £2K is <strong>roughly £18K in forgone income</strong>. At 3 months of delay: £54,000 left on the table. Even at a conservative £5K interim target, you're leaving £9,000/month behind. The referral model that got you here cannot get you to £20K.</div>
+    </div>
+    <div class="diag p1"><div class="dr">P1</div><div>
+      <div class="dt">Offer & Pricing — 3–4× Below Market, No Locked Niche</div>
+      <div class="dd">£400 for 12 weeks is £33/month. Market rate is £150–200/month minimum. Your niche is also undefined — you're coaching a wide mix of clients with no clear avatar. Without a specific offer and a repositioned price, ads, content, and sales all point at the wrong target.</div>
+      <div class="df"><strong>IFCA Fix:</strong> Week one — AI Offer Optimization Scorecard. Lock your avatar, name your mechanism, reprice to £150–200/month, rewrite your IG bio. You go into week two knowing exactly what you're selling and to who.</div>
+    </div></div>
+    <div class="diag p2"><div class="dr">P2</div><div>
+      <div class="dt">Lead Generation — No System, Pure Referral Dependency</div>
+      <div class="dd">Every client has come from someone you personally know. That's not scalable. You need strangers coming to you on a predictable schedule — not just people who happen to remember you exist. Without a lead engine, revenue will always feel like a rollercoaster.</div>
+      <div class="df"><strong>IFCA Fix:</strong> Affinity launch to warm network (3–7 clients before touching ads) → content calendar + AI content engine → DM automation → paid ads when the offer converts organically. IFCA covers your first month of ad spend (~£300).</div>
+    </div></div>
+    <div class="diag p2"><div class="dr">P2</div><div>
+      <div class="dt">Backend Systems — Running a Business on Nothing</div>
+      <div class="dd">EverFit for delivery. ChatGPT for meal plans. No CRM, no contracts, no payment processing, no automated follow-up. When a lead reaches out, there's no structured path from interested to paying. This becomes the bottleneck the moment volume increases.</div>
+      <div class="df"><strong>IFCA Fix:</strong> Impact AI (done-for-you CRM) installed in the first 7 days — contracts, scheduling, payments, email/SMS automations. All in one place. EverFit stays for delivery; this handles everything else.</div>
+    </div></div>
+    <div class="diag p3"><div class="dr">P3</div><div>
+      <div class="dt">Sales Framework — Good Instincts, No Structure Yet</div>
+      <div class="dd">You've done very few formal coaching sales calls. You know the questions to ask but don't have a repeatable framework for moving someone from interested to signed. This will surface as a bottleneck when lead volume increases.</div>
+      <div class="df"><strong>IFCA Fix:</strong> Sales coach provides personalized call feedback. Pre-qualification sequences so only ready buyers reach you. Scripts built for fitness-specific discovery.</div>
+    </div></div>
+    <div class="diag ok"><div class="dr">OK</div><div>
+      <div class="dt">Delivery & Retention — Your Actual Coaching Is Strong</div>
+      <div class="dd">20 clients, strong retention, real results. This is the hardest thing to teach and you already have it. The IFCA Trainerize library fills the EverFit nutrition gap and gives you a premium delivery system from day one — without rebuilding what's already working.</div>
+    </div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sn">03 — Exact Solutions</div><div class="st">Constraint → What IFCA Builds With You</div>
+    <div class="ss">Every gap mapped to a specific deliverable in your program</div>
+    <table class="pt">
+      <thead><tr><th>Your Constraint</th><th>IFCA Deliverable</th><th>What It Means for You</th></tr></thead>
+      <tbody>
+        <tr><td>No defined niche, pricing 3–4× below market</td><td>AI Offer Optimization Scorecard + 1-on-1 positioning session</td><td>Week one — avatar locked, repriced to £150–200/mo, IG bio rewritten. You know what you're selling before week two.</td></tr>
+        <tr><td>No CRM, contracts, payments, or automation</td><td>Impact AI (Go High Level) — done-for-you tech install in 7 days</td><td>IFCA's tech lead installs your complete backend in one Zoom session. Fully operational with no code.</td></tr>
+        <tr><td>Zero referral pipeline predictability</td><td>Affinity Launch to warm network + Content Calendar</td><td>3–7 clients from your existing network before touching a single ad. A posting calendar so you're never guessing what to post.</td></tr>
+        <tr><td>No ad experience, scared to waste money</td><td>IFCA covers first month of ad spend (~£300)</td><td>We invest the first month for you while teaching the skill. At benchmark: 200–400 leads, ~10 consultations, ~5 clients.</td></tr>
+        <tr><td>EverFit nutrition limitations</td><td>Done-for-you Trainerize library — hundreds of workout + meal templates</td><td>Skip the 3-month programming build. Start with Jordan and Aaron's full template library on day one.</td></tr>
+        <tr><td>No sales framework for coaching calls</td><td>Sales coach feedback + pre-qualification sequences</td><td>Personal call reviews. Pre-qual filters so only ready buyers reach your calendar.</td></tr>
+        <tr><td>£400/12-week program — clients finish and disappear</td><td>LTV Client Journey Map — frontend to backend to continuity</td><td>Average IFCA client lifetime: 15 months. Design the journey so clients don't end a 12-week block and walk away.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <footer><div class="fl">IFCA</div><div class="ft">Impact Fitness Coaching Academy · Business Audit · Dan Hosking · May 2026<br>Prepared by Ramona Nijjar · Follow-Up: Saturday, May 10, 2026</div></footer>
+</div>
+
+<!-- ══ CLOSER INTEL ══ -->
+<div class="panel" id="cp">
+  <div class="sec">
+    <div class="sn">Closer Intel — Internal Only</div><div class="st">Dan Hosking · Ramona's Prep</div>
+    <div class="ss">Not shown to prospect. Prep for the Saturday follow-up call.</div>
+    <div class="flag" style="margin-top:22px"><span>⚠</span><span><strong>Competing call same day (4pm):</strong> Dan had a separate call with a European trainer offering a free community entry model. He's not decided. He liked Jordan's podcast content and gave you an 8/10. Risk: they close him on "lower risk entry." Send this Loom before Saturday morning.</span></div>
+  </div>
+
+  <div class="sec">
+    <div class="sn">Pre-Audit Research</div><div class="st">What We Pulled Before Building This</div>
+    <div class="intel"><div class="isrc">HubSpot CRM</div><div class="ibody">Contact created May 8, 2026. Open deal. Lead status: <strong>Call Booked + Applied</strong>. Closer: Ramona Nijjar. UK-based — pricing conversations need GBP context ($12.5K ≈ £9–9.5K at current rates).</div></div>
+    <div class="intel"><div class="isrc">Call Context</div><div class="ibody">Full-time online coach since leaving construction. Co-parenting twins (age 4). Lives with grandfather — low fixed costs, which reduces urgency. One prior program evaluated (marketing-focused, £2K/3 months — too generic). Has the money. Gave 8/10. Had 4pm competing call same day.</div></div>
+    <div class="intel"><div class="isrc">Social Presence</div><div class="ibody">No findable public Instagram or website under "Dan Hosking fitness coach." Entire client base is personal referrals — he's not publicly visible online. <strong>His invisible social presence is part of the constraint, not just something he hasn't done yet.</strong></div></div>
+    <div class="intel"><div class="isrc">Cross-Source Flags</div><div class="ibody">
+      <strong>Flag 1 — Indecisiveness is a pattern:</strong> "I'm not one for making decisions on the call." He acknowledged it might hold him back. Don't push — show him the cost of waiting.<br><br>
+      <strong>Flag 2 — Safety cushion reduces urgency:</strong> Living rent-free, kids' costs manageable. Construction is a viable fallback in his mind. Make the cost of inaction emotionally loud, not just financially loud.<br><br>
+      <strong>Flag 3 — Community offer competitor:</strong> Free entry model lowers perceived risk. Know the distinction: community = accountability + peers. IFCA = 1-on-1 coaching + full system build. They aren't the same.
+    </div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sn">Objection Bank</div><div class="st">What He Said vs. What He Meant</div>
+    <div class="ss" style="margin-bottom:22px"></div>
+    <div class="og">
+      <div class="ob"><div class="ol2 s">He Said</div><div class="ot">"I'm not one for making decisions on the call. I just can't do that."</div></div>
+      <div class="ob"><div class="ol2 m">He Meant</div><div class="ot">Fear of commitment, not lack of desire. He has the money and gave 8/10. He's stalling to feel safer — not because he's unsure.</div></div>
+      <div class="ob"><div class="ol2 r">Reframe</div><div class="ot">"I'm not asking you to decide right now — I want you to watch this so Saturday feels obvious, not scary."</div></div>
+    </div>
+    <div class="og">
+      <div class="ob"><div class="ol2 s">He Said</div><div class="ot">"I've got another call today at 4. I need to speak to them too."</div></div>
+      <div class="ob"><div class="ol2 m">He Meant</div><div class="ot">Genuine comparison. He's trying to reduce risk by keeping options open. The community offer model sounds lower-stakes.</div></div>
+      <div class="ob"><div class="ol2 r">Reframe</div><div class="ot">"A free community doesn't give you a roadmap, a 1-on-1 coach, or a lead system. It gives you a Slack group and hope."</div></div>
+    </div>
+    <div class="og">
+      <div class="ob"><div class="ol2 s">He Said</div><div class="ot">"Worst case I go back to construction. It's not ideal but it's not nothing."</div></div>
+      <div class="ob"><div class="ol2 m">He Meant</div><div class="ot">Safety net thinking actively reducing urgency. The floor doesn't feel low enough to force action.</div></div>
+      <div class="ob"><div class="ol2 r">Reframe</div><div class="ot">"Going back to construction isn't just inconvenient — it's giving up what you're building for your twins. That's the real cost."</div></div>
+    </div>
+    <div class="og">
+      <div class="ob"><div class="ol2 s">He Said</div><div class="ot">"9K... that's a big number."</div></div>
+      <div class="ob"><div class="ol2 m">He Meant</div><div class="ot">Sticker shock, not financial inability. He confirmed he has the money. Emotional reaction, not a logistics problem.</div></div>
+      <div class="ob"><div class="ol2 r">Reframe</div><div class="ot">"£9K is real money. Staying at £2K when your goal is £20K costs £18K every single month. The investment is a fraction of waiting."</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sn">Loom Script</div><div class="st">What Ramona Records Before Saturday</div>
+    <div class="ss">Bullet outline — riff from this, don't read it. Target: 5–7 min. Screen-share Prospect View tab.</div>
+    <div class="lw">
+      <div class="lh">Dan Hosking Follow-Up Loom</div>
+      <div class="ls">Record before Saturday morning. Walk each section naturally. Goal: he watches it and Saturday feels like paperwork.</div>
+      <div class="lstep"><div class="lt">Open — 30 sec</div><strong>"Hey Dan — Ramona here."</strong> Put together a quick breakdown of what I see in your business. Five minutes. Wanted you to have this before we talk Saturday so you know exactly what we'd be building together.</div>
+      <div class="lstep"><div class="lt">Cost of inaction — 45 sec</div>Pull up the COI box. <strong>"At your £20K goal, every month at £2K is roughly £18K you're not making. Three months is £54K."</strong> I know the safety cushion with your granddad makes it feel less urgent. But the question isn't whether you can survive waiting — it's whether that's the life you want to be building for your twins.</div>
+      <div class="lstep"><div class="lt">Constraint walkthrough — 2 min</div>Scroll P1 → P2 → P3. <strong>"Here's exactly what I see when I look at your situation."</strong> P1: your offer is priced 3–4× below market and your niche isn't locked. That's week one with us. P2: you went two weeks without a client because every lead comes from word of mouth — we fix that with a real system. P2: your backend is at zero — one install session fixes that in 7 days.</div>
+      <div class="lstep"><div class="lt">Address the competitor — 45 sec</div><strong>"You mentioned the other call — the community model."</strong> A free community doesn't give you a roadmap or a coach who's accountable to you every week. What you told me you needed is someone to walk you step-by-step. That's a coaching relationship, not a group chat.</div>
+      <div class="lstep"><div class="lt">Solutions + close — 1 min</div>Reference Section 03 table. <strong>"Every constraint mapped to exactly what we build with you — this is your first 30 days."</strong> Close: "We're on for Saturday. If you have questions before then, or if that 4pm call goes differently than expected, text me. I'm here."</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sn">Saturday Call Prep</div><div class="st">Before the Follow-Up</div>
+    <div class="ss" style="margin-bottom:18px">Four things to have ready before Dan picks up the phone</div>
+    <div class="pi"><div class="pn">1</div><div><div class="ptit">Send this Loom before Saturday morning</div><div class="pdesc">Text: "Hey Dan — put together a quick breakdown after our chat. 5 minutes. Wanted you to have it before Saturday." Don't over-explain it.</div><div class="ptags"><span class="ptag f">send by Friday</span></div></div></div>
+    <div class="pi"><div class="pn">2</div><div><div class="ptit">Have the GBP payment plan ready — don't make him calculate</div><div class="pdesc">$12,500 ≈ £9,000–£9,500. Suggested plan: £2,500 down + 3 payments of £2,200. PIF option: ~£9,000. Present it clearly — he shouldn't have to do math under pressure.</div><div class="ptags"><span class="ptag s">sales</span></div></div></div>
+    <div class="pi"><div class="pn">3</div><div><div class="ptit">Know the community offer counter cold</div><div class="pdesc">He may come back having spoken to the community model program. Know the distinction: community = peers + accountability. IFCA = 1-on-1 coaching + full system build + roadmap + first month of ads + done-for-you tech. Different category entirely.</div><div class="ptags"><span class="ptag s">sales</span><span class="ptag r">objection</span></div></div></div>
+    <div class="pi"><div class="pn">4</div><div><div class="ptit">Reconnect to his twins — not just the money</div><div class="pdesc">Dan mentioned co-parenting twins (age 4), wanting to take them on holidays, wanting to lead by example. The emotional close is stronger than the financial one. "What do you want your twins to see you building in the next 12 months?" That's the question that closes this.</div><div class="ptags"><span class="ptag r">mindset</span></div></div></div>
+  </div>
+  <footer><div class="fl">IFCA</div><div class="ft">Closer Intelligence — Internal Use Only · Dan Hosking · Ramona Nijjar · May 2026</div></footer>
+</div>
+
+<script>
+function sw(t){
+  document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('on',(i===0&&t==='p')||(i===1&&t==='c')));
+  document.getElementById('pp').classList.toggle('on',t==='p');
+  document.getElementById('cp').classList.toggle('on',t==='c');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
