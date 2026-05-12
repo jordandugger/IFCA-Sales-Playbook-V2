@@ -231,6 +231,7 @@ body.share-mode .calc-footer{display:none;}
 .kpi-tile-name{font-size:11px;font-weight:600;color:var(--text);}
 .kpi-tile-val{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;color:var(--text);line-height:1;margin-bottom:3px;}
 .kpi-tile-bench{font-size:10px;color:var(--muted);}
+.kpi-tile-note{font-style:italic;opacity:.75;font-size:9.5px;}
 .kpi-tile.crit{background:#fef2f2;border-color:#fca5a5;}
 .kpi-tile.crit .kpi-tile-val{color:#dc2626;}
 .kpi-tile.brk{background:#fff7ed;border-color:#fdba74;}
@@ -845,11 +846,11 @@ body.share-mode .calc-footer{display:none;}
 
           <!-- CAC CHAIN READOUT -->
           <div class="cac-chain">
-            <div class="cac-chain-title">📊 Their Funnel Math · Anchored to <span id="b-cc-offer">$3,000</span> Offer</div>
-            <div class="cac-row"><span>Max CAC</span><strong id="b-cc-cac">$750</strong></div>
-            <div class="cac-row"><span>Max Cost / Qualified Call <span class="formula">(CAC ÷ 3)</span></span><strong id="b-cc-qcall">$250</strong></div>
-            <div class="cac-row"><span>Max Cost / Booked Call <span class="formula">(÷ show rate)</span></span><strong id="b-cc-bcall">$333</strong></div>
-            <div class="cac-row"><span>Max CPL <span class="formula">(× lead→book rate)</span></span><strong id="b-cc-cpl">$83</strong></div>
+            <div class="cac-chain-title">📊 Their Funnel Math · 5× ROAS Target · <span id="b-cc-offer">$3,000</span> Offer</div>
+            <div class="cac-row"><span>Max CAC <span class="formula">(20% of FE)</span></span><strong id="b-cc-cac">$600</strong></div>
+            <div class="cac-row"><span>Max Cost / Live Call <span class="formula">(× close on show)</span></span><strong id="b-cc-qcall">$210</strong></div>
+            <div class="cac-row"><span>Max Cost / Booked Call <span class="formula">(× show rate)</span></span><strong id="b-cc-bcall">$157</strong></div>
+            <div class="cac-row"><span>Max CPL <span class="formula">(× lead→book rate)</span></span><strong id="b-cc-cpl">$5</strong></div>
           </div>
 
           <!-- KPI GRID — 3 sections of 3 -->
@@ -1391,22 +1392,23 @@ function calcBiz(){
   const cashColl    = contractedRev>0 ? (cash/contractedRev*100) : 0;
   const ltvCac      = cpa>0 ? ltv/cpa : 0;
 
-  // BENCHMARKS — funnel-aware + CAC-derived
-  const maxCac = pkg * 0.25;
-  const maxCostQualCall = maxCac / 3;
-  const showRateForChain = (bookToShow > 0 ? bookToShow/100 : 0.75);
-  const l2bForChain = (leadToBook > 0 ? leadToBook/100 : 0.25);
-  const maxCostBookedCall = maxCostQualCall / showRateForChain;
+  // BENCHMARKS — funnel-aware + CAC-derived (5x ROAS target)
+  const maxCac = pkg * 0.20;  // 20% of FE = 5x ROAS floor
+  const closeOnShowForChain = closeOnShow>0 ? closeOnShow/100 : 0.35;
+  const showRateForChain    = bookToShow>0  ? bookToShow/100  : 0.75;
+  const l2bForChain         = leadToBook>0  ? leadToBook/100  : 0.03;
+  // Correct math: 1 close needs (1/closeOnShow) live calls; (1/(closeOnShow×showRate)) booked calls
+  // Max cost per LIVE call  = Max CAC × closeOnShow
+  // Max cost per BOOKED call = Max Cost per Live Call × showRate
+  const maxCostLiveCall   = maxCac * closeOnShowForChain;
+  const maxCostBookedCall = maxCostLiveCall * showRateForChain;
+  const maxCostQualCall   = maxCostLiveCall;  // qualified ≈ live for our diagnostic
   const maxCpl = funnel==='vsl' ? maxCostBookedCall * l2bForChain : FUNNEL_CPL[funnel].target;
 
-  // Per Constraint Intelligence: Cost Per Live Call target ~ $150 floor for direct-to-call,
-  // but anchor primarily to (max cost per qualified call ÷ show rate)
-  const maxCostLiveCall = maxCostQualCall;  // qualified call ≈ live call for our diagnostic
-
   const BENCH_V3 = {
-    leadToBook:  25,
-    bookToShow:  75,
-    closeOnShow: 35,
+    leadToBook:  3,       // ≥3% healthy (was 25). <3% = constraint
+    bookToShow:  75,      // 75% show rate target (always)
+    closeOnShow: 35,      // 35% cold-traffic floor; 50% if warm (organic/referral/masterclass)
     cpl:         maxCpl,
     costPerCall: maxCostLiveCall,
     cpa:         maxCac,
@@ -1439,7 +1441,7 @@ function calcBiz(){
   const KPIS = [
     {key:'leadToBook',  n:'Lead → Book',       mine:leadToBook,  bench:BENCH_V3.leadToBook,  higher:true,  fmt:'%',  section:'flow'},
     {key:'bookToShow',  n:'Book → Show',       mine:bookToShow,  bench:BENCH_V3.bookToShow,  higher:true,  fmt:'%',  section:'flow'},
-    {key:'closeOnShow', n:'Live Close Rate',     mine:closeOnShow, bench:BENCH_V3.closeOnShow, higher:true,  fmt:'%',  section:'flow'},
+    {key:'closeOnShow', n:'Live Close Rate',     mine:closeOnShow, bench:BENCH_V3.closeOnShow, higher:true,  fmt:'%',  section:'flow', note:'cold floor · 50% if warm'},
     {key:'cpl',         n:'CPL',               mine:cpl,         bench:BENCH_V3.cpl,         higher:false, fmt:'$',  section:'acq'},
     {key:'costPerCall', n:'Cost / Live Call',  mine:costPerCall, bench:BENCH_V3.costPerCall, higher:false, fmt:'$',  section:'acq'},
     {key:'cpa',         n:'CPA',               mine:cpa,         bench:BENCH_V3.cpa,         higher:false, fmt:'$',  section:'acq'},
@@ -1473,7 +1475,7 @@ function calcBiz(){
       return `<div class="kpi-tile ${cls} ${demoted}" data-key="${k.key}">
         <div class="kpi-tile-head"><span class="kpi-tile-name">${k.n}</span>${SEV_BADGE[k.sev]}</div>
         <div class="kpi-tile-val">${valDisp}</div>
-        <div class="kpi-tile-bench">target ${benchDisp}</div>
+        <div class="kpi-tile-bench">target ${benchDisp}${k.note?` <span class="kpi-tile-note">· ${k.note}</span>`:''}</div>
       </div>`;
     }).join('');
     $(mountId).innerHTML = tiles;
